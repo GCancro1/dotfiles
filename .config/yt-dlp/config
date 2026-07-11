@@ -1,0 +1,6 @@
+# JS runtime fix (keep what you already tested working)
+--js-runtimes node:/usr/bin/node
+--remote-components ejs:github
+
+# Force 1080p max
+# -f bv*[height<=1080][fps<=60]+ba/b[height<=1080]

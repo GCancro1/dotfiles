@@ -1,0 +1,46 @@
+{
+    "appearance": {
+        "transparency": {
+            "enabled": true
+        }
+    },
+    "bar": {
+        "persistent": true,
+        "showOnHover": false,
+        "status": {
+            "showAudio": true,
+            "showKbLayout": false,
+            "showLockStatus": false,
+            "showMicrophone": true
+        },
+        "tray": {
+            "background": true,
+            "compact": false,
+            "recolour": true
+        },
+        "workspaces": {
+            "activeIndicator": true,
+            "activeTrail": true,
+            "occupiedBg": false,
+            "showWindows": true,
+            "showWindowsOnSpecialWorkspaces": true
+        }
+    },
+    "dashboard": {
+        "enabled": true,
+        "mediaUpdateInterval": 500,
+        "resourceUpdateInterval": 10000,
+        "showOnHover": false
+    },
+    "launcher": {
+        "enableDangerousActions": true,
+        "showOnHover": false,
+        "useFuzzy": {
+            "apps": true
+        },
+        "vimKeybinds": true
+    },
+    "sidebar": {
+        "dragThreshold": 0
+    }
+}

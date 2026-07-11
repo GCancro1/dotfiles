@@ -1,0 +1,20 @@
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor swap/backup files
+*.swp
+*.swo
+*~
+*.bak
+
+# Secrets - NEVER commit these
+.env
+*.key
+*.pem
+
+# Neovim
+nvim/lazy-lock.json
+
+# Fish variables (contains history)
+fish/fish_variables
