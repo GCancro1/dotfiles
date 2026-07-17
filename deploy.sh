@@ -35,16 +35,24 @@ echo "[2/3] Backing up existing configs..."
 BACKUP_DIR="$HOME/.config-backup-$(date +%Y%m%d-%H%M%S)"
 mkdir -p "$BACKUP_DIR"
 
-# Backup files that will be stowed
+# Backup any existing files/dirs that would conflict with stow
+# (stow won't overwrite existing files, so we move them first)
 for item in .bashrc .bash_profile .tmux.conf; do
     if [ -f "$HOME/$item" ] && [ ! -L "$HOME/$item" ]; then
         mv "$HOME/$item" "$BACKUP_DIR/"
+        echo "  Backed up: $item"
     fi
 done
 
-for dir in kitty nvim caelestia mpv fuzzel cava yt-dlp; do
-    if [ -d "$HOME/.config/$dir" ] && [ ! -L "$HOME/.config/$dir" ]; then
-        mv "$HOME/.config/$dir" "$BACKUP_DIR/"
+# Backup .config directories that exist and aren't already symlinks
+for dir in "$HOME/.config"/*/; do
+    dir_name=$(basename "$dir")
+    if [ ! -L "$HOME/.config/$dir_name" ]; then
+        # Check if this dir exists in our dotfiles (will be stowed)
+        if [ -d "$DOTFILES_DIR/.config/$dir_name" ]; then
+            mv "$HOME/.config/$dir_name" "$BACKUP_DIR/"
+            echo "  Backed up: .config/$dir_name"
+        fi
     fi
 done
 
@@ -52,7 +60,12 @@ echo "  Backups saved to $BACKUP_DIR"
 
 echo "[3/3] Creating symlinks with stow..."
 cd "$DOTFILES_DIR"
-stow .
+
+# Use --restow to cleanly remove and re-create symlinks
+# This handles both existing stow symlinks and non-stow symlinks
+stow --restow .
+
+echo "  Stow completed successfully"
 
 echo ""
 echo "=== Done! ==="

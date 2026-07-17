@@ -9,7 +9,7 @@ alias ls='ls --color=auto'
 alias grep='grep --color=auto'
 
 alias nh='nvim ~/.config/hypr/hyprland.conf'
-alias nc='nvim ~/.config/nvim/lua/biglazy.lua'
+alias nv='nvim ~/.config/nvim/lua/biglazy.lua'
 alias nb='nvim ~/.bashrc'
 alias v='nvim'
 alias yt='mov-cli -s youtube'

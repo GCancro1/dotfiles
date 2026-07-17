@@ -76,7 +76,7 @@ vim.o.inccommand = "split"
 vim.o.cursorline = true
 
 -- Minimal number of screen lines to keep above and below the cursor.
-vim.o.scrolloff = 10
+vim.o.scrolloff = 8
 
 -- if performing an operation that would fail due to unsaved changes in the buffer (like `:q`),
 -- instead raise a dialog asking if you wish to save the current file(s)
@@ -86,7 +86,7 @@ vim.o.confirm = true
 vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
 
 -- Diagnostic keymaps
-vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Open diagnostic [Q]uickfix list" })
+-- vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Open diagnostic [Q]uickfix list" })
 
 -- Exit terminal mode in the builtin terminal with a shortcut that is a bit easier
 -- for people to discover. Otherwise, you normally need to press <C-\><C-n>, which
@@ -133,7 +133,7 @@ vim.keymap.set("n", "K", vim.lsp.buf.hover, { desc = "Hover" })
 
 -- Insert mode: jk → Esc + nohl
 -- vim.keymap.set("i", "jj", "<Esc><cmd>nohlsearch<CR>l", { noremap = true })
-vim.keymap.set("i", "jf", "<Esc><cmd>nohlsearch<CR>l", { noremap = true })
+-- vim.keymap.set("i", "jf", "<Esc><cmd>nohlsearch<CR>l", { noremap = true })
 -- TODO remove me when stop esc out of insert mode
 -- vim.keymap.set("i", "<Esc>", "<cmd>nohlsearch<CR> useJJ ", { noremap = true })
 
