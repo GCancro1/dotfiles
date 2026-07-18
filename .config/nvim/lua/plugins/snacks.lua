@@ -15,7 +15,7 @@ return{
       enabled = true,
       timeout = 3000,
     },
-    notify = { enabled = true, }
+    notify = { enabled = true, },
     quickfile = { enabled = true },
     scope = { enabled = true },
     statuscolumn = { enabled = true },

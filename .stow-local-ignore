@@ -1,0 +1,11 @@
+# Directories to ignore (blacklist approach)
+# Add patterns here to exclude from stow sync
+# These are Perl regular expressions, one per line
+
+# yt-dlp - contains machine-specific config
+# Note: regex matches the basename when no / is present
+^yt-dlp$
+
+# Add other directories to ignore below:
+# ^some-app$
+# ^another-app$

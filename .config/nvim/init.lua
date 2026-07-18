@@ -12,6 +12,11 @@ vim.keymap.set("n", "<leader>lv", ":so ~/.config/nvim/init.lua<CR>")
 vim.keymap.set("n", "<leader>ll", ":.lua<CR>")
 vim.keymap.set("v", "<leader>l", ":lua<CR>")
 
+
+vim.keymap.set("n", "<leader>o", "<C-^>")
+
+
+
 require("oldbinds")
 require("vimport")
 
