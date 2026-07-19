@@ -5,28 +5,28 @@ vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 vim.opt.clipboard = "unnamedplus"
 
+
+require("oldbinds")
+require("vimport")
+
+
 -- Keymaps
 vim.keymap.set("n", "<leader>w", ":w<CR>")
 vim.keymap.set("n", "<leader>q", ":bd<CR>")
 vim.keymap.set("n", "<leader>c", ":close!<CR>")
-vim.keymap.set("n", "<leader>x", ":tabclose!<CR>")
+vim.keymap.set("n", "<leader>z", ":tabclose!<CR>")
 vim.keymap.set("n", "<leader>lv", ":so ~/.config/nvim/init.lua<CR>")
 vim.keymap.set("n", "<leader>ll", ":.lua<CR>")
 vim.keymap.set("v", "<leader>l", ":lua<CR>")
 
 -- go to last file
 vim.keymap.set("n", "<leader>o", "<C-^>")
-
-
-require("oldbinds")
-require("vimport")
-
 -- Treesitter folding
 vim.opt.foldmethod = "expr"
 vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
 
 -- Format entire file
-vim.keymap.set("n", "<leader>ff", "mz<cmd>normal! gggqG<CR>`z", { desc = "Format entire file" })
+vim.keymap.set("n", "<leader>ff", "mz<cmd>normal! gg=G<CR>`z", { desc = "Indent entire file" })
 
 -- Bootstrap lazy.nvim
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"

@@ -39,8 +39,8 @@ return {
         map({ "x", "o" }, "il", function() select("@loop.inner", "textobjects") end, { desc = "inner loop" })
         map({ "x", "o" }, "ai", function() select("@conditional.outer", "textobjects") end, { desc = "outer conditional" })
         map({ "x", "o" }, "ii", function() select("@conditional.inner", "textobjects") end, { desc = "inner conditional" })
-        map({ "x", "o" }, "aa", function() select("@parameter.outer", "textobjects") end, { desc = "outer argument" })
-        map({ "x", "o" }, "ia", function() select("@parameter.inner", "textobjects") end, { desc = "inner argument" })
+        map({ "x", "o" }, "pa", function() select("@parameter.outer", "textobjects") end, { desc = "outer argument" })
+        map({ "x", "o" }, "pi", function() select("@parameter.inner", "textobjects") end, { desc = "inner argument" })
 
         -- Textobjects: move
         map({ "n", "x", "o" }, "]f", function() move.goto_next_start("@function.outer", "textobjects") end, { desc = "next function" })
