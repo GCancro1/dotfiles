@@ -1,0 +1,5 @@
+plugins/tpm/.git/
+plugins/tpm/tests/
+plugins/tpm/.travis.yml
+plugins/tpm/.gitattributes
+plugins/tpm/.gitmodules

@@ -37,7 +37,7 @@ mkdir -p "$BACKUP_DIR"
 
 # Backup any existing files/dirs that would conflict with stow
 # (stow won't overwrite existing files, so we move them first)
-for item in .bashrc .bash_profile .tmux.conf; do
+for item in .bashrc .bash_profile .tmux.conf .tmux; do
     if [ -f "$HOME/$item" ] && [ ! -L "$HOME/$item" ]; then
         mv "$HOME/$item" "$BACKUP_DIR/"
         echo "  Backed up: $item"
