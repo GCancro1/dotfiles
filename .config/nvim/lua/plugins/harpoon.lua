@@ -1,10 +1,12 @@
 return {
-    "der>ffThePrimeagen/harpoon",
+    "ThePrimeagen/harpoon",
     branch = "harpoon2",
     dependencies = { "nvim-lua/plenary.nvim" },
     config = function()
         local harpoon = require("harpoon")
         harpoon:setup()
+
+        local harpoon_idx = 0
 
         vim.keymap.set("n", "<leader>ha", function()
             harpoon:list():add()
@@ -12,8 +14,18 @@ return {
         vim.keymap.set("n", "<leader>hl", function()
             harpoon.ui:toggle_quick_menu(harpoon:list())
         end, { desc = "Harpoon menu" })
-        vim.keymap.set("n", "<leader>hp", function() harpoon:list():prev() end, { desc = "Harpoon prev" })
-        vim.keymap.set("n", "<leader>hn", function() harpoon:list():next() end, { desc = "Harpoon next" })
+        vim.keymap.set("n", "<leader>hn", function()
+            local list = harpoon:list()
+            if #list.items == 0 then return end
+            harpoon_idx = harpoon_idx % #list.items + 1
+            list:select(harpoon_idx)
+        end, { desc = "Harpoon next" })
+        vim.keymap.set("n", "<leader>hp", function()
+            local list = harpoon:list()
+            if #list.items == 0 then return end
+            harpoon_idx = (harpoon_idx - 2 + #list.items) % #list.items + 1
+            list:select(harpoon_idx)
+        end, { desc = "Harpoon prev" })
         vim.keymap.set("n", "<leader>1", function()
             harpoon:list():select(1)
         end, { desc = "Harpoon f1" })

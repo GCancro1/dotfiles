@@ -1,5 +1,5 @@
 return {
-    "der>fffolke/which-key.nvim",
+    "folke/which-key.nvim",
     event = "VeryLazy",
     opts = {
         -- your configuration comes here

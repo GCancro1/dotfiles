@@ -1,5 +1,5 @@
 return {
-    "der>fffolke/tokyonight.nvim",
+    "folke/tokyonight.nvim",
     priority = 1000,
     config = function()
         require("tokyonight").setup({

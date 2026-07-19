@@ -1,4 +1,11 @@
 return {
-  "mason-org/mason.nvim",
-  opts = {},
+    "mason-org/mason.nvim",
+    opts = {
+        ensure_installed = {
+            "lua-language-server",
+            "typescript-language-server",
+            "pyright",
+            "rust-analyzer",
+        },
+    },
 }

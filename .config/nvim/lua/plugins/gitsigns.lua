@@ -1,10 +1,25 @@
 return {
-    "der>fflewis6991/gitsigns.nvim",
+    "lewis6991/gitsigns.nvim",
     lazy = false,
     config = function()
         local gitsigns = require('gitsigns')
 
         gitsigns.setup({
+            signs = {
+                add          = { text = "│" },
+                change       = { text = "│" },
+                delete       = { text = "_" },
+                topdelete    = { text = "‾" },
+                changedelete = { text = "~" },
+                untracked    = { text = "┆" },
+            },
+            signs_staged = {
+                add          = { text = "│" },
+                change       = { text = "│" },
+                delete       = { text = "_" },
+                topdelete    = { text = "‾" },
+                changedelete = { text = "~" },
+            },
             on_attach = function(bufnr)
                 local function map(mode, l, r, opts)
                     opts = opts or {}

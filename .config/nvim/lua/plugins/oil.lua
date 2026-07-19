@@ -1,5 +1,5 @@
 return {
-    "der>ffstevearc/oil.nvim",
+    "stevearc/oil.nvim",
     lazy = false,
     dependencies = { "echasnovski/mini.icons" },
     keys = {
