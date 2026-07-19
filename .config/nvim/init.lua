@@ -9,6 +9,7 @@ vim.opt.clipboard = "unnamedplus"
 vim.keymap.set("n", "<leader>w", ":w<CR>")
 vim.keymap.set("n", "<leader>q", ":bd<CR>")
 vim.keymap.set("n", "<leader>c", ":close!<CR>")
+vim.keymap.set("n", "<leader>x", ":tabclose!<CR>")
 vim.keymap.set("n", "<leader>lv", ":so ~/.config/nvim/init.lua<CR>")
 vim.keymap.set("n", "<leader>ll", ":.lua<CR>")
 vim.keymap.set("v", "<leader>l", ":lua<CR>")
