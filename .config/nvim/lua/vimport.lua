@@ -108,37 +108,12 @@ vim.keymap.set("n", "<leader>mr", "99<C-w>l", {
         noremap = true,
     })
 
-    vim.keymap.set("v", "<A-j>", ":m '>+1<CR>gv=gv", {
-        noremap = true,
-    })
-
-    vim.keymap.set("v", "<A-k>", ":m '<-2<CR>gv=gv", {
-        noremap = true,
-    })
-
-    vim.keymap.set("n", "<A-Down>", ":m.+1<CR>==", {
-        noremap = true,
-    })
-
-    vim.keymap.set("n", "<A-Up>", ":m.-2<CR>==", {
-        noremap = true,
-    })
-
-    vim.keymap.set("i", "<A-Down>", "<Esc>:m.+1<CR>==gi", {
-        noremap = true,
-    })
-
-    vim.keymap.set("i", "<A-Up>", "<Esc>:m.-2<CR>==gi", {
-        noremap = true,
-    })
-
-    vim.keymap.set("v", "<A-Down>", ":m '>+1<CR>gv=gv", {
-        noremap = true,
-    })
-
-    vim.keymap.set("v", "<A-Up>", ":m '<-2<CR>gv=gv", {
-        noremap = true,
-    })
+    vim.keymap.set("v", "<S-Down>", ":m '>+1<CR>gv=gv", { noremap = true, desc = "Move selection down" })
+    vim.keymap.set("v", "<S-Up>", ":m '<-2<CR>gv=gv", { noremap = true, desc = "Move selection up" })
+    vim.keymap.set("n", "<S-Down>", ":m.+1<CR>==", { noremap = true, desc = "Move line down" })
+    vim.keymap.set("n", "<S-Up>", ":m.-2<CR>==", { noremap = true, desc = "Move line up" })
+    vim.keymap.set("i", "<S-Down>", "<Esc>:m.+1<CR>==gi", { noremap = true, desc = "Move line down" })
+    vim.keymap.set("i", "<S-Up>", "<Esc>:m.-2<CR>==gi", { noremap = true, desc = "Move line up" })
 
     vim.keymap.set("n", "<leader>Y", '"+Y', {
         desc = "Yank line to clipboard",

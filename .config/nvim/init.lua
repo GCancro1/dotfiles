@@ -25,7 +25,7 @@ vim.keymap.set("n", "<leader>o", "<C-^>")
 vim.opt.foldmethod = "expr"
 vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
 
--- Format entire file
+-- Indent entire file
 vim.keymap.set("n", "<leader>fi", "mz<cmd>normal! gg=G<CR>`z", { desc = "Indent entire file" })
 
 -- Bootstrap lazy.nvim

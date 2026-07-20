@@ -175,8 +175,8 @@ vim.keymap.set("n", "<leader>,b", 'vibpgv"+y', { desc = "Paste without losing re
 vim.keymap.set("n", "<leader>,a", "mz%a,<Esc>`z", { desc = "add comma to end of bracket" })
 -- vim.keymap.set("n", "<leader>e", vim.cmd.Ex, { desc = "Toggle explorer" })
 
-vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv") -- Shift visual selected line up
-vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv") -- Shift visual selected line down
+vim.keymap.set("v", "<S-Up>", ":m '<-2<CR>gv=gv", { desc = "Move selection up" })
+vim.keymap.set("v", "<S-Down>", ":m '>+1<CR>gv=gv", { desc = "Move selection down" })
 
 vim.keymap.set("v", "<leader>r", function()
     vim.cmd('normal! "zy')
