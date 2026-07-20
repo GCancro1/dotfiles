@@ -4,6 +4,17 @@ return {
     dependencies = { "echasnovski/mini.icons" },
     keys = {
         { "-", "<CMD>Oil<CR>", desc = "Open parent directory" },
+        { "<leader>fn", function()
+            vim.ui.input({ prompt = "New file path: ", completion = "file" }, function(path)
+                if path and path ~= "" then
+                    local dir = vim.fn.fnamemodify(path, ":h")
+                    if dir ~= "" and vim.fn.isdirectory(dir) == 0 then
+                        vim.fn.mkdir(dir, "p")
+                    end
+                    vim.cmd("edit " .. path)
+                end
+            end)
+        end, desc = "New file" },
     },
 
     config = function()

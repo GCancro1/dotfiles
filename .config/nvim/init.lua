@@ -26,7 +26,7 @@ vim.opt.foldmethod = "expr"
 vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
 
 -- Format entire file
-vim.keymap.set("n", "<leader>ff", "mz<cmd>normal! gg=G<CR>`z", { desc = "Indent entire file" })
+vim.keymap.set("n", "<leader>fi", "mz<cmd>normal! gg=G<CR>`z", { desc = "Indent entire file" })
 
 -- Bootstrap lazy.nvim
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"

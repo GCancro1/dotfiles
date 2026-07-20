@@ -4,6 +4,18 @@ return {
     config = function()
         local gitsigns = require('gitsigns')
 
+        -- Remove diagnostic signs from sign column (gitsigns uses it)
+        vim.diagnostic.config({
+            signs = {
+                text = {
+                    [vim.diagnostic.severity.ERROR] = "",
+                    [vim.diagnostic.severity.WARN] = "",
+                    [vim.diagnostic.severity.HINT] = "",
+                    [vim.diagnostic.severity.INFO] = "",
+                },
+            },
+        })
+
         gitsigns.setup({
             signs = {
                 add          = { text = "│" },

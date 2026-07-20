@@ -14,6 +14,7 @@ alias nb='nvim ~/.bashrc'
 alias nt='nvim ~/.tmux.conf'
 alias na='nvim /home/g/dotfiles/.config/opencode/AGENTS.md'
 alias v='nvim'
+alias oc='opencode'
 alias yt='mov-cli -s youtube'
 
 export c4="$HOME/.config/"

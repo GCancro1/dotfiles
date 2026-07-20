@@ -20,7 +20,7 @@ return {
             harpoon_idx = harpoon_idx % #list.items + 1
             list:select(harpoon_idx)
         end, { desc = "Harpoon next" })
-        vim.keymap.set("n", "<leader>hp", function()
+        vim.keymap.set("n", "<leader>ho", function()
             local list = harpoon:list()
             if #list.items == 0 then return end
             harpoon_idx = (harpoon_idx - 2 + #list.items) % #list.items + 1

@@ -6,6 +6,8 @@ return {
             "typescript-language-server",
             "pyright",
             "rust-analyzer",
+            "ruff",
+            "stylua",
         },
     },
 }

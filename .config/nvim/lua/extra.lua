@@ -25,7 +25,7 @@ map("v", "<S-Tab>", "<gv", { desc = "Indent left" })
 map("t", "<C-Esc>", [[<C-\><C-n>]], { desc = "Exit terminal mode" })
 
 -- Join lines without losing cursor
-map("n", "J", "mzJ`z", { desc = "Join lines" })
+-- map("n", "J", "mzJ`z", { desc = "Join lines" })
 
 -- Center after search navigation
 map("n", "n", "nzzzv", { desc = "Next search result (centered)" })
