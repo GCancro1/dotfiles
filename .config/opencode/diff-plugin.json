@@ -1,0 +1,8 @@
+{
+  "enabled": true,
+  "autoAccept": ["*.lock", "package-lock.json", "yarn.lock", "pnpm-lock.yaml"],
+  "autoReject": [],
+  "theme": "auto",
+  "showLineNumbers": true,
+  "confirmRejectAll": true
+}
