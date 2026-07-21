@@ -74,7 +74,7 @@ return {
                 map("gr", vim.lsp.buf.references, "Go to references")
                 map("gi", vim.lsp.buf.implementation, "Go to implementation")
                 map("K", vim.lsp.buf.hover, "Hover")
-                map("<leader>ca", vim.lsp.buf.code_action, "Code action")
+                map("<leader>cA", vim.lsp.buf.code_action, "Code action")
                 map("<leader>rn", vim.lsp.buf.rename, "Rename")
                 map("<leader>D", vim.lsp.buf.type_definition, "Type definition")
             end,

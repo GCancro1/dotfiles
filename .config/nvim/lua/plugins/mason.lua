@@ -1,11 +1,8 @@
 return {
     "mason-org/mason.nvim",
+    cmd = "Mason",
     opts = {
         ensure_installed = {
-            "lua-language-server",
-            "typescript-language-server",
-            "pyright",
-            "rust-analyzer",
             "ruff",
             "stylua",
         },

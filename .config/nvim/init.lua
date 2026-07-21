@@ -1,3 +1,7 @@
+-- Start RPC socket for opencode-nvim-editor-context
+-- Format: nvim.<pid>.0 (matches plugin's expected pattern)
+vim.fn.serverstart('/tmp/nvim.' .. vim.fn.getpid() .. '.0')
+
 -- Options
 vim.opt.number = true
 vim.opt.relativenumber = true

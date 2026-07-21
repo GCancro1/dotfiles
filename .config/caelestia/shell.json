@@ -32,6 +32,29 @@
         "resourceUpdateInterval": 10000,
         "showOnHover": false
     },
+    "general": {
+        "idle": {
+            "inhibitWhenAudio": true,
+            "lockBeforeSleep": true,
+            "timeouts": [
+                {
+                    "idleAction": "lock",
+                    "timeout": 180
+                },
+                {
+                    "idleAction": "dpms off",
+                    "returnAction": "dpms on",
+                    "timeout": 300
+                },
+                {
+                    "idleAction": [
+                        "suspendThenHibernate"
+                    ],
+                    "timeout": 600
+                }
+            ]
+        }
+    },
     "launcher": {
         "enableDangerousActions": true,
         "showOnHover": false,

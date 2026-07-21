@@ -5,7 +5,7 @@ return {
 	opts = {
 		picker = {
 			enabled = true,
-			layout = { preset = "telescope", height = 0.99, width = 0.99 },
+			layout = { preset = "telescope", fullscreen = true },
 		},
 
 		bigfile = { enabled = true },
