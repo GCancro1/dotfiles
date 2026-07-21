@@ -1,6 +1,6 @@
 return {
 	"folke/persistence.nvim",
-	event = "BufReadPre",
+    lazy = false,
 	opts = {
 		dir = vim.fn.stdpath("data") .. "/session/",
 	},

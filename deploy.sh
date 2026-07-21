@@ -68,6 +68,15 @@ stow --restow .
 echo "  Stow completed successfully"
 
 echo ""
+echo "=== Running OpenCode Setup ==="
+if [ -x "$HOME/.config/opencode/setup.sh" ]; then
+    "$HOME/.config/opencode/setup.sh"
+else
+    echo "  OpenCode setup script not found or not executable"
+    echo "  Run manually: ~/.config/opencode/setup.sh"
+fi
+
+echo ""
 echo "=== Done! ==="
 echo "Your configs are now symlinked from ~/dotfiles/"
 echo "Backup of old configs: $BACKUP_DIR"

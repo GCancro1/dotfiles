@@ -27,6 +27,8 @@
 | Tmux | `~/dotfiles/.tmux.conf` |
 | Tmux plugins | `~/.tmux/plugins.conf` |
 | Opencode config | `~/dotfiles/.config/opencode/opencode.jsonc` |
+| Opencode plugins | `~/.config/opencode/node_modules/` |
+| Opencode agents | `~/.config/opencode/agents/` |
 | Kitty | `~/dotfiles/.config/kitty/` |
 
 # Hyprland Structure
