@@ -9,7 +9,7 @@ vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
 vim.g.have_nerd_font = true
-vim.o.mouse = "a"
+vim.opt.mouse = "a"
 
 vim.opt.textwidth = 0
 -- vim.opt.formatoptions-=t
