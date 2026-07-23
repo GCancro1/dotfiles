@@ -100,5 +100,19 @@ return {
 			desc = "Git Browse",
 			mode = { "n", "v" },
 		},
+		{
+			"<leader>sH",
+			function()
+				Snacks.picker.help({
+					confirm = function(picker, item)
+						picker:close()
+						if item and item.text then
+							_G.help_no_split(item.text)
+						end
+					end,
+				})
+			end,
+			desc = "Help Tags",
+		},
 	},
 }

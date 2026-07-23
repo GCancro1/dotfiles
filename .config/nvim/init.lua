@@ -28,6 +28,22 @@ vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
 -- Indent entire file
 vim.keymap.set("n", "<leader>fi", "mz<cmd>normal! gg=G<CR>`z", { desc = "Indent entire file" })
 
+-- Open help in current window (no split)
+_G.help_no_split = function(topic)
+    if not topic or topic == "" then
+        vim.cmd("help")
+        return
+    end
+    vim.cmd("help " .. topic)
+    local help_win = vim.api.nvim_get_current_win()
+    local help_buf = vim.api.nvim_win_get_buf(help_win)
+    vim.cmd("wincmd p")
+    local orig_win = vim.api.nvim_get_current_win()
+    vim.api.nvim_win_set_buf(orig_win, help_buf)
+    vim.api.nvim_win_close(help_win, true)
+    vim.api.nvim_set_current_win(orig_win)
+end
+
 -- Bootstrap lazy.nvim
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
