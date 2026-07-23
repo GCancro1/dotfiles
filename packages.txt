@@ -1,0 +1,151 @@
+# ============================================
+# CachyOS Dev Environment - Package Manifest
+# ============================================
+# Usage:
+#   pacman -S --needed --noconfirm $(grep -v '^#\|^$' packages.txt | grep -v '\[aur\]' | tr '\n' ' ')
+#   paru -S --needed --noconfirm $(grep -v '^#\|^$' packages.txt | sed -n '/\[aur\]/,$ p' | grep -v '^\[aur\]' | grep -v '^$\|^#' | tr '\n' ' ')
+
+# --- Core System ---
+base
+base-devel
+sudo
+stow
+git
+wget
+curl
+
+# --- Desktop Environment (Hyprland) ---
+hyprland
+hypridle
+hyprpolkitagent
+hyprshutdown
+xdg-desktop-portal
+xdg-desktop-portal-hyprland
+xdg-desktop-portal-gtk
+qt5-wayland
+qt6-wayland
+
+# --- Display Manager ---
+sddm
+
+# --- Terminal ---
+kitty
+
+# --- Shell ---
+fish
+tmux
+fzf
+
+# --- Editor ---
+neovim
+
+# --- File Manager ---
+thunar
+tumbler
+
+# --- Status Bar / Launcher / Notifications ---
+waybar
+wofi
+mako
+cliphist
+wl-clipboard
+
+# --- System Utilities ---
+bat
+btop
+ncdu
+duf
+fd
+ripgrep
+jq
+tree-sitter-cli
+unzip
+less
+man-db
+nvtop
+network-manager-applet
+
+# --- Audio ---
+pipewire
+pipewire-alsa
+pipewire-jack
+pipewire-pulse
+gst-plugin-pipewire
+gst-plugins-good
+gst-plugins-bad
+gst-plugins-ugly
+gst-libav
+pavucontrol
+libpulse
+sof-firmware
+
+# --- Bluetooth ---
+bluez
+bluez-utils
+blueman
+
+# --- Network ---
+firewalld
+nss-mdns
+iwd
+
+# --- Power Management ---
+tlp
+tlp-rdw
+power-profiles-daemon
+
+# --- Hardware ---
+intel-media-driver
+intel-ucode
+vulkan-intel
+vulkan-tools
+libva-utils
+mesa-utils
+linux-firmware
+linux-headers
+dkms
+efibootmgr
+
+# --- Printing ---
+cups
+cups-pdf
+system-config-printer
+
+# --- Fonts ---
+ttf-jetbrains-mono-nerd
+ttf-nerd-fonts-symbols
+ttf-terminus-nerd
+noto-fonts
+noto-fonts-emoji
+woff2-font-awesome
+
+# --- Screenshots / Recording ---
+grim
+slurp
+
+# --- Misc ---
+okular
+timeshift
+zram-generator
+pacman-contrib
+reflector
+xdg-user-dirs
+ufw
+
+# --- Development ---
+nodejs
+npm
+python-pipx
+opencode
+# go (install via https://go.dev/dl/)
+# rust/cargo (install via rustup)
+
+# --- Browser ---
+firefox
+
+[aur]
+caelestia-meta
+google-chrome
+zen-browser-bin
+paru
+spotify

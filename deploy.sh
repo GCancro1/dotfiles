@@ -44,6 +44,18 @@ for item in .bashrc .bash_profile .tmux.conf .tmux; do
     fi
 done
 
+# Backup bashutils if it exists as a real directory
+if [ -d "$HOME/bashutils" ] && [ ! -L "$HOME/bashutils" ]; then
+    mv "$HOME/bashutils" "$BACKUP_DIR/"
+    echo "  Backed up: bashutils"
+fi
+
+# Backup scripts if it exists as a real directory
+if [ -d "$HOME/scripts" ] && [ ! -L "$HOME/scripts" ]; then
+    mv "$HOME/scripts" "$BACKUP_DIR/"
+    echo "  Backed up: scripts"
+fi
+
 # Backup .config directories that exist and aren't already symlinks
 for dir in "$HOME/.config"/*/; do
     dir_name=$(basename "$dir")
@@ -60,6 +72,9 @@ echo "  Backups saved to $BACKUP_DIR"
 
 echo "[3/3] Creating symlinks with stow..."
 cd "$DOTFILES_DIR"
+
+# Create directories that stow needs but won't create itself
+mkdir -p "$HOME/bashutils" "$HOME/scripts"
 
 # Use --restow to cleanly remove and re-create symlinks
 # This handles both existing stow symlinks and non-stow symlinks

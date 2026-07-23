@@ -6,6 +6,5 @@
 # Note: regex matches the basename when no / is present
 ^yt-dlp$
 
-# Add other directories to ignore below:
-# ^some-app$
-# ^another-app$
+# packages.txt - used by bootstrap script, not a dotfile
+^packages\.txt$

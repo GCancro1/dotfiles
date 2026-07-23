@@ -1,0 +1,5 @@
+[user]
+	email = george.cancro@yahoo.com
+	name = GCancro1
+[push]
+	autoSetupRemote = true
