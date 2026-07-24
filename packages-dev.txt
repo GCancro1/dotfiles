@@ -43,7 +43,6 @@ ttf-jetbrains-mono-nerd
 ttf-nerd-fonts-symbols
 
 [aur]
-google-chrome
 zen-browser-bin
 spotify
 opencode
