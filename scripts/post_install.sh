@@ -4,14 +4,8 @@
 # Make sure to reboot if updated anything
 # sudo reboot
 
-sudo sed -i 's/#ParallelDownloads = 5/ParallelDownloads = 10/' /etc/pacman.conf
-sudo sed -i 's/#Color/Color/' /etc/pacman.conf
-sudo sed -i 's/#VerbosePkgLists/VerbosePkgLists/' /etc/pacman.conf
-
-grep -E '^(ParallelDownloads|Color|VerbosePkgLists)' /etc/pacman.conf
-
-sudo pacman -S reflector --noconfirm
-sudo reflector --country 'United States' --latest 10 --sort rate --save /etc/pacman.d/mirrorlist
+# Pacman speed optimization is now in scripts/pacman-speed.sh
+# bash ~/dotfiles/scripts/pacman-speed.sh
 sudo systemctl enable --now reflector.timer
 
 #printer setup
