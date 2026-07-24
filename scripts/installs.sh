@@ -1,10 +1,7 @@
-
-sudo pacman -S hyprshutdown jq
-sudo pacman -S fzf fd ripgrep bat git
-yay -S btop nvtop duf ncdu
-sudo pacman -S pacman-contrib reflector xdg-user-dirs
-sudo pacman -S ttf-nerd-fonts-symbols noto-fonts-emoji
-
-
-sudo pacman -S git wget curl fish
-# yay -S caelestia-shell
+#!/bin/bash
+# Deprecated: packages are now managed via packages-dev.txt and packages-hyprland.txt
+# in the repo root. Use bootstrap.sh to install them.
+#
+# For quick manual installs:
+#   pacman -S --needed <package>
+#   yay -S --needed <package>

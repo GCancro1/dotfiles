@@ -6,5 +6,7 @@
 # Note: regex matches the basename when no / is present
 ^yt-dlp$
 
-# packages.txt - used by bootstrap script, not a dotfile
+# Package manifests - used by bootstrap script, not dotfiles
 ^packages\.txt$
+^packages-dev\.txt$
+^packages-hyprland\.txt$

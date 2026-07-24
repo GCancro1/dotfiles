@@ -1,0 +1,48 @@
+# ============================================
+# Hyprland Desktop - Package Manifest
+# ============================================
+# Only needed when setting up a full Hyprland workstation.
+# For pure development on existing Plasma desktops, use packages-dev.txt instead.
+#
+# Usage:
+#   pacman -S --needed --noconfirm $(grep -v '^#\|^$' packages-hyprland.txt | grep -v '\[aur\]' | tr '\n' ' ')
+#   yay -S --needed --noconfirm $(grep -v '^#\|^$' packages-hyprland.txt | sed -n '/\[aur\]/,$ p' | grep -v '^\[aur\]' | grep -v '^$\|^#' | tr '\n' ' ')
+
+# --- Hyprland Desktop ---
+hyprland
+hypridle
+hyprpolkitagent
+hyprshutdown
+
+# --- Portals ---
+xdg-desktop-portal
+xdg-desktop-portal-hyprland
+xdg-desktop-portal-gtk
+
+# --- Wayland Qt ---
+qt5-wayland
+qt6-wayland
+
+# --- Status Bar / Launcher / Notifications ---
+waybar
+wofi
+mako
+cliphist
+wl-clipboard
+
+# --- File Manager ---
+thunar
+tumbler
+
+# --- Screenshots / Recording ---
+grim
+slurp
+
+# --- Fonts ---
+ttf-terminus-nerd
+noto-fonts
+noto-fonts-emoji
+woff2-font-awesome
+
+[aur]
+caelestia-meta

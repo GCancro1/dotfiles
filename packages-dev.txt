@@ -1,0 +1,49 @@
+# ============================================
+# Development Environment - Package Manifest
+# ============================================
+# Core dev tools for use on CachyOS KDE Plasma desktops.
+# CachyOS already provides: audio, bluetooth, base system, SDDM,
+# Firefox, Noto fonts, power management, firewall, hardware drivers.
+#
+# Usage:
+#   pacman -S --needed --noconfirm $(grep -v '^#\|^$' packages-dev.txt | grep -v '\[aur\]' | tr '\n' ' ')
+#   yay -S --needed --noconfirm $(grep -v '^#\|^$' packages-dev.txt | sed -n '/\[aur\]/,$ p' | grep -v '^\[aur\]' | grep -v '^$\|^#' | tr '\n' ' ')
+
+# --- Core System ---
+base-devel
+stow
+
+# --- Terminal / Shell ---
+kitty
+fish
+tmux
+fzf
+
+# --- Editor ---
+neovim
+
+# --- System Utilities ---
+bat
+btop
+ncdu
+duf
+fd
+ripgrep
+jq
+tree-sitter-cli
+unzip
+
+# --- Development ---
+nodejs
+npm
+python-pipx
+
+# --- Fonts (dev-essential only) ---
+ttf-jetbrains-mono-nerd
+ttf-nerd-fonts-symbols
+
+[aur]
+google-chrome
+zen-browser-bin
+spotify
+opencode

@@ -3,7 +3,8 @@
 # Dotfiles Bootstrap Script
 # ============================================
 # Usage on a fresh CachyOS install:
-#   bash <(curl -fsSL <your-repo-url>/bootstrap.sh)
+#   bash <(curl -fsSL <your-repo-url>/bootstrap.sh)           # dev tools only
+#   bash <(curl -fsSL <your-repo-url>/bootstrap.sh) --hyprland # dev + hyprland desktop
 #
 # Or manually:
 #   git clone <repo-url> ~/dotfiles
@@ -12,6 +13,14 @@
 set -e
 
 DOTFILES_DIR="$HOME/dotfiles"
+INSTALL_HYPRLAND=false
+
+# Parse flags
+for arg in "$@"; do
+    case $arg in
+        --hyprland) INSTALL_HYPRLAND=true ;;
+    esac
+done
 
 echo "╔══════════════════════════════════════╗"
 echo "║     Dotfiles Bootstrap               ║"
@@ -31,9 +40,34 @@ fi
 
 cd "$DOTFILES_DIR"
 
+# --- Helper: install packages from a manifest file ---
+install_packages() {
+    local manifest="$1"
+    local label="$2"
+
+    if [ ! -f "$manifest" ]; then
+        echo "  $manifest not found, skipping"
+        return
+    fi
+
+    echo "  Installing $label packages..."
+
+    # Install pacman packages (everything before [aur])
+    PACMAN_PKGS=$(sed '/^\[aur\]/,$d' "$manifest" | grep -v '^#\|^$\|^\s*$' | tr '\n' ' ')
+    if [ -n "$PACMAN_PKGS" ]; then
+        sudo pacman -S --needed --noconfirm $PACMAN_PKGS
+    fi
+
+    # Install AUR packages (everything after [aur])
+    AUR_PKGS=$(sed -n '/^\[aur\]/,$ p' "$manifest" | grep -v '^\[aur\]\|^#\|^$\|^\s*$' | tr '\n' ' ')
+    if [ -n "$AUR_PKGS" ]; then
+        yay -S --needed --noconfirm $AUR_PKGS
+    fi
+}
+
 # --- Step 2: Install system packages ---
 echo ""
-echo "[2/4] Installing packages from packages.txt..."
+echo "[2/4] Installing packages..."
 
 # Install yay (AUR helper) if not present
 if ! command -v yay &> /dev/null; then
@@ -46,23 +80,12 @@ if ! command -v yay &> /dev/null; then
     rm -rf /tmp/yay
 fi
 
-# Parse packages.txt and install
-if [ -f packages.txt ]; then
-    # Install pacman packages (everything before [aur])
-    PACMAN_PKGS=$(sed '/^\[aur\]/,$d' packages.txt | grep -v '^#\|^$\|^$' | tr '\n' ' ')
-    if [ -n "$PACMAN_PKGS" ]; then
-        echo "  Installing pacman packages..."
-        sudo pacman -S --needed --noconfirm $PACMAN_PKGS
-    fi
+# Always install dev packages
+install_packages "packages-dev.txt" "development"
 
-    # Install AUR packages (everything after [aur])
-    AUR_PKGS=$(sed -n '/^\[aur\]/,$ p' packages.txt | grep -v '^\[aur\]\|^#\|^$' | tr '\n' ' ')
-    if [ -n "$AUR_PKGS" ]; then
-        echo "  Installing AUR packages..."
-        yay -S --needed --noconfirm $AUR_PKGS
-    fi
-else
-    echo "  packages.txt not found, skipping package installation"
+# Optionally install Hyprland packages
+if [ "$INSTALL_HYPRLAND" = true ]; then
+    install_packages "packages-hyprland.txt" "Hyprland desktop"
 fi
 
 # --- Step 3: Deploy dotfiles via stow ---
@@ -87,4 +110,6 @@ echo ""
 echo "You may need to:"
 echo "  - Log out and back in for shell changes to take effect"
 echo "  - Set up SSH keys: ssh-keygen -t ed25519"
-echo "  - Clone caelestia: git clone <caelestia-url> ~/caelestia && bash ~/caelestia/deploy.sh"
+if [ "$INSTALL_HYPRLAND" = true ]; then
+    echo "  - Clone caelestia: git clone <caelestia-url> ~/caelestia && bash ~/caelestia/deploy.sh"
+fi
