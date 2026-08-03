@@ -100,6 +100,14 @@ return {
 			desc = "Git Browse",
 			mode = { "n", "v" },
 		},
+{
+			"<leader>sk",
+			function()
+				Snacks.picker.keymaps()
+			end,
+			desc = "keymap picker",
+			mode = { "n" },
+		},
 		{
 			"<leader>sH",
 			function()
