@@ -102,54 +102,83 @@ if [ "$INSTALL_HYPRLAND" = true ]; then
         sudo pacman -S --needed --noconfirm fish
     fi
 
-    # Remove noctalia-qs if present (incompatible with Caelestia)
-    if pacman -Qi noctalia-qs &> /dev/null; then
-        echo "  Removing noctalia-qs (incompatible with Caelestia)..."
-        sudo pacman -Rns --noconfirm noctalia-qs
+    # Ensure yay is available for AUR
+    if ! command -v yay &> /dev/null; then
+        echo "  Installing yay (AUR helper)..."
+        sudo pacman -S --needed --noconfirm base-devel
+        git clone https://aur.archlinux.org/yay.git /tmp/yay
+        cd /tmp/yay && makepkg -si --noconfirm && cd "$DOTFILES_DIR"
+        rm -rf /tmp/yay
     fi
 
-    # Install Quickshell from AUR (not repo version)
-    if ! command -v qs &> /dev/null || ! qs --version 2>&1 | grep -q "0\.3\|0\.4\|0\.5"; then
-        echo "  Installing Quickshell from AUR..."
-        if yay -S --needed --noconfirm quickshell-git --aur; then
+    # --- Fix noctalia-qs / quickshell-git conflict ---
+    # noctalia-qs provides quickshell-git (so yay thinks it's fine) but it's
+    # incompatible with Caelestia (missing DefaultEnv pragma support).
+    # Must break the dependency chain: remove caelestia-shell first, then
+    # noctalia-qs, then install real quickshell-git, then reinstall caelestia-shell.
+
+    NEEDS_QUICKSHELL_FIX=false
+
+    if pacman -Qi noctalia-qs &> /dev/null; then
+        echo "  noctalia-qs detected (incompatible with Caelestia)..."
+        NEEDS_QUICKSHELL_FIX=true
+
+        # Step A: Remove caelestia-shell first (breaks dependency on noctalia-qs)
+        if pacman -Qi caelestia-shell &> /dev/null || pacman -Qi caelestia-shell-git &> /dev/null; then
+            echo "  Removing caelestia-shell to break dependency chain..."
+            sudo pacman -Rns --noconfirm caelestia-shell caelestia-shell-git 2>/dev/null
+        fi
+
+        # Step B: Now remove noctalia-qs (no more blockers)
+        echo "  Removing noctalia-qs..."
+        sudo pacman -Rns --noconfirm noctalia-qs
+
+        # Step C: Install real quickshell-git from AUR
+        echo "  Installing real Quickshell from AUR..."
+        if yay -S --needed --noconfirm quickshell-git; then
             echo "  Quickshell installed successfully"
         else
-            echo "  Warning: Failed to install quickshell-git from AUR"
-            echo "  Trying to build from source..."
-            if ! command -v cmake &> /dev/null; then
-                sudo pacman -S --needed --noconfirm cmake
-            fi
-            git clone https://github.com/quickshell-mirror/quickshell.git /tmp/quickshell
-            cd /tmp/quickshell
-            cmake -B build
-            cmake --build build
-            sudo cp build/qs /usr/bin/qs
-            cd "$DOTFILES_DIR"
-            rm -rf /tmp/quickshell
-            echo "  Quickshell built from source"
+            echo "  Error: Failed to install quickshell-git"
+            echo "  Please install manually: yay -S quickshell-git"
         fi
+    elif ! command -v qs &> /dev/null; then
+        # Quickshell not installed at all
+        echo "  Installing Quickshell from AUR..."
+        yay -S --needed --noconfirm quickshell-git || {
+            echo "  Error: Failed to install quickshell-git"
+            echo "  Please install manually: yay -S quickshell-git"
+        }
     else
-        echo "  Quickshell already installed"
+        # Check if it's real quickshell (not noctalia-qs)
+        if qs --version 2>&1 | grep -qi "noctalia"; then
+            echo "  Detected noctalia-qs in disguise, fixing..."
+            NEEDS_QUICKSHELL_FIX=true
+            sudo pacman -Rns --noconfirm caelestia-shell caelestia-shell-git 2>/dev/null
+            sudo pacman -Rns --noconfirm noctalia-qs 2>/dev/null
+            yay -S --needed --noconfirm quickshell-git || {
+                echo "  Error: Failed to install quickshell-git"
+            }
+        else
+            echo "  Quickshell already installed ($(qs --version 2>&1 | head -1))"
+        fi
     fi
 
-    # Pin Quickshell so pacman doesn't replace with noctalia-qs
-    if ! grep -q "IgnorePkg = quickshell-git" /etc/pacman.conf 2>/dev/null; then
+    # Pin Quickshell so pacman/CAELESTIA doesn't replace with noctalia-qs
+    if ! grep -q "IgnorePkg.*quickshell-git" /etc/pacman.conf 2>/dev/null; then
         echo "  Pinning Quickshell in pacman.conf..."
         echo "IgnorePkg = quickshell-git" | sudo tee -a /etc/pacman.conf > /dev/null
         echo "  Quickshell pinned (won't be replaced by noctalia-qs)"
     fi
 
-    # Install caelestia-shell from AUR
+    # Install caelestia-shell from AUR (or reinstall after fixing conflict)
     echo "  Installing Caelestia shell..."
     if yay -S --needed --noconfirm caelestia-shell; then
         echo "  Caelestia shell installed successfully"
     else
-        echo "  Warning: Could not install caelestia-shell from AUR"
-        echo "  Trying caelestia-shell-git (bleeding edge)..."
+        echo "  Warning: Could not install caelestia-shell, trying caelestia-shell-git..."
         yay -S --needed --noconfirm caelestia-shell-git || {
             echo "  Error: Could not install Caelestia shell"
-            echo "  Please install manually:"
-            echo "    yay -S caelestia-shell"
+            echo "  Please install manually: yay -S caelestia-shell"
         }
     fi
 
