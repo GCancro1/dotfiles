@@ -202,6 +202,11 @@
 			"type": "remote",
 			"url": "https://mcp.grep.app",
 			"enabled": true
+		},
+		"financex": {
+			"type": "local",
+			"command": ["npx", "-y", "mcp-financex"],
+			"enabled": true
 		}
 	},
 	"plugin": [

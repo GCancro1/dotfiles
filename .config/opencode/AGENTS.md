@@ -43,3 +43,22 @@ Hyprland config is modular: `hyprland.conf` sources separate files from `~/.conf
 - Archived configs live in `~/dotfiles/.nvim-archive/` — do not touch unless the user asks.
 - When exploring a config (e.g. nvim), focus on `init.lua`, `lua/plugins/`, and any actively `require`d modules. Skip anything that looks like a legacy/monolith file.
 
+# Agent Architecture
+
+Orchestrator pattern: `build` agent coordinates by delegating to specialized subagents (`coder`, `scribe`, `explore`, `researcher`). The `build` agent cannot edit files or run commands directly.
+
+| Agent | Role | Edit | Bash |
+|-------|------|------|------|
+| `build` | Orchestrator | deny | deny |
+| `plan` | Read-only planning | deny | limited |
+| `coder` | Implementation | allow | allow |
+| `scribe` | Documentation | allow | deny |
+| `explore` | Codebase analysis | deny | read-only |
+| `researcher` | External research | deny | limited |
+| `reviewer` | Code review | deny | git only |
+| `trading-advisor` | Trading analysis + file editing | allow | allow |
+
+# Trading Advisor
+
+The `trading-advisor` agent is a primary-mode agent with full file editing permissions. It analyzes stock/options positions, provides technical analysis, and manages portfolio data. It has access to MCP tools (`financex_*`) for market data. Reference files: `~/.config/opencode/tools/portfolio.md`, `~/.config/opencode/tools/trading-playbook.md`, `~/.config/opencode/tools/trading-issues.md`.
+
