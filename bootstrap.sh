@@ -102,37 +102,32 @@ if [ "$INSTALL_HYPRLAND" = true ]; then
         sudo pacman -S --needed --noconfirm fish
     fi
 
-    # Install Caelestia CLI if not present
-    if ! command -v caelestia &> /dev/null; then
-        echo "  Installing Caelestia CLI..."
-        if yay -S --needed --noconfirm caelestia-meta; then
-            echo "  Caelestia CLI installed successfully"
-        else
-            echo "  Warning: Failed to install caelestia-meta via yay"
-            echo "  Trying manual installation..."
-            yay -S caelestia-meta || {
-                echo "  Error: Could not install Caelestia. Please install manually:"
-                echo "    yay -S caelestia-meta"
-                echo "    caelestia install"
-            }
-        fi
+    # Install caelestia-shell from AUR (the actual shell component)
+    echo "  Installing Caelestia shell..."
+    if yay -S --needed --noconfirm caelestia-shell; then
+        echo "  Caelestia shell installed successfully"
+    else
+        echo "  Warning: Could not install caelestia-shell from AUR"
+        echo "  Trying caelestia-shell-git (bleeding edge)..."
+        yay -S --needed --noconfirm caelestia-shell-git || {
+            echo "  Error: Could not install Caelestia shell"
+            echo "  Please install manually:"
+            echo "    yay -S caelestia-shell"
+        }
     fi
 
-    # Run Caelestia installer
-    if command -v caelestia &> /dev/null; then
-        echo "  Running Caelestia installer..."
-        if caelestia install; then
-            echo "  Caelestia installed successfully"
-        else
-            echo "  Warning: Caelestia install command failed"
-            echo "  You may need to run this manually:"
-            echo "    caelestia install"
-        fi
+    # Clone the Caelestia dotfiles for config
+    CAELESTIA_DIR="$HOME/.config/caelestia"
+    if [ ! -d "$CAELESTIA_DIR" ]; then
+        echo "  Cloning Caelestia dotfiles..."
+        git clone https://github.com/caelestia-dots/caelestia.git /tmp/caelestia-dots
+        echo "  Copying Caelestia config..."
+        mkdir -p "$HOME/.config/caelestia"
+        cp -r /tmp/caelestia-dots/caelestia/. "$HOME/.config/caelestia/"
+        rm -rf /tmp/caelestia-dots
+        echo "  Caelestia dotfiles installed to ~/.config/caelestia/"
     else
-        echo "  Warning: Caelestia CLI not found after installation attempt"
-        echo "  Please install manually:"
-        echo "    yay -S caelestia-meta"
-        echo "    caelestia install"
+        echo "  Caelestia config already exists at $CAELESTIA_DIR"
     fi
 else
     echo ""
@@ -150,7 +145,7 @@ if [ "$INSTALL_HYPRLAND" = true ]; then
     if command -v caelestia &> /dev/null; then
         echo "  Caelestia CLI      -> INSTALLED"
     else
-        echo "  Caelestia CLI      -> NOT FOUND (run: yay -S caelestia-meta)"
+        echo "  Caelestia CLI      -> NOT FOUND (run: yay -S caelestia-shell)"
     fi
 fi
 

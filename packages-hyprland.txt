@@ -69,5 +69,3 @@ noto-fonts-emoji
 woff2-font-awesome
 
 [aur]
-app2unit
-caelestia-meta

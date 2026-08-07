@@ -53,14 +53,13 @@ bash ~/dotfiles/bootstrap.sh --hyprland
 - Blue light: gammastep, geoclue
 - Bluetooth: mpris-proxy
 - Utilities: trash-cli, hyprpicker, ydotool
-- AUR: app2unit, nwg-look, nwg-displays, caelestia-meta (includes Caelestia CLI)
+- AUR: app2unit, nwg-look, nwg-displays
 
 ## Manual Steps After Bootstrap
 
 1. **SSH keys**: `ssh-keygen -t ed25519`
-2. **Caelestia reinstall** (if needed): `caelestia install`
-3. **Wallpaper**: Type `>` in the Caelestia launcher and search for "wallpaper"
-4. **Font scaling**: Edit `~/.config/caelestia/shell.json` and set `font_size` to `18` or `20`
+2. **Wallpaper**: Type `>` in the Caelestia launcher and search for "wallpaper"
+3. **Font scaling**: Edit `~/.config/caelestia/shell.json` and set `font_size` to `18` or `20`
 
 ## Structure
 
