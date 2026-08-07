@@ -10,8 +10,6 @@
 #   git clone <repo-url> ~/dotfiles
 #   bash ~/dotfiles/bootstrap.sh
 
-set -e
-
 DOTFILES_DIR="$HOME/dotfiles"
 INSTALL_HYPRLAND=false
 
@@ -107,15 +105,32 @@ if [ "$INSTALL_HYPRLAND" = true ]; then
     # Install Caelestia CLI if not present
     if ! command -v caelestia &> /dev/null; then
         echo "  Installing Caelestia CLI..."
-        yay -S --needed --noconfirm caelestia-meta
+        if yay -S --needed --noconfirm caelestia-meta; then
+            echo "  Caelestia CLI installed successfully"
+        else
+            echo "  Warning: Failed to install caelestia-meta via yay"
+            echo "  Trying manual installation..."
+            yay -S caelestia-meta || {
+                echo "  Error: Could not install Caelestia. Please install manually:"
+                echo "    yay -S caelestia-meta"
+                echo "    caelestia install"
+            }
+        fi
     fi
 
     # Run Caelestia installer
     if command -v caelestia &> /dev/null; then
         echo "  Running Caelestia installer..."
-        caelestia install
+        if caelestia install; then
+            echo "  Caelestia installed successfully"
+        else
+            echo "  Warning: Caelestia install command failed"
+            echo "  You may need to run this manually:"
+            echo "    caelestia install"
+        fi
     else
-        echo "  Warning: Caelestia CLI not found. Install manually:"
+        echo "  Warning: Caelestia CLI not found after installation attempt"
+        echo "  Please install manually:"
         echo "    yay -S caelestia-meta"
         echo "    caelestia install"
     fi
@@ -131,6 +146,13 @@ echo "  ~/.config/hypr      -> $(readlink ~/.config/hypr 2>/dev/null || echo 'NO
 echo "  ~/.config/kitty     -> $(readlink ~/.config/kitty 2>/dev/null || echo 'NOT A SYMLINK')"
 echo "  ~/.config/nvim      -> $(readlink ~/.config/nvim 2>/dev/null || echo 'NOT A SYMLINK')"
 echo "  ~/.config/fuzzel    -> $(readlink ~/.config/fuzzel 2>/dev/null || echo 'NOT A SYMLINK')"
+if [ "$INSTALL_HYPRLAND" = true ]; then
+    if command -v caelestia &> /dev/null; then
+        echo "  Caelestia CLI      -> INSTALLED"
+    else
+        echo "  Caelestia CLI      -> NOT FOUND (run: yay -S caelestia-meta)"
+    fi
+fi
 
 echo ""
 echo "╔══════════════════════════════════════╗"
