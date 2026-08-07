@@ -185,7 +185,10 @@
 		"gh_grep_*": "deny",
 		"kagi_*": "deny",
 		"webfetch": "deny",
-		"worktree_*": "deny"
+		"worktree_*": "deny",
+		"external_directory": {
+			"*": "allow"
+		}
 	},
 	"mcp": {
 		"context7": {
