@@ -29,12 +29,12 @@ echo "╚═══════════════════════�
 # --- Step 1: Clone dotfiles if not present ---
 if [ ! -d "$DOTFILES_DIR" ]; then
     echo ""
-    echo "[1/4] Cloning dotfiles..."
+    echo "[1/5] Cloning dotfiles..."
     # Replace with your actual repo URL
     git clone <YOUR_REPO_URL> "$DOTFILES_DIR"
 else
     echo ""
-    echo "[1/4] Dotfiles already present at $DOTFILES_DIR"
+    echo "[1/5] Dotfiles already present at $DOTFILES_DIR"
     cd "$DOTFILES_DIR" && git pull --ff-only
 fi
 
@@ -67,7 +67,7 @@ install_packages() {
 
 # --- Step 2: Install system packages ---
 echo ""
-echo "[2/4] Installing packages..."
+echo "[2/5] Installing packages..."
 
 # Install yay (AUR helper) if not present
 if ! command -v yay &> /dev/null; then
@@ -90,17 +90,47 @@ fi
 
 # --- Step 3: Deploy dotfiles via stow ---
 echo ""
-echo "[3/4] Deploying configs via stow..."
+echo "[3/5] Deploying configs via stow..."
 bash "$DOTFILES_DIR/deploy.sh"
 
-# --- Step 4: Verify ---
+# --- Step 4: Install Caelestia (Hyprland desktop) ---
+if [ "$INSTALL_HYPRLAND" = true ]; then
+    echo ""
+    echo "[4/5] Installing Caelestia..."
+
+    # Ensure fish is installed (required by Caelestia)
+    if ! command -v fish &> /dev/null; then
+        echo "  Installing fish shell (required by Caelestia)..."
+        sudo pacman -S --needed --noconfirm fish
+    fi
+
+    # Install Caelestia CLI if not present
+    if ! command -v caelestia &> /dev/null; then
+        echo "  Installing Caelestia CLI..."
+        yay -S --needed --noconfirm caelestia-meta
+    fi
+
+    # Run Caelestia installer
+    if command -v caelestia &> /dev/null; then
+        echo "  Running Caelestia installer..."
+        caelestia install
+    else
+        echo "  Warning: Caelestia CLI not found. Install manually:"
+        echo "    yay -S caelestia-meta"
+        echo "    caelestia install"
+    fi
+else
+    echo ""
+    echo "[4/5] Skipping Caelestia (not a Hyprland install)"
+fi
+
+# --- Step 5: Verify ---
 echo ""
-echo "[4/4] Verifying..."
-echo "  ~/.gitconfig -> $(readlink ~/.gitconfig 2>/dev/null || echo 'NOT A SYMLINK')"
-echo "  ~/scripts    -> $(readlink ~/scripts 2>/dev/null || echo 'NOT A SYMLINK')"
-echo "  ~/bashutils  -> $(readlink ~/bashutils 2>/dev/null || echo 'NOT A SYMLINK')"
-echo "  ~/.config/nvim  -> $(readlink ~/.config/nvim 2>/dev/null || echo 'NOT A SYMLINK')"
-echo "  ~/.config/kitty -> $(readlink ~/.config/kitty 2>/dev/null || echo 'NOT A SYMLINK')"
+echo "[5/5] Verifying..."
+echo "  ~/.config/hypr      -> $(readlink ~/.config/hypr 2>/dev/null || echo 'NOT A SYMLINK')"
+echo "  ~/.config/kitty     -> $(readlink ~/.config/kitty 2>/dev/null || echo 'NOT A SYMLINK')"
+echo "  ~/.config/nvim      -> $(readlink ~/.config/nvim 2>/dev/null || echo 'NOT A SYMLINK')"
+echo "  ~/.config/fuzzel    -> $(readlink ~/.config/fuzzel 2>/dev/null || echo 'NOT A SYMLINK')"
 
 echo ""
 echo "╔══════════════════════════════════════╗"
@@ -111,5 +141,5 @@ echo "You may need to:"
 echo "  - Log out and back in for shell changes to take effect"
 echo "  - Set up SSH keys: ssh-keygen -t ed25519"
 if [ "$INSTALL_HYPRLAND" = true ]; then
-    echo "  - Clone caelestia: git clone <caelestia-url> ~/caelestia && bash ~/caelestia/deploy.sh"
+    echo "  - Re-run Caelestia install if issues: caelestia install"
 fi

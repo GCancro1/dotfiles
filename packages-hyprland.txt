@@ -23,9 +23,8 @@ xdg-desktop-portal-gtk
 qt5-wayland
 qt6-wayland
 
-# --- Status Bar / Launcher / Notifications ---
+# --- Shell / Launcher / Notifications ---
 waybar
-wofi
 mako
 cliphist
 wl-clipboard
@@ -38,6 +37,31 @@ tumbler
 grim
 slurp
 
+# --- Brightness / Input ---
+brightnessctl
+ydotool
+
+# --- Keyring / Auth ---
+gnome-keyring
+polkit-gnome
+
+# --- Blue Light Filter ---
+gammastep
+geoclue
+
+# --- Bluetooth Media ---
+mpris-proxy
+
+# --- Trash Management ---
+trash-cli
+
+# --- Color Picker ---
+hyprpicker
+
+# --- GTK Theme / Monitor Config (AUR) ---
+nwg-look
+nwg-displays
+
 # --- Fonts ---
 ttf-terminus-nerd
 noto-fonts
@@ -45,4 +69,5 @@ noto-fonts-emoji
 woff2-font-awesome
 
 [aur]
+app2unit
 caelestia-meta
