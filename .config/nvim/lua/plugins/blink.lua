@@ -39,6 +39,7 @@ return {
         capabilities = vim.tbl_deep_extend("force", capabilities, blink.get_lsp_capabilities())
 
         vim.lsp.config("lua_ls", {
+            filetypes = { "lua" },
             cmd = { mason_path .. "/lua-language-server" },
             capabilities = capabilities,
             settings = {
@@ -55,6 +56,11 @@ return {
                     telemetry = { enable = false },
                 },
             },
+        })
+
+        vim.lsp.config("pyright", {
+            filetypes = { "python" },
+            capabilities = capabilities,
         })
 
         vim.lsp.enable("lua_ls")

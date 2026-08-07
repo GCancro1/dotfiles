@@ -122,5 +122,12 @@ return {
 			end,
 			desc = "Help Tags",
 		},
+		{
+			"<leader>sd",
+			function()
+				Snacks.picker.diagnostics()
+			end,
+			desc = "Diagnostics",
+		},
 	},
 }

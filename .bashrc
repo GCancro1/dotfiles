@@ -24,11 +24,14 @@ mkcd () {
     mkdir -p -- "$1" && cd -P -- "$1"
 }
 
+# --- Extrakt: pull text from tmux pane via fzf ---
+# Triggered via Ctrl+y inside tmux (see tmux.conf)
+
 if [[ -z $WAYLAND_DISPLAY ]] && [[ $(tty) = /dev/tty1 ]]; then
     exec Hyprland
 fi
 
 
 source ~/bashutils/bashimprovements.sh
-# source /usr/share/fzf/key-bindings.bash
+source /usr/share/fzf/key-bindings.bash
 # source ~/bashutils/fzfutils.sh
