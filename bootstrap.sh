@@ -102,7 +102,44 @@ if [ "$INSTALL_HYPRLAND" = true ]; then
         sudo pacman -S --needed --noconfirm fish
     fi
 
-    # Install caelestia-shell from AUR (the actual shell component)
+    # Remove noctalia-qs if present (incompatible with Caelestia)
+    if pacman -Qi noctalia-qs &> /dev/null; then
+        echo "  Removing noctalia-qs (incompatible with Caelestia)..."
+        sudo pacman -Rns --noconfirm noctalia-qs
+    fi
+
+    # Install Quickshell from AUR (not repo version)
+    if ! command -v qs &> /dev/null || ! qs --version 2>&1 | grep -q "0\.3\|0\.4\|0\.5"; then
+        echo "  Installing Quickshell from AUR..."
+        if yay -S --needed --noconfirm quickshell-git --aur; then
+            echo "  Quickshell installed successfully"
+        else
+            echo "  Warning: Failed to install quickshell-git from AUR"
+            echo "  Trying to build from source..."
+            if ! command -v cmake &> /dev/null; then
+                sudo pacman -S --needed --noconfirm cmake
+            fi
+            git clone https://github.com/quickshell-mirror/quickshell.git /tmp/quickshell
+            cd /tmp/quickshell
+            cmake -B build
+            cmake --build build
+            sudo cp build/qs /usr/bin/qs
+            cd "$DOTFILES_DIR"
+            rm -rf /tmp/quickshell
+            echo "  Quickshell built from source"
+        fi
+    else
+        echo "  Quickshell already installed"
+    fi
+
+    # Pin Quickshell so pacman doesn't replace with noctalia-qs
+    if ! grep -q "IgnorePkg = quickshell-git" /etc/pacman.conf 2>/dev/null; then
+        echo "  Pinning Quickshell in pacman.conf..."
+        echo "IgnorePkg = quickshell-git" | sudo tee -a /etc/pacman.conf > /dev/null
+        echo "  Quickshell pinned (won't be replaced by noctalia-qs)"
+    fi
+
+    # Install caelestia-shell from AUR
     echo "  Installing Caelestia shell..."
     if yay -S --needed --noconfirm caelestia-shell; then
         echo "  Caelestia shell installed successfully"
@@ -142,10 +179,20 @@ echo "  ~/.config/kitty     -> $(readlink ~/.config/kitty 2>/dev/null || echo 'N
 echo "  ~/.config/nvim      -> $(readlink ~/.config/nvim 2>/dev/null || echo 'NOT A SYMLINK')"
 echo "  ~/.config/fuzzel    -> $(readlink ~/.config/fuzzel 2>/dev/null || echo 'NOT A SYMLINK')"
 if [ "$INSTALL_HYPRLAND" = true ]; then
-    if command -v caelestia &> /dev/null; then
-        echo "  Caelestia CLI      -> INSTALLED"
+    if command -v qs &> /dev/null; then
+        echo "  Quickshell          -> INSTALLED ($(qs --version 2>&1 | head -1))"
     else
-        echo "  Caelestia CLI      -> NOT FOUND (run: yay -S caelestia-shell)"
+        echo "  Quickshell          -> NOT FOUND"
+    fi
+    if pacman -Qi noctalia-qs &> /dev/null; then
+        echo "  noctalia-qs         -> CONFLICT! Run: sudo pacman -Rns noctalia-qs"
+    else
+        echo "  noctalia-qs         -> not installed (good)"
+    fi
+    if command -v caelestia &> /dev/null; then
+        echo "  Caelestia CLI       -> INSTALLED"
+    else
+        echo "  Caelestia CLI       -> NOT FOUND"
     fi
 fi
 
