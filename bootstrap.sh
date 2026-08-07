@@ -102,6 +102,21 @@ if [ "$INSTALL_HYPRLAND" = true ]; then
         sudo pacman -S --needed --noconfirm fish
     fi
 
+    # Install Qt platform plugins (required by Quickshell/Caelestia)
+    echo "  Installing Qt platform dependencies..."
+    sudo pacman -S --needed --noconfirm qt6-wayland qt5-wayland qt6-declarative qt6-base qt6-svg
+
+    # Set Qt environment variables for Wayland
+    QT_ENV_FILE="$HOME/.config/environment.d/qt-wayland.conf"
+    mkdir -p "$HOME/.config/environment.d"
+    if [ ! -f "$QT_ENV_FILE" ]; then
+        echo "  Setting Qt Wayland environment variables..."
+        cat > "$QT_ENV_FILE" << 'QTEOF'
+QT_QPA_PLATFORM=wayland
+QT_WAYLAND_DISABLE_WINDOWDECORATION=1
+QTEOF
+    fi
+
     # Ensure yay is available for AUR
     if ! command -v yay &> /dev/null; then
         echo "  Installing yay (AUR helper)..."
