@@ -26,12 +26,24 @@ hl.on("hyprland.start", function()
   -- Forward bluetooth media commands to MPRIS
   hl.exec_cmd("mpris-proxy")
 
+  -- Network manager tray applet (captive portal support)
+  hl.exec_cmd("nm-applet")
+
+  -- Bluetooth tray applet
+  hl.exec_cmd("blueman-applet")
+
   -- Resize and move windows based on matches (e.g. pip)
   hl.exec_cmd("caelestia resizer -d")
 
   -- Start shell
   hl.exec_cmd("caelestia shell -d")
 
+  -- Alt-tab window switcher (uncomment to enable)
+  -- hl.exec_cmd("hyprshell run")
+
+  -- Auto-dim unfocused windows (uncomment to enable)
+  -- hl.exec_cmd("hyprdim")
+
   -- Bootstrap Caelestia configs (configs.fish)
-  hl.exec_cmd(os.getenv("HOME") .. "/.config/hypr-lua/scripts/configs.fish " .. os.getenv("HOME") .. "/.config/caelestia")
+  hl.exec_cmd(os.getenv("HOME") .. "/.config/hypr/scripts/configs.fish " .. os.getenv("HOME") .. "/.config/caelestia")
 end)

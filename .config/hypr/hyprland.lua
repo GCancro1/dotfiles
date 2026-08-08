@@ -1,25 +1,18 @@
 -- ╔═══════════════════════════════════════════════════════════════╗
 -- ║  Hyprland Lua Configuration (v0.55+)                       ║
--- ║  Migrated from hyprlang (.conf) for testing                 ║
--- ║  Launch: Hyprland --config ~/.config/hypr-lua/hyprland.lua  ║
+-- ║  Migrated from hyprlang (.conf)                             ║
 -- ╚═══════════════════════════════════════════════════════════════╝
 
 -- Set up package path so require() works from this directory
-local configDir = os.getenv("HOME") .. "/.config/hypr-lua/"
+local configDir = os.getenv("HOME") .. "/.config/hypr/"
 package.path = configDir .. "?.lua;" .. configDir .. "?/init.lua;" .. package.path
 
 -- ── Core modules ───────────────────────────────────────────────
 local variables = require("variables")
 local colors    = require("scheme/current")
 
--- ── Caelestia user overrides (inline from hypr-user.conf) ──────
--- Caelestia uses .conf format which can't be require()'d in Lua.
--- We inline the relevant overrides here. Edit this section when
--- hypr-user.conf changes.
-hl.on("hyprland.start", function()
-  hl.exec_cmd("nm-applet")
-  hl.exec_cmd("blueman-applet")
-end)
+-- ── Caelestia user overrides ───────────────────────────────────
+-- nm-applet, blueman-applet → modules/execs.lua
 hl.bind("CTRL + ALT + V", hl.dsp.exec_cmd("pavucontrol"))
 
 -- ── Load all modules ───────────────────────────────────────────
