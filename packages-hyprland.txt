@@ -28,7 +28,6 @@ qt6-svg
 
 # --- Shell / Launcher / Notifications ---
 waybar
-mako
 cliphist
 wl-clipboard
 

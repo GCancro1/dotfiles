@@ -62,3 +62,15 @@ Orchestrator pattern: `build` agent coordinates by delegating to specialized sub
 
 The `trading-advisor` agent is a primary-mode agent with full file editing permissions. It analyzes stock/options positions, provides technical analysis, and manages portfolio data. It has access to MCP tools (`financex_*`) for market data. Reference files: `~/.config/opencode/tools/portfolio.md`, `~/.config/opencode/tools/trading-playbook.md`, `~/.config/opencode/tools/trading-issues.md`.
 
+# Tmux Neovim Skill
+
+The `tmux-nvim` skill is available to all agents. After editing, creating, or referencing a file, send it to neovim in tmux window 2 so the user can see it:
+
+```bash
+tmux send-keys -t dev:2 ":e <full-absolute-filepath>" Enter
+```
+
+- Always use absolute paths (e.g. `/home/g/.config/hypr/hyprland/keybinds.conf`)
+- Run after EVERY file edit
+- If edit fails, do NOT send the tmux command
+

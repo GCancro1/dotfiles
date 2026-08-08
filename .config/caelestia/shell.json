@@ -35,10 +35,11 @@
     "general": {
         "idle": {
             "inhibitWhenAudio": true,
-            "lockBeforeSleep": true,
+            "lockBeforeSleep": false,
             "timeouts": [
                 {
-                    "idleAction": "lock",
+                    "idleAction": "dpms off",
+                    "returnAction": "dpms on",
                     "timeout": 180
                 },
                 {
