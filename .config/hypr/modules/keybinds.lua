@@ -55,10 +55,11 @@ hl.bind("CTRL + SHIFT + ALT + R", hl.dsp.exec_cmd("qs -c caelestia kill; sleep .
 -- ── Go to workspace # ──────────────────────────────────────
 for i = 1, 10 do
 local key = i % 10
-hl.bind(vars.kbGoToWs .. " + " .. key, hl.dsp.exec_cmd(wsaction .. " workspace " .. i))
-hl.bind(vars.kbGoToWsGroup .. " + " .. key, hl.dsp.exec_cmd(wsaction .. " -g workspace " .. i))
+hl.bind(vars.kbGoToWs .. " + " .. key, hl.dsp.focus({ workspace = i}))
+-- hl.bind(vars.kbGoToWsGroup .. " + " .. key, hl.dsp.exec_cmd(wsaction .. " -g workspace " .. i))
 end
 
+hl.bind("SUPER + mouse_down", hl.dsp.focus({ workspace = "e-1" }))
 -- Go to workspace -1/+1
 hl.bind("SUPER + mouse_down", hl.dsp.focus({ workspace = "e-1" }))
 hl.bind("SUPER + mouse_up", hl.dsp.focus({ workspace = "e+1" }))
@@ -77,8 +78,8 @@ hl.bind(vars.kbToggleSpecialWs .. " + S", hl.dsp.exec_cmd("caelestia toggle spec
 -- ── Move window to workspace # ─────────────────────────────
 for i = 1, 10 do
 local key = i % 10
-hl.bind(vars.kbMoveWinToWs .. " + " .. key, hl.dsp.exec_cmd(wsaction .. " movetoworkspace " .. i))
-hl.bind(vars.kbMoveWinToWsGroup .. " + " .. key, hl.dsp.exec_cmd(wsaction .. " -g movetoworkspace " .. i))
+hl.bind(vars.kbMoveWinToWs .. " + " .. key, hl.dsp.window.move({workspace = i}))
+-- hl.bind(vars.kbMoveWinToWsGroup .. " + " .. key, hl.dsp.exec_cmd(wsaction .. " -g movetoworkspace " .. i))
 end
 
 -- Move window to workspace -1/+1

@@ -28,4 +28,4 @@ require("modules/keybinds")
 require("modules/scrolling")
 
 -- ── Monitors ───────────────────────────────────────────────────
-require("monitors")
+require("modules/monitors")
