@@ -4,7 +4,7 @@
 -- Change this single value to scale ALL animation speeds.
 --   1 = normal, 2 = fast, 3 = faster, 4 = ultra fast
 -- ══════════════════════════════════════════════════════════════════
-local ANIM_SPEED_MULT = 1
+local ANIM_SPEED_MULT = 3
 
 -- Base speeds (at 1x multiplier) — these are the "normal" speeds
 -- Order: layersIn, layersOut, fadeLayers, windowsIn, windowsOut,

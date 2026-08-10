@@ -13,6 +13,7 @@ hyprland
 hypridle
 hyprpolkitagent
 hyprshutdown
+hyprsunset
 
 # --- Portals ---
 xdg-desktop-portal

@@ -12,8 +12,6 @@ local variables = require("variables")
 local colors    = require("scheme/current")
 
 -- ── Caelestia user overrides ───────────────────────────────────
--- nm-applet, blueman-applet → modules/execs.lua
-hl.bind("CTRL + ALT + V", hl.dsp.exec_cmd("pavucontrol"))
 
 -- ── Load all modules ───────────────────────────────────────────
 require("modules/env")

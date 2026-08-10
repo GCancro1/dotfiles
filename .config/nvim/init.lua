@@ -9,6 +9,9 @@ vim.opt.clipboard = "unnamedplus"
 require("oldbinds")
 require("vimport")
 
+-- Fix: override legacy formatoptions that cause auto-wrapping
+vim.opt.formatoptions:remove("t")
+vim.opt.wrapmargin = 0
 
 -- Keymaps
 vim.keymap.set("n", "<leader>w", ":w<CR>")
