@@ -23,6 +23,7 @@ hl.bind("SUPER + mouse_down", hl.dsp.global("caelestia:launcherInterrupt"))
 
 -- Misc shell
 hl.bind(vars.kbSession .. " + Delete", hl.dsp.global("caelestia:session"))
+hl.bind("SUPER + Backspace", hl.dsp.global("caelestia:session"))
 hl.bind(vars.kbShowSidebar .. " + N", hl.dsp.global("caelestia:sidebar"))
 hl.bind(vars.kbClearNotifs .. " + C", hl.dsp.global("caelestia:clearNotifs"), { locked = true })
 hl.bind(vars.kbShowPanels .. " + K", hl.dsp.global("caelestia:showall"))
