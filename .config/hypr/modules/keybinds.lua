@@ -156,7 +156,7 @@ hl.bind(vars.kbTodo .. " + R", hl.dsp.exec_cmd("caelestia toggle todo"))
 -- ── Apps ───────────────────────────────────────────────────
 hl.bind(vars.kbTerminal .. " + T", hl.dsp.exec_cmd("app2unit -- " .. vars.terminal))
 hl.bind(vars.kbBrowser .. " + W", hl.dsp.exec_cmd("app2unit -- " .. vars.browser))
-hl.bind(vars.kbEditor .. " + C", hl.dsp.exec_cmd("app2unit -- " .. vars.editor))
+-- hl.bind(vars.kbEditor .. " + C", hl.dsp.exec_cmd("app2unit -- " .. vars.editor))
 hl.bind(vars.kbFileExplorer .. " + E", hl.dsp.exec_cmd("app2unit -- " .. vars.fileExplorer))
 
 -- ── Utilities ──────────────────────────────────────────────

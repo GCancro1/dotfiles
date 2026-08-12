@@ -32,7 +32,7 @@ return {
 		{
 			"<leader>sg",
 			function()
-				Snacks.picker.grep()
+				Snacks.picker.grep({ hidden = true, ignored = true })
 			end,
 			desc = "Grep",
 		},
