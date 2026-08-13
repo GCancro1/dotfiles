@@ -34,9 +34,9 @@ opt.joinspaces = false
 
 -- opt.clipboard = "unnamedplus"
 
-vim.keymap.set("i", "<C-BS>", "<C-W>", { noremap = true })
+-- vim.keymap.set("i", "<C-BS>", "<C-W>", { noremap = true })
 -- vim.keymap.set("c", "<C-BS>", "<C-W>", { noremap = true })
-
+--
 vim.keymap.set("n", "<C-c>", "<cmd>nohlsearch<CR><Esc>", { noremap = true })
 
 vim.keymap.set("v", ".", ":norm .<CR>", { noremap = true })
@@ -219,14 +219,14 @@ vim.keymap.set("n", "<leader>ca", "<cmd>%+y<CR>", {
     desc = "Copy all of file",
 })
 
--- unsure if these are right below here
-vim.keymap.set("c", "<C-BS>", "<C-W>")
-vim.keymap.set("i", "<C-BS>", "<C-W>")
-
-
-
-
-
+-- -- unsure if these are right below here
+-- vim.keymap.set("c", "<C-BS>", "<C-W>")
+-- vim.keymap.set("i", "<C-BS>", "<C-W>")
+--
+--
+--
+--
+--
 -- vim.keymap.set("v", "Y", "myy`y", ???)
 -- vim.keymap.set("v", ???, "my`y", ???)
 

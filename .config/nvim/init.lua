@@ -21,8 +21,10 @@ vim.keymap.set("n", "<leader>z", ":q!<CR>")
 vim.keymap.set("n", "<leader>lv", ":so ~/.config/nvim/init.lua<CR>")
 vim.keymap.set("n", "<leader>ll", ":.lua<CR>")
 vim.keymap.set("v", "<leader>l", ":lua<CR>")
+vim.keymap.set("i", "<C-BS>", "<C-W>")
 
 -- go to last file
+--
 vim.keymap.set("n", "<leader>o", "<C-^>")
 -- Treesitter folding
 vim.opt.foldmethod = "expr"

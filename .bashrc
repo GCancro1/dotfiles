@@ -35,3 +35,8 @@ fi
 source ~/bashutils/bashimprovements.sh
 source /usr/share/fzf/key-bindings.bash
 # source ~/bashutils/fzfutils.sh
+
+# LuaRocks paths for image.nvim (magick module)
+export LUA_PATH='/usr/share/lua/5.1/?.lua;/usr/local/share/lua/5.1/?.lua;/usr/local/share/lua/5.1/?/init.lua;/usr/share/lua/5.1/?/init.lua;/usr/local/lib/lua/5.1/?.lua;/usr/local/lib/lua/5.1/?/init.lua;/usr/lib/lua/5.1/?.lua;/usr/lib/lua/5.1/?/init.lua;./?.lua;./?/init.lua;/home/g/.luarocks/share/lua/5.1/?.lua;/home/g/.luarocks/share/lua/5.1/?/init.lua'
+export LUA_CPATH='/usr/local/lib/lua/5.1/?.so;/usr/lib/lua/5.1/?.so;/usr/local/lib/lua/5.1/loadall.so;/usr/lib/lua/5.1/loadall.so;./?.so;/home/g/.luarocks/lib/lua/5.1/?.so'
+export PATH="/home/g/.luarocks/bin:$PATH"

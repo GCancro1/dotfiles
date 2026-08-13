@@ -1,7 +1,7 @@
 return {
     "stevearc/oil.nvim",
     lazy = false,
-    dependencies = { "echasnovski/mini.icons" },
+    dependencies = { "echasnovski/mini.icons", "3rd/image.nvim" },
     keys = {
         { "-", "<CMD>Oil<CR>", desc = "Open parent directory" },
         { "<leader>fn", function()
@@ -25,7 +25,14 @@ return {
                 ["<C-h>"] = false,
                 ["<S-->"] = "actions.parent",
             },
-            preview_win = {},
+            preview_win = {
+                border = "rounded",
+                -- image.nvim hijacks via BufWinEnter/WinNew pattern matching on the
+                -- buffer name; scratch buffers are unnamed so they can never be
+                -- hijacked. "load" keeps the file path as the buffer name so
+                -- image.nvim's hijack autocmds match and render the image.
+                preview_method = "load",
+            },
             delete_to_trash = true,
             view_options = { show_hidden = false },
         })

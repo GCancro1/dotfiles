@@ -40,18 +40,13 @@
                 {
                     "idleAction": "dpms off",
                     "returnAction": "dpms on",
-                    "timeout": 180
-                },
-                {
-                    "idleAction": "dpms off",
-                    "returnAction": "dpms on",
-                    "timeout": 300
+                    "timeout": 600
                 },
                 {
                     "idleAction": [
                         "suspendThenHibernate"
                     ],
-                    "timeout": 600
+                    "timeout": 1200
                 }
             ]
         }

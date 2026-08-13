@@ -38,24 +38,78 @@ return {
         local capabilities = vim.lsp.protocol.make_client_capabilities()
         capabilities = vim.tbl_deep_extend("force", capabilities, blink.get_lsp_capabilities())
 
+        -- Detect Love2D engine installation path (for runtime)
+        local love_path = nil
+        for _, p in ipairs({ "/usr/share/love", "/usr/lib/love", "/usr/local/share/love" }) do
+            if vim.fn.isdirectory(p) == 1 then
+                love_path = p
+                break
+            end
+        end
+
+        -- Detect Love2D API definitions (for lua_ls completions)
+        -- Clone from: https://github.com/EmmyLua/Emmy-love-api (EmmyLua definitions)
+        local love_api_root = nil
+        for _, p in ipairs({
+            vim.fn.expand("~/.local/share/love-api"),
+            vim.fn.expand("~/love-api"),
+            "/usr/local/share/love-api",
+            "/usr/share/love-api",
+        }) do
+            if vim.fn.isdirectory(p) == 1 then
+                love_api_root = p
+                break
+            end
+        end
+
+        local lua_ls_settings = {
+            Lua = {
+                diagnostics = { globals = { "vim", "love" } },
+                runtime = { version = "LuaJIT" },
+                workspace = {
+                    library = {
+                        vim.fn.stdpath("data") .. "/lazy/*/lua",
+                        "/usr/share/nvim/runtime/lua",
+                    },
+                    checkThirdParty = false,
+                },
+                telemetry = { enable = false },
+            },
+        }
+
+        -- Add Love2D API root to userThirdParty (guarded: nil when not found)
+        if love_api_root then
+            lua_ls_settings.Lua.workspace.userThirdParty = { love_api_root }
+        end
+
+        -- Add Love2D engine path (runtime)
+        if love_path then
+            table.insert(lua_ls_settings.Lua.workspace.library, love_path)
+        end
+
+        -- Add Love2D API definitions (for completions)
+        if love_api_root then
+            table.insert(lua_ls_settings.Lua.workspace.library, love_api_root)
+            table.insert(lua_ls_settings.Lua.workspace.library, love_api_root .. "/api")
+            table.insert(lua_ls_settings.Lua.workspace.library, love_api_root .. "/modules")
+        else
+            -- Notify user how to get Love2D API completions
+            vim.schedule(function()
+                vim.notify(
+                    "Love2D API definitions not found. For full Love2D completions (love.filesystem, love.graphics, etc.):\n"
+                    .. "  git clone https://github.com/EmmyLua/Emmy-love-api ~/.local/share/love-api\n"
+                    .. "Then restart Neovim.",
+                    vim.log.levels.INFO,
+                    { title = "Love2D LSP" }
+                )
+            end)
+        end
+
         vim.lsp.config("lua_ls", {
             filetypes = { "lua" },
             cmd = { mason_path .. "/lua-language-server" },
             capabilities = capabilities,
-            settings = {
-                Lua = {
-                    runtime = { version = "LuaJIT" },
-                    diagnostics = { globals = { "vim" } },
-                    workspace = {
-                        library = {
-                            vim.fn.stdpath("data") .. "/lazy/*/lua",
-                            "/usr/share/nvim/runtime/lua",
-                        },
-                        checkThirdParty = false,
-                    },
-                    telemetry = { enable = false },
-                },
-            },
+            settings = lua_ls_settings,
         })
 
         vim.lsp.config("pyright", {

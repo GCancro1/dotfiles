@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+# Speech-to-text dictation toggle: press hotkey to record, press again to transcribe & type.
+# - Record: pw-record (pipewire) -> 16kHz mono s16 wav in $XDG_RUNTIME_DIR
+# - Transcribe: whisper-cli (whisper-cpp) with ggml-small.en.bin (local, no cloud)
+# - Type: wtype injects keystrokes via wlr-virtual-keyboard into the focused window.
+#   Character-by-character typing (NOT Ctrl+V paste) so it works in kitty/bash/nvim.
+# - On manual stop, the first press automatically leads to this state on the next call.
+# Model: whisper-cli (whisper-cpp) + wtype injection (kitty-safe: no Ctrl+V paste)
+set -u
+MODEL="$HOME/.cache/whisper/ggml-small.en.bin"
+STATE_DIR="${XDG_RUNTIME_DIR:-/tmp}"
+WAV="$STATE_DIR/dictate.wav"
+FLAG="$STATE_DIR/.dictating"
+PID_FILE="$STATE_DIR/.dictate-pid"
+
+if [[ -f "$FLAG" ]]; then
+  # --- stop recording, transcribe, type ---
+  [[ -f "$PID_FILE" ]] && kill "$(cat "$PID_FILE")" 2>/dev/null
+  rm -f "$FLAG" "$PID_FILE"
+  sleep 0.3   # let pw-record flush the wav
+  TEXT="$(whisper-cli -m "$MODEL" -f "$WAV" -l en -nt -np 2>/dev/null | tr -d '\n' | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')"
+  if [[ -z "$TEXT" ]]; then
+    notify-send "Dictation" "Nothing heard — try again"
+    exit 0
+  fi
+  wl-copy <<<"$TEXT"          # clipboard backup
+  wtype "$TEXT"               # type into focused window (works in kitty/nvim)
+  notify-send "Dictation" "$TEXT"
+else
+  # --- start recording ---
+  rm -f "$WAV"
+  touch "$FLAG"
+  pw-record --rate 16000 --channels 1 --format s16 "$WAV" >/dev/null 2>&1 &
+  echo $! > "$PID_FILE"
+  notify-send "Dictation" "Recording… press the hotkey again when done"
+fi

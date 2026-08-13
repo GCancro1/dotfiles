@@ -7,7 +7,7 @@ local M = {}
 M.terminal = "kitty"
 M.browser = "zen-browser"
 M.editor = "nvim"
-M.fileExplorer = "thunar"
+M.fileExplorer = "dolphin"
 
 -- Touchpad
 M.touchpadDisableTyping = true
