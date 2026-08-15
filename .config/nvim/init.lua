@@ -23,6 +23,7 @@ vim.keymap.set("n", "<leader>ll", ":.lua<CR>")
 vim.keymap.set("v", "<leader>l", ":lua<CR>")
 vim.keymap.set("i", "<C-BS>", "<C-W>")
 
+vim.filetype.add({ extension = { vil = "json"}})
 -- go to last file
 --
 vim.keymap.set("n", "<leader>o", "<C-^>")

@@ -8,7 +8,7 @@ return {
 			layout = { preset = "telescope", fullscreen = true },
 		},
 
-		bigfile = { enabled = true },
+		bigfile = { enabled = true, line_length = 50000},
 		indent = { enabled = true },
 		input = { enabled = true },
 		notifier = {
