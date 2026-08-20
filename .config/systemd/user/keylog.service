@@ -1,0 +1,11 @@
+[Unit]
+Description=Keystroke frequency logger (Vial split keyboard analysis)
+After=default.target
+
+[Service]
+ExecStart=%h/.local/bin/keylog
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=default.target

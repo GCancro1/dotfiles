@@ -1,0 +1,220 @@
+#!/usr/bin/env python3
+"""Keystroke frequency logger for the MTKB W-SOFLE Vial split keyboard.
+
+Logs EV_KEY events (press/release/repeat) from the keyboard as JSONL,
+one line per event, with daily rotation and append-on-restart.
+"""
+
+import argparse
+import glob
+import json
+import os
+import select
+import signal
+import sys
+import time
+from datetime import date, datetime
+
+import evdev
+from evdev import InputDevice, ecodes, list_devices
+
+MOD_CODES = {
+    ecodes.KEY_LEFTSHIFT: 1,
+    ecodes.KEY_RIGHTSHIFT: 1,
+    ecodes.KEY_LEFTCTRL: 2,
+    ecodes.KEY_RIGHTCTRL: 2,
+    ecodes.KEY_LEFTALT: 4,
+    ecodes.KEY_RIGHTALT: 4,
+    ecodes.KEY_LEFTMETA: 8,
+    ecodes.KEY_RIGHTMETA: 8,
+}
+
+NAME_BY_CODE = {}
+for _src in (ecodes.KEY, getattr(ecodes, "keys", {})):
+    for _k, _v in _src.items():
+        if isinstance(_k, int):
+            NAME_BY_CODE.setdefault(_k, _v)
+        elif isinstance(_v, (int,)) or (isinstance(_k, str) and isinstance(_v, int)):
+            NAME_BY_CODE.setdefault(_v, _k)
+
+
+def detect_device():
+    try:
+        byid = sorted(glob.glob("/dev/input/by-id/*vial*"))
+    except OSError:
+        byid = []
+    if byid:
+        kbd = [p for p in byid if p.endswith("-event-kbd")]
+        if kbd:
+            return kbd[0]
+        ev = [p for p in byid if "-event" in p]
+        if ev:
+            return ev[0]
+    for path in list_devices():
+        try:
+            dev = InputDevice(path)
+        except OSError:
+            continue
+        try:
+            if (dev.uniq or "").startswith("vial:"):
+                return path
+        finally:
+            dev.close()
+    for path in list_devices():
+        try:
+            dev = InputDevice(path)
+        except OSError:
+            continue
+        try:
+            if "vial" in (dev.name or "").lower():
+                return path
+        finally:
+            dev.close()
+    return None
+
+
+def open_with_retry(path):
+    while True:
+        try:
+            return InputDevice(path)
+        except OSError as exc:
+            print(f"keylog: cannot open {path} ({exc}); retrying in 5s...", file=sys.stderr)
+            time.sleep(5)
+
+
+def selftest(device_path):
+    if device_path is None:
+        device_path = detect_device()
+    if device_path is None:
+        print("keylog: no Vial keyboard device found", file=sys.stderr)
+        return 1
+    try:
+        dev = InputDevice(device_path)
+    except OSError as exc:
+        print(f"keylog: cannot open {device_path}: {exc}", file=sys.stderr)
+        return 1
+    print(f"device: {device_path}")
+    print(f"name:   {dev.name}")
+    print(f"phys:   {dev.phys}")
+    print(f"uniq:   {dev.uniq}")
+    print(f"driver: {dev.driver_version}")
+    for etype, vals in dev.capabilities().items():
+        if isinstance(vals, list):
+            names = [str(NAME_BY_CODE.get(v, hex(v))) for v in vals[:5]]
+            suffix = " ..." if len(vals) > 5 else ""
+            print(f"cap type {etype}: {len(vals)} codes, e.g. {', '.join(names)}{suffix}")
+    print("reading events for 3 seconds - type now...")
+    deadline = time.monotonic() + 3.0
+    try:
+        while True:
+            remaining = deadline - time.monotonic()
+            if remaining <= 0:
+                break
+            r, _, _ = select.select([dev.fd], [], [], remaining)
+            if not r:
+                continue
+            for event in dev.read():
+                if event.type == ecodes.EV_KEY:
+                    print(f"{datetime.fromtimestamp(event.timestamp()):%H:%M:%S.%f} "
+                          f"{NAME_BY_CODE.get(event.code, event.code)} value={event.value}")
+    except OSError as exc:
+        print(f"keylog: read error during selftest: {exc}", file=sys.stderr)
+        return 1
+    finally:
+        dev.close()
+    return 0
+
+
+def main():
+    ap = argparse.ArgumentParser(
+        prog="keylog",
+        description="Log EV_KEY events from the Vial split keyboard as JSONL.",
+    )
+    ap.add_argument("--device", help="input device path (default: auto-detect)")
+    ap.add_argument("--dir", help="log directory (default: $XDG_DATA_HOME/keylog or ~/.local/share/keylog)")
+    ap.add_argument("--selftest", action="store_true",
+                    help="open device, print info + caps summary, read events for 3 seconds, exit")
+    args = ap.parse_args()
+
+    if args.selftest:
+        return selftest(args.device)
+
+    device_path = args.device or detect_device()
+    if device_path is None:
+        print("keylog: no Vial keyboard found; detected input devices:", file=sys.stderr)
+        for p in list_devices():
+            try:
+                d = InputDevice(p)
+            except OSError as exc:
+                print(f"  {p}: {exc}", file=sys.stderr)
+                continue
+            print(f"  {p}  name={d.name!r} uniq={d.uniq!r}", file=sys.stderr)
+            d.close()
+        return 1
+
+    if args.dir:
+        data_dir = args.dir
+    elif os.environ.get("XDG_DATA_HOME"):
+        data_dir = os.path.join(os.environ["XDG_DATA_HOME"], "keylog")
+    else:
+        data_dir = os.path.join(os.path.expanduser("~"), ".local", "share", "keylog")
+    os.makedirs(data_dir, exist_ok=True)
+
+    fh = open(os.path.join(data_dir, f"keys-{date.today():%Y%m%d}.jsonl"), "a", encoding="utf-8")
+    print(f"keylog: logging to {data_dir}", file=sys.stderr)
+    print(f"keylog: device {device_path}", file=sys.stderr)
+
+    def handle(signum, frame):
+        raise SystemExit(128 + signum)
+
+    for sig in (signal.SIGTERM, signal.SIGINT):
+        signal.signal(sig, handle)
+
+    dev = open_with_retry(device_path)
+    print(f"keylog: opened {device_path} (name={dev.name!r} uniq={dev.uniq!r})", file=sys.stderr)
+
+    mods = 0
+    last_file = fh.name
+    try:
+        while True:
+            try:
+                for event in dev.read_loop():
+                    if event.type != ecodes.EV_KEY:
+                        continue
+                    code = event.code
+                    if code not in NAME_BY_CODE:
+                        continue
+                    value = event.value
+                    name = NAME_BY_CODE[code]
+                    if code in MOD_CODES:
+                        if value == 1:
+                            mods |= MOD_CODES[code]
+                        elif value == 0:
+                            mods &= ~MOD_CODES[code]
+                    fname = os.path.join(data_dir, f"keys-{date.today():%Y%m%d}.jsonl")
+                    if fname != last_file:
+                        fh.close()
+                        fh = open(fname, "a", encoding="utf-8")
+                        last_file = fname
+                        print(f"keylog: rotated to {fname}", file=sys.stderr)
+                    rec = {"t": event.timestamp(), "m": time.monotonic(), "c": code,
+                           "n": name, "v": value, "s": mods}
+                    fh.write(json.dumps(rec, separators=(",", ":")) + "\n")
+                    fh.flush()
+            except OSError as exc:
+                print(f"keylog: device read failed ({exc}); reopening...", file=sys.stderr)
+                try:
+                    dev.close()
+                except OSError:
+                    pass
+                dev = open_with_retry(device_path)
+                print(f"keylog: reopened {device_path}", file=sys.stderr)
+    finally:
+        try:
+            fh.close()
+        except OSError:
+            pass
+
+
+if __name__ == "__main__":
+    sys.exit(main())

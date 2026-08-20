@@ -1,0 +1,337 @@
+#!/usr/bin/env python3
+"""Analyzer for keylog JSONL data: press counts, character frequency,
+bigrams, hold durations, and optional Vial layout heatmap."""
+
+import argparse
+import glob
+import json
+import os
+import re
+import sys
+from collections import Counter, defaultdict
+
+MOD_CODES = {
+    "KEY_LEFTSHIFT": 1,
+    "KEY_RIGHTSHIFT": 1,
+    "KEY_LEFTCTRL": 2,
+    "KEY_RIGHTCTRL": 2,
+    "KEY_LEFTALT": 4,
+    "KEY_RIGHTALT": 4,
+    "KEY_LEFTMETA": 8,
+    "KEY_RIGHTMETA": 8,
+}
+
+LETTERS = {f"KEY_{c}": c.lower() for c in "ABCDEFGHIJKLMNOPQRSTUVWXYZ"}
+
+UNSHIFTED = {
+    "KEY_1": "1", "KEY_2": "2", "KEY_3": "3", "KEY_4": "4", "KEY_5": "5",
+    "KEY_6": "6", "KEY_7": "7", "KEY_8": "8", "KEY_9": "9", "KEY_0": "0",
+    "KEY_MINUS": "-", "KEY_EQUAL": "=", "KEY_LEFTBRACE": "[", "KEY_RIGHTBRACE": "]",
+    "KEY_BACKSLASH": "\\", "KEY_SEMICOLON": ";", "KEY_APOSTROPHE": "'", "KEY_GRAVE": "`",
+    "KEY_COMMA": ",", "KEY_DOT": ".", "KEY_SLASH": "/",
+    "KEY_SPACE": " ", "KEY_TAB": "\t", "KEY_ENTER": "\n",
+}
+
+SHIFTED = {
+    "KEY_1": "!", "KEY_2": "@", "KEY_3": "#", "KEY_4": "$", "KEY_5": "%",
+    "KEY_6": "^", "KEY_7": "&", "KEY_8": "*", "KEY_9": "(", "KEY_0": ")",
+    "KEY_MINUS": "_", "KEY_EQUAL": "+", "KEY_LEFTBRACE": "{", "KEY_RIGHTBRACE": "}",
+    "KEY_BACKSLASH": "|", "KEY_SEMICOLON": ":", "KEY_APOSTROPHE": '"', "KEY_GRAVE": "~",
+    "KEY_COMMA": "<", "KEY_DOT": ">", "KEY_SLASH": "?",
+}
+
+KEY_LABELS = {
+    "KEY_ENTER": "Enter", "KEY_TAB": "Tab", "KEY_BACKSPACE": "Backspace",
+    "KEY_DELETE": "Delete", "KEY_ESC": "Escape", "KEY_CAPSLOCK": "CapsLock",
+    "KEY_UP": "Up", "KEY_DOWN": "Down", "KEY_LEFT": "Left", "KEY_RIGHT": "Right",
+    "KEY_HOME": "Home", "KEY_END": "End", "KEY_PAGEUP": "PgUp", "KEY_PAGEDOWN": "PgDn",
+    "KEY_INSERT": "Insert", "KEY_MUTE": "Mute", "KEY_VOLUMEUP": "VolUp",
+    "KEY_VOLUMEDOWN": "VolDn", "KEY_SYSRQ": "PrtSc", "KEY_SCROLLLOCK": "ScrLk",
+    "KEY_PAUSE": "Pause",
+}
+
+QMK_ALIAS = {
+    "LSFT": "LEFTSHIFT", "RSFT": "RIGHTSHIFT", "LCTL": "LEFTCTRL", "RCTL": "RIGHTCTRL",
+    "LALT": "LEFTALT", "RALT": "RIGHTALT", "LGUI": "LEFTMETA", "RGUI": "RIGHTMETA",
+    "CAPS": "CAPSLOCK", "BSPC": "BACKSPACE", "DEL": "DELETE", "ENTER": "ENTER",
+    "ESC": "ESC", "TAB": "TAB", "SPC": "SPACE", "GRV": "GRAVE", "MINUS": "MINUS",
+    "EQL": "EQUAL", "LBRC": "LEFTBRACE", "RBRC": "RIGHTBRACE", "BSLS": "BACKSLASH",
+    "SCLN": "SEMICOLON", "QUOT": "APOSTROPHE", "COMM": "COMMA", "DOT": "DOT",
+    "SLSH": "SLASH", "UP": "UP", "DOWN": "DOWN", "LEFT": "LEFT", "RGHT": "RIGHT",
+    "HOME": "HOME", "END": "END", "PGUP": "PAGEUP", "PGDN": "PAGEDOWN", "INS": "INSERT",
+    "MUTE": "MUTE", "VOLU": "VOLUMEUP", "VOLD": "VOLUMEDOWN", "PSCR": "SYSRQ",
+    "SLCK": "SCROLLLOCK", "PAUS": "PAUSE",
+}
+
+KC_RE = re.compile(r"KC_[A-Z0-9_]+")
+LAYER_PREFIXES = ("MO(", "OSL(", "TG(", "TT(", "TO(", "DF(")
+
+
+def default_dir():
+    if os.environ.get("XDG_DATA_HOME"):
+        return os.path.join(os.environ["XDG_DATA_HOME"], "keylog")
+    return os.path.join(os.path.expanduser("~"), ".local", "share", "keylog")
+
+
+def load_events(data_dir):
+    events = []
+    for path in sorted(glob.glob(os.path.join(data_dir, "keys-*.jsonl"))):
+        with open(path, encoding="utf-8") as fh:
+            for line in fh:
+                line = line.strip()
+                if not line:
+                    continue
+                try:
+                    events.append(json.loads(line))
+                except json.JSONDecodeError:
+                    continue
+    return events
+
+
+def bar(count, scale):
+    width = int(round(count * scale))
+    return "#" * width
+
+
+def display_escc(c):
+    if c == " ":
+        return "_"
+    if c == "\t":
+        return "\\t"
+    if c == "\n":
+        return "\\n"
+    return c
+
+
+def char_for(name, shift_bit):
+    if name in LETTERS:
+        return LETTERS[name]
+    if shift_bit:
+        return SHIFTED.get(name)
+    return UNSHIFTED.get(name)
+
+
+def parse_cell(cell):
+    if cell is None or cell == -1 or cell == "":
+        return None, "none"
+    if not isinstance(cell, str):
+        return None, "none"
+    if cell == "KC_TRNS":
+        return None, "trns"
+    if cell == "KC_NO":
+        return None, "none"
+    m = KC_RE.search(cell)
+    if m:
+        return m.group(0), "key"
+    if cell.startswith(LAYER_PREFIXES):
+        return None, "layer"
+    return None, "none"
+
+
+def normalize_qmk(qmk_name):
+    tok = qmk_name[3:]
+    if len(tok) == 1 and tok.isalpha():
+        return "KEY_" + tok
+    if tok in QMK_ALIAS:
+        return "KEY_" + QMK_ALIAS[tok]
+    if len(tok) > 1 and tok[0] == "F" and tok[1:].isdigit():
+        return "KEY_" + tok
+    if tok.isdigit() and 0 <= int(tok) <= 9:
+        return "KEY_" + tok
+    return None
+
+
+def load_vil(path):
+    with open(path, encoding="utf-8") as fh:
+        data = json.load(fh)
+    layout = data["layout"]
+    if not layout:
+        raise ValueError("layout is empty")
+    pos_by_code = defaultdict(list)
+    raw_names = {}
+    unmapped = []
+    for li, layer in enumerate(layout):
+        for r, row in enumerate(layer):
+            for c, cell in enumerate(row):
+                code, kind = parse_cell(cell)
+                if kind != "key":
+                    continue
+                if li > 0 and not (isinstance(cell, str) and ("LT(" in cell or "MT(" in cell)):
+                    continue
+                ev = normalize_qmk(code)
+                if ev is None:
+                    unmapped.append((li, r, c, cell))
+                    continue
+                if li == 0 and (r, c) not in raw_names:
+                    raw_names[(r, c)] = cell
+                if (r, c) not in pos_by_code[ev]:
+                    pos_by_code[ev].append((r, c))
+    return layout, pos_by_code, raw_names, unmapped
+
+
+def print_heatmap(layout, weights):
+    base = layout[0]
+    cells = []
+    width = 0
+    for r, row in enumerate(base):
+        line = []
+        for c, cell in enumerate(row):
+            _, kind = parse_cell(cell)
+            if kind in ("none", "trns"):
+                text = "-"
+            else:
+                count = weights.get((r, c), 0.0)
+                text = "." if count == 0 else str(int(round(count)))
+            line.append(text)
+            width = max(width, len(text))
+        cells.append(line)
+    for r, line in enumerate(cells):
+        print(f"r{r}: " + " ".join(t.rjust(width) for t in line))
+
+
+def print_vil_report(layout, pos_by_code, raw_names, weights, unattributed, ambiguity, presses, unmapped):
+    print(f"\n=== Vial layout analysis ({len(layout)} layers) ===")
+    print(f"positions mapped: {len(raw_names)}  unmapped cells: {len(unmapped)}")
+    print(f"presses attributed: {sum(weights.values()):.0f}  unattributed: {unattributed}  ambiguous: {ambiguity}")
+    print("\n--- Heatmap (layer 0; weighted per-position press counts; . = 0, - = none/transparent) ---")
+    print_heatmap(layout, weights)
+    print("\n--- Per-position counts (row, col, key, count) ---")
+    print("row,col,key,count")
+    for r, row in enumerate(layout[0]):
+        for c, cell in enumerate(row):
+            code, kind = parse_cell(cell)
+            if kind in ("none", "trns"):
+                continue
+            key = raw_names.get((r, c), cell)
+            print(f"{r},{c},{key},{weights.get((r, c), 0.0):.2f}")
+
+
+def main():
+    ap = argparse.ArgumentParser(
+        prog="keylog-report",
+        description="Analyze keylog JSONL data: press counts, characters, bigrams, holds, heatmap.",
+    )
+    ap.add_argument("--dir", help=f"log directory (default: {default_dir()})")
+    ap.add_argument("--vil", help="path to .vil layout export from Vial GUI")
+    ap.add_argument("--top", type=int, default=30, help="top-N press counts (default: 30)")
+    ap.add_argument("--bigrams", type=int, default=20, help="top-N bigrams (default: 20)")
+    ap.add_argument("--json", metavar="OUT", help="write machine-readable JSON report to OUT")
+    ap.add_argument("--heatmap", action="store_true", help="render layer-0 heatmap (requires --vil)")
+    args = ap.parse_args()
+
+    data_dir = args.dir or default_dir()
+    events = load_events(data_dir)
+    if not events:
+        print(f"keylog-report: no keylog data found in {data_dir} - is the logger running?", file=sys.stderr)
+        return 1
+
+    presses = [e for e in events if e.get("v") == 1]
+    repeats = [e for e in events if e.get("v") == 2]
+    releases = [e for e in events if e.get("v") == 0]
+
+    press_counts = Counter((e["n"], e["c"]) for e in presses)
+    mod_counts = Counter(e["n"] for e in presses if e["n"] in MOD_CODES)
+    char_counts = Counter()
+    non_typing = Counter()
+    for e in presses:
+        name = e["n"]
+        if name in MOD_CODES:
+            continue
+        ch = char_for(name, e["s"] & 1)
+        if ch is not None:
+            char_counts[ch] += 1
+        else:
+            non_typing[name] += 1
+
+    seq = [e["n"] for e in presses if e["n"] not in MOD_CODES]
+    bigram_counts = Counter(zip(seq, seq[1:]))
+
+    press_m = {e["n"]: e["m"] for e in presses}
+    hold_sum = defaultdict(float)
+    hold_n = Counter()
+    for e in releases:
+        name = e["n"]
+        if name in press_m:
+            hold_sum[name] += max(0.0, e["m"] - press_m[name])
+            hold_n[name] += 1
+    hold_avg = {name: hold_sum[name] / hold_n[name] for name in hold_n}
+
+    out_keys = {name: count for (name, _), count in press_counts.items()}
+    out_chars = dict(char_counts)
+    out_bigrams = [[a, b, count] for (a, b), count in bigram_counts.most_common(args.bigrams)]
+
+    if args.vil:
+        layout, pos_by_code, raw_names, unmapped = load_vil(args.vil)
+        weights = defaultdict(float)
+        unattributed = 0
+        ambiguity = 0
+        for e in presses:
+            positions = pos_by_code.get(e["n"])
+            if not positions:
+                unattributed += 1
+                continue
+            if len(positions) > 1:
+                ambiguity += 1
+            for pos in positions:
+                weights[pos] += 1.0 / len(positions)
+        out_positions = {f"{r},{c}": round(count, 2) for (r, c), count in sorted(weights.items())}
+
+    if args.json:
+        report = {"keys": out_keys, "chars": out_chars, "bigrams": out_bigrams}
+        if args.vil:
+            report["positions"] = out_positions
+            report["unattributed_presses"] = unattributed
+            report["ambiguous_presses"] = ambiguity
+        with open(args.json, "w", encoding="utf-8") as fh:
+            json.dump(report, fh, indent=2)
+        return 0
+
+    total = len(presses)
+    if total:
+        scale = 40.0 / max(count for (_, _), count in press_counts.items())
+    else:
+        scale = 0.0
+    print(f"=== Press counts ({total} presses total) ===")
+    for (name, code), count in press_counts.most_common(args.top):
+        print(f"{name:<16} ({code:>3})  {count:>6}  {count / total * 100:6.2f}%  {bar(count, scale)}")
+
+    print(f"\nRepeats (auto-repeat events, value=2): {len(repeats)}")
+
+    mod_names = {"KEY_LEFTSHIFT": "shift", "KEY_RIGHTSHIFT": "shift",
+                 "KEY_LEFTCTRL": "ctrl", "KEY_RIGHTCTRL": "ctrl",
+                 "KEY_LEFTALT": "alt", "KEY_RIGHTALT": "alt",
+                 "KEY_LEFTMETA": "super", "KEY_RIGHTMETA": "super"}
+    mod_total = Counter()
+    for n, cnt in mod_counts.items():
+        mod_total[mod_names[n]] += cnt
+    if mod_total:
+        print("\n=== Modifier usage ===")
+        for name, count in mod_total.most_common():
+            print(f"{name:<6} {count:>6}")
+
+    print("\n=== Character frequency ===")
+    for ch, count in char_counts.most_common(args.top):
+        print(f"{display_escc(ch)!r:<4} {count:>6}  {count / total * 100:6.2f}%")
+
+    if non_typing:
+        print("\n=== Non-typing keys ===")
+        for name, count in non_typing.most_common(args.top):
+            label = KEY_LABELS.get(name, name)
+            print(f"{label:<12} ({name})  {count:>6}")
+
+    print(f"\n=== Bigrams (top {args.bigrams}) ===")
+    for (a, b), count in bigram_counts.most_common(args.bigrams):
+        print(f"{display_escc(a)!r:<4} -> {display_escc(b)!r:<4}  {count:>6}")
+
+    print("\n=== Hold durations (top 10 longest, avg ms) ===")
+    for name, avg in sorted(hold_avg.items(), key=lambda kv: kv[1], reverse=True)[:10]:
+        print(f"{name:<16}  {avg * 1000:8.1f} ms  (n={hold_n[name]})")
+
+    if args.vil:
+        print_vil_report(layout, pos_by_code, raw_names, weights, unattributed, ambiguity, presses, unmapped)
+
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

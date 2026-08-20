@@ -15,6 +15,23 @@ else
     echo "Udev rule created."
 fi
 
+# keylog: input event node access for the keyboard (Vial uniq). Idempotent:
+# only appended once, guarded by a marker comment.
+EVENT_RULE_MARKER='# keylog: input event node access for Vial keyboard'
+EVENT_RULE='KERNEL=="event*", SUBSYSTEM=="input", ATTRS{uniq}=="vial:f64c2b3c", MODE="0660", GROUP="input", TAG+="uaccess"'
+
+if grep -qF "$EVENT_RULE_MARKER" "$UDEV_RULE" 2>/dev/null; then
+    echo "Event-node rule already present, skipping."
+else
+    echo "Appending event-node rule to $UDEV_RULE..."
+    {
+        echo ""
+        echo "$EVENT_RULE_MARKER"
+        echo "$EVENT_RULE"
+    } | sudo tee -a "$UDEV_RULE" > /dev/null
+    echo "Event-node rule appended."
+fi
+
 # Reload and trigger udev rules
 echo "Reloading udev rules..."
 sudo udevadm control --reload-rules

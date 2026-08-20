@@ -8,7 +8,7 @@
 alias ls='ls --color=auto'
 alias grep='grep --color=auto'
 
-alias nh='nvim ~/.config/hypr/hyprland.conf'
+alias nh='nvim ~/.config/hypr/hyprland.lua'
 alias nv='nvim ~/.config/nvim/lua/plugins/'
 alias nb='nvim ~/.bashrc'
 alias nt='nvim ~/.tmux.conf'
@@ -16,6 +16,7 @@ alias na='nvim /home/g/dotfiles/.config/opencode/AGENTS.md'
 alias v='nvim'
 alias oc='opencode'
 alias yt='mov-cli -s youtube'
+alias st='cd ~/dotfiles && stow --restow . && echo "stowed dotfiles" && cd -'
 
 export c4="$HOME/.config/"
 # PS1='[\u@\h \W]\$ '

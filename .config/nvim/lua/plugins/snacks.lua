@@ -112,6 +112,12 @@ return {
 			"<leader>sH",
 			function()
 				Snacks.picker.help({
+				previewers = {
+					-- love.txt (1.1MB) and mini.nvim's docs (1.1MB) exceed the
+					-- 1MB default max_size, so the file previewer showed
+					-- "large file > 1MB" instead of the doc.
+					file = { max_size = 10 * 1024 * 1024 },
+				},
 					confirm = function(picker, item)
 						picker:close()
 						if item and item.text then
