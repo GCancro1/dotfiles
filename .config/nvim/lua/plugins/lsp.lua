@@ -4,6 +4,20 @@ return {
   {
     "neovim/nvim-lspconfig",
     config = function()
+      vim.diagnostic.config({
+        float = { border = "rounded" },
+      })
+
+      -- Rounded borders for LSP hover and signature help
+      vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(
+        vim.lsp.handlers.hover,
+        { border = "rounded" }
+      )
+      vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(
+        vim.lsp.handlers.signature_help,
+        { border = "rounded" }
+      )
+
       -- Detect Love2D API definitions (EmmyLua format)
       local love_api_path = nil
       local search_paths = {

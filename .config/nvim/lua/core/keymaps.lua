@@ -163,8 +163,7 @@ map("n", "gb", ":bn<CR>", { desc = "Next Buf" })
 map("n", "gB", ":bp<CR>", { desc = "Prev Buf" })
 map("n", "<leader>sw", "<cmd>set wrap!<CR>", { desc = "Toggle wrap" })
 
--- ================= Diagnostics / quickfix =================
-map("n", "gK", vim.diagnostic.open_float, { desc = "Diagnostic float" })
+-- ================= Quickfix =================
 map("n", "]q", vim.cmd.cnext, { desc = "Quickfix: next item" })
 map("n", "[q", vim.cmd.cprev, { desc = "Quickfix: prev item" })
 map("n", "]Q", vim.cmd.cnfile, { desc = "Quickfix: next file" })
