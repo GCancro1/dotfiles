@@ -165,6 +165,8 @@ configure_git() {
     git config --global delta.navigate true
     git config --global delta.side-by-side true
     git config --global delta.line-numbers true
+    git config --global delta.syntax-theme "darkplus"
+    git config --global delta.mouse true
     git config --global merge.conflictstyle diff3
     git config --global diff.colorMoved default
 
@@ -193,8 +195,9 @@ main() {
     echo "  - fd            : find replacement"
     echo "  - bat           : cat replacement"
     echo "  - eza           : ls replacement"
-    echo "  - zoxide        : smarter cd"
-    echo "  - fzf           : fuzzy finder"
+echo "  - zoxide        : smarter cd"
+echo "  - atuin         : command history"
+echo "  - fzf           : fuzzy finder"
     echo "  - delta         : git diff enhancer"
     echo "  - tldr          : simplified man pages"
     echo "  - lazygit       : git TUI"

@@ -41,7 +41,7 @@ export VISUAL=nvim
 # Modern CLI Tool Aliases (conditional on availability)
 # ==================================================
 command -v eza >/dev/null && {
-    alias ls='eza --icons --group-directories-first'
+    # alias ls='eza --icons --group-directories-first'
     alias ll='eza --icons --group-directories-first -l'
     alias la='eza --icons --group-directories-first -la'
     alias lt='eza --icons --tree'
@@ -49,13 +49,13 @@ command -v eza >/dev/null && {
 }
 
 command -v bat >/dev/null && {
-    alias cat='bat'
     alias catn='bat --style=plain'
+    # alias cat='bat'
 }
 
-command -v rg >/dev/null && alias grep='rg'
+# command -v rg >/dev/null && alias grep='rg'
 
-command -v fd >/dev/null && alias find='fd'
+# command -v fd >/dev/null && alias find='fd'
 
 # ==================================================
 # Git Aliases
@@ -141,6 +141,20 @@ if command -v zoxide >/dev/null 2>&1; then
     eval "$(zoxide init bash)"
     alias cd='z'
     alias cdi='zi'
+fi
+
+# ==================================================
+# Atuin (command history)
+# ==================================================
+if command -v atuin >/dev/null 2>&1; then
+    eval "$(atuin init bash)"
+fi
+
+# ==================================================
+# Starship Prompt
+# ==================================================
+if command -v starship >/dev/null 2>&1; then
+    eval "$(starship init bash)"
 fi
 
 # ==================================================

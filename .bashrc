@@ -1,43 +1,217 @@
-#
-# ~/.bashrc
-#
+# ~/.bashrc - Simplified Cross-Platform Template
+# Generated from dotfiles template - edit via ~/dotfiles/.bashrc.template
 
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
-alias ls='ls --color=auto'
-alias grep='grep --color=auto'
+# ==================================================
+# History
+# ==================================================
+shopt -s histappend
+HISTSIZE=50000
+HISTFILESIZE=100000
+HISTCONTROL=ignoreboth
+shopt -s checkwinsize
+PROMPT_COMMAND='history -a'
 
-alias nh='nvim ~/.config/hypr/hyprland.lua'
-alias nv='nvim ~/.config/nvim/lua/plugins/'
-alias nb='nvim ~/.bashrc'
-alias nt='nvim ~/.tmux.conf'
-alias na='nvim /home/g/dotfiles/.config/opencode/AGENTS.md'
-alias v='nvim'
-alias oc='opencode'
-alias yt='mov-cli -s youtube'
-alias st='cd ~/dotfiles && stow --restow . && echo "stowed dotfiles" && cd -'
+# Up/down arrow history search
+bind '"\e[A": history-search-backward'
+bind '"\e[B": history-search-forward'
 
-export c4="$HOME/.config/"
-# PS1='[\u@\h \W]\$ '
+# ==================================================
+# PATH Management
+# ==================================================
+pathadd() {
+    case ":$PATH:" in
+        *":$1:"*) ;;
+        *) PATH="$1:$PATH" ;;
+    esac
+}
+pathadd "$HOME/bin"
+pathadd "$HOME/.local/bin"
+export PATH
 
-mkcd () {
+# ==================================================
+# Editor
+# ==================================================
+export EDITOR=nvim
+export VISUAL=nvim
+
+# ==================================================
+# Modern CLI Tool Aliases (conditional on availability)
+# ==================================================
+command -v eza >/dev/null && {
+    # alias ls='eza --icons --group-directories-first'
+    alias ll='eza --icons --group-directories-first -l'
+    alias la='eza --icons --group-directories-first -la'
+    alias lt='eza --icons --tree'
+    alias lta='eza --icons --tree -a'
+}
+
+command -v bat >/dev/null && {
+    # alias cat='bat'
+    alias catn='bat --style=plain'
+}
+
+# command -v rg >/dev/null && alias grep='rg'
+
+# command -v fd >/dev/null && alias find='fd'
+
+# ==================================================
+# Git Aliases
+# ==================================================
+alias gs='git status'
+alias ga='git add'
+alias gc='git commit'
+alias gp='git push'
+alias gl='git pull'
+alias gd='git diff'
+alias gco='git checkout'
+alias gb='git branch'
+alias glog='git log --oneline --graph --decorate'
+
+# ==================================================
+# Navigation & System Aliases
+# ==================================================
+
+alias b='cd ..'
+alias ..='cd ../..'
+# alias ....='cd ../../..'
+# alias mkdir='mkdir -p'
+# alias df='df -h'
+# alias du='du -h'
+# alias free='free -h'
+#
+# ==================================================
+# Functions
+# ==================================================
+mkcd() {
     mkdir -p -- "$1" && cd -P -- "$1"
 }
 
-# --- Extrakt: pull text from tmux pane via fzf ---
-# Triggered via Ctrl+y inside tmux (see tmux.conf)
+branch() {
+    git rev-parse --abbrev-ref HEAD 2>/dev/null
+}
 
-if [[ -z $WAYLAND_DISPLAY ]] && [[ $(tty) = /dev/tty1 ]]; then
-    exec Hyprland
+psg() {
+    ps aux | grep -i "$1" | grep -v grep
+}
+
+extract() {
+    if [ -f "$1" ]; then
+        case "$1" in
+            *.tar.bz2) tar xjf "$1" ;;
+            *.tar.gz)  tar xzf "$1" ;;
+            *.bz2)     bunzip2 "$1" ;;
+            *.rar)     unrar x "$1" ;;
+            *.gz)      gunzip "$1" ;;
+            *.tar)     tar xf "$1" ;;
+            *.tbz2)    tar xjf "$1" ;;
+            *.tgz)     tar xzf "$1" ;;
+            *.zip)     unzip "$1" ;;
+            *.7z)      7z x "$1" ;;
+            *) echo "Unknown archive type: $1" ;;
+        esac
+    else
+        echo "File not found: $1"
+    fi
+}
+
+# ==================================================
+# Git Prompt
+# ==================================================
+parse_git_branch() {
+    git rev-parse --abbrev-ref HEAD 2>/dev/null
+}
+
+PS1='\[\e[32m\]\u@\h\[\e[0m\]:\[\e[34m\]\w\[\e[33m\]$(b=$(parse_git_branch); [ -n "$b" ] && echo " [$b]")\[\e[0m\]-\$ '
+
+# ==================================================
+# Bash Completion
+# ==================================================
+if [ -f /etc/bash_completion ]; then
+    source /etc/bash_completion
 fi
 
+# ==================================================
+# Zoxide (smarter cd)
+# ==================================================
+if command -v zoxide >/dev/null 2>&1; then
+    eval "$(zoxide init bash)"
+    alias cd='z'
+    alias cdi='zi'
+fi
 
-source ~/bashutils/bashimprovements.sh
-source /usr/share/fzf/key-bindings.bash
-# source ~/bashutils/fzfutils.sh
+# ==================================================
+# FZF Configuration
+# ==================================================
+if command -v fzf >/dev/null 2>&1; then
+    # Modern cross-platform fzf integration
+    eval "$(fzf --bash)"
 
-# LuaRocks paths for image.nvim (magick module)
-export LUA_PATH='/usr/share/lua/5.1/?.lua;/usr/local/share/lua/5.1/?.lua;/usr/local/share/lua/5.1/?/init.lua;/usr/share/lua/5.1/?/init.lua;/usr/local/lib/lua/5.1/?.lua;/usr/local/lib/lua/5.1/?/init.lua;/usr/lib/lua/5.1/?.lua;/usr/lib/lua/5.1/?/init.lua;./?.lua;./?/init.lua;/home/g/.luarocks/share/lua/5.1/?.lua;/home/g/.luarocks/share/lua/5.1/?/init.lua'
-export LUA_CPATH='/usr/local/lib/lua/5.1/?.so;/usr/lib/lua/5.1/?.so;/usr/local/lib/lua/5.1/loadall.so;/usr/lib/lua/5.1/loadall.so;./?.so;/home/g/.luarocks/lib/lua/5.1/?.so'
-export PATH="/home/g/.luarocks/bin:$PATH"
+    # FZF defaults with bat preview
+    export FZF_DEFAULT_OPTS="
+    --layout=reverse
+    --border
+    --preview 'bat --style=numbers --color=always --line-range :300 {}'
+    --preview-window=right:60%
+    "
+
+    # Use fd for file/directory discovery
+    if command -v fd >/dev/null 2>&1; then
+        export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
+        export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+        export FZF_ALT_C_COMMAND='fd --type d --hidden --follow --exclude .git'
+    fi
+
+    # fzf functions
+    ff() {
+        local file
+        file=$(fd --type f --hidden --follow --exclude .git | fzf --preview 'bat --style=numbers --color=always {}')
+        [ -n "$file" ] && echo "$file"
+    }
+
+    fcd() {
+        local dir
+        dir=$(fd --type d --hidden --follow --exclude .git | fzf --preview 'eza --tree --level=1 {}')
+        [ -n "$dir" ] && cd "$dir"
+    }
+
+    rgf() {
+        local file
+        file=$(rg --files-with-matches "$@" | fzf --preview 'bat --style=numbers --color=always {}')
+        [ -n "$file" ] && echo "$file"
+    }
+
+    rgj() {
+        local line
+        line=$(rg --line-number "$@" | fzf --preview 'bat --style=numbers --color=always {1}')
+        if [ -n "$line" ]; then
+            local file=$(echo "$line" | cut -d: -f1)
+            local lineno=$(echo "$line" | cut -d: -f2)
+            [ -n "$file" ] && [ -n "$lineno" ] && nvim "+$lineno" "$file"
+        fi
+    }
+
+    # Ctrl+t: fuzzy find files (fzf handles this via eval "$(fzf --bash)")
+    # Ctrl+r: history search (fzf handles this via eval "$(fzf --bash)")
+fi
+
+# ==================================================
+# Linux-Only Configuration
+# ==================================================
+if [[ "$OSTYPE" != "msys" && "$OSTYPE" != "cygwin" && -z "$WINDIR" ]]; then
+    # Hyprland auto-start on tty1
+    # if [[ -z $WAYLAND_DISPLAY ]] && [[ $(tty) = /dev/tty1 ]]; then
+    #     exec Hyprland
+    # fi
+
+    # LuaRocks paths for image.nvim (magick module)
+    export LUA_PATH='/usr/share/lua/5.1/?.lua;/usr/local/share/lua/5.1/?.lua;/usr/local/share/lua/5.1/?/init.lua;/usr/share/lua/5.1/?/init.lua;/usr/local/lib/lua/5.1/?.lua;/usr/local/lib/lua/5.1/?/init.lua;/usr/lib/lua/5.1/?.lua;/usr/lib/lua/5.1/?/init.lua;./?.lua;./?/init.lua;/home/g/.luarocks/share/lua/5.1/?.lua;/home/g/.luarocks/share/lua/5.1/?/init.lua'
+    export LUA_CPATH='/usr/local/lib/lua/5.1/?.so;/usr/lib/lua/5.1/?.so;/usr/local/lib/lua/5.1/loadall.so;/usr/lib/lua/5.1/loadall.so;./?.so;/home/g/.luarocks/lib/lua/5.1/?.so'
+    export PATH="/home/g/.luarocks/bin:$PATH"
+fi
+
+# ==================================================
+# End of ~/.bashrc
+# ==================================================
