@@ -155,6 +155,7 @@ configure_bashrc() {
 
     if [[ -f "$template" ]]; then
         cp "$template" "$HOME/.bashrc"
+        cp "$template" "../.bashrc"
         print_success ".bashrc configured from template"
     else
         print_error "Template not found at $template"
