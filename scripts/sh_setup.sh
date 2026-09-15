@@ -52,6 +52,8 @@ install_winget_packages() {
         dandavison.delta \
         tldr \
         jesseduffield.lazygit \
+        Atuinsh.Atuin \
+        Starship.Starship \
         sxyazi.yazi
 
     print_success "Winget packages installed"
@@ -72,65 +74,68 @@ install_arch_packages() {
         lazygit \
         yazi \
         curl \
+        starship \
+        atuin \
         wget
     print_success "Arch packages installed"
 }
 
-install_ubuntu_packages() {
-    print_status "Installing packages via apt..."
-    $SUDO apt update && $SUDO apt upgrade -y
-    $SUDO apt install -y \
-        ripgrep \
-        fd-find \
-        bat \
-        fzf \
-        curl \
-        wget
-
-    if ! command -v eza &> /dev/null; then
-        print_status "Installing eza from GitHub releases..."
-        EZA_VERSION=$(curl -s https://api.github.com/repos/eza-community/eza/releases/latest | grep tag_name | cut -d '"' -f 4)
-        wget -qO /tmp/eza.tar.gz "https://github.com/eza-community/eza/releases/download/${EZA_VERSION}/eza_x86_64-unknown-linux-gnu.tar.gz"
-        $SUDO tar -xzf /tmp/eza.tar.gz -C /usr/local/bin
-        rm /tmp/eza.tar.gz
-    fi
-
-    if ! command -v zoxide &> /dev/null; then
-        curl -sS https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | bash
-    fi
-
-    if ! command -v delta &> /dev/null; then
-        DELTA_VERSION=$(curl -s https://api.github.com/repos/dandavison/delta/releases/latest | grep tag_name | cut -d '"' -f 4)
-        wget -qO /tmp/delta.deb "https://github.com/dandavison/delta/releases/download/${DELTA_VERSION}/git-delta_${DELTA_VERSION}_amd64.deb"
-        $SUDO dpkg -i /tmp/delta.deb
-        rm /tmp/delta.deb
-    fi
-
-    if ! command -v tldr &> /dev/null; then
-        $SUDO apt install -y tldr || pip3 install --user tldr
-    fi
-
-    if ! command -v lazygit &> /dev/null; then
-        print_status "Installing lazygit from GitHub releases..."
-        LAZYGIT_VERSION=$(curl -s https://api.github.com/repos/jesseduffield/lazygit/releases/latest | grep tag_name | cut -d '"' -f 4 | sed 's/^v//')
-        wget -qO /tmp/lazygit.tar.gz "https://github.com/jesseduffield/lazygit/releases/download/v${LAZYGIT_VERSION}/lazygit_${LAZYGIT_VERSION}_Linux_x86_64.tar.gz"
-        $SUDO tar -xzf /tmp/lazygit.tar.gz -C /usr/local/bin lazygit
-        rm /tmp/lazygit.tar.gz
-    fi
-
-    if ! command -v yazi &> /dev/null; then
-        print_status "Installing yazi from GitHub releases..."
-        YAZI_VERSION=$(curl -s https://api.github.com/repos/sxyazi/yazi/releases/latest | grep tag_name | cut -d '"' -f 4)
-        wget -qO /tmp/yazi.zip "https://github.com/sxyazi/yazi/releases/download/${YAZI_VERSION}/yazi-x86_64-unknown-linux-gnu.zip"
-        $SUDO unzip -o /tmp/yazi.zip -d /usr/local/bin
-        rm /tmp/yazi.zip
-    fi
-
-    [ -f /usr/bin/fdfind ] && $SUDO ln -sf /usr/bin/fdfind /usr/local/bin/fd 2>/dev/null || true
-    [ -f /usr/bin/batcat ] && $SUDO ln -sf /usr/bin/batcat /usr/local/bin/bat 2>/dev/null || true
-
-    print_success "Ubuntu packages installed"
-}
+# install_ubuntu_packages() {
+#     print_status "Installing packages via apt..."
+#     $SUDO apt update && $SUDO apt upgrade -y
+#     $SUDO apt install -y \
+#         ripgrep \
+#         fd-find \
+#         bat \
+#         fzf \
+#         curl \
+#         wget
+#
+#     if ! command -v eza &> /dev/null; then
+#         print_status "Installing eza from GitHub releases..."
+#         EZA_VERSION=$(curl -s https://api.github.com/repos/eza-community/eza/releases/latest | grep tag_name | cut -d '"' -f 4)
+#         wget -qO /tmp/eza.tar.gz "https://github.com/eza-community/eza/releases/download/${EZA_VERSION}/eza_x86_64-unknown-linux-gnu.tar.gz"
+#         $SUDO tar -xzf /tmp/eza.tar.gz -C /usr/local/bin
+#         rm /tmp/eza.tar.gz
+#     fi
+#
+#     if ! command -v zoxide &> /dev/null; then
+#         curl -sS https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | bash
+#     fi
+#
+#     if ! command -v delta &> /dev/null; then
+#         DELTA_VERSION=$(curl -s https://api.github.com/repos/dandavison/delta/releases/latest | grep tag_name | cut -d '"' -f 4)
+#         wget -qO /tmp/delta.deb "https://github.com/dandavison/delta/releases/download/${DELTA_VERSION}/git-delta_${DELTA_VERSION}_amd64.deb"
+#         $SUDO dpkg -i /tmp/delta.deb
+#         rm /tmp/delta.deb
+#     fi
+#
+#     if ! command -v tldr &> /dev/null; then
+#         $SUDO apt install -y tldr || pip3 install --user tldr
+#     fi
+#
+#     if ! command -v lazygit &> /dev/null; then
+#         print_status "Installing lazygit from GitHub releases..."
+#         LAZYGIT_VERSION=$(curl -s https://api.github.com/repos/jesseduffield/lazygit/releases/latest | grep tag_name | cut -d '"' -f 4 | sed 's/^v//')
+#         wget -qO /tmp/lazygit.tar.gz "https://github.com/jesseduffield/lazygit/releases/download/v${LAZYGIT_VERSION}/lazygit_${LAZYGIT_VERSION}_Linux_x86_64.tar.gz"
+#         $SUDO tar -xzf /tmp/lazygit.tar.gz -C /usr/local/bin lazygit
+#         rm /tmp/lazygit.tar.gz
+#
+#     fi
+#
+#     if ! command -v yazi &> /dev/null; then
+#         print_status "Installing yazi from GitHub releases..."
+#         YAZI_VERSION=$(curl -s https://api.github.com/repos/sxyazi/yazi/releases/latest | grep tag_name | cut -d '"' -f 4)
+#         wget -qO /tmp/yazi.zip "https://github.com/sxyazi/yazi/releases/download/${YAZI_VERSION}/yazi-x86_64-unknown-linux-gnu.zip"
+#         $SUDO unzip -o /tmp/yazi.zip -d /usr/local/bin
+#         rm /tmp/yazi.zip
+#     fi
+#
+#     [ -f /usr/bin/fdfind ] && $SUDO ln -sf /usr/bin/fdfind /usr/local/bin/fd 2>/dev/null || true
+#     [ -f /usr/bin/batcat ] && $SUDO ln -sf /usr/bin/batcat /usr/local/bin/bat 2>/dev/null || true
+#
+#     print_success "Ubuntu packages installed"
+# }
 
 install_packages() {
     case $OS in
@@ -165,12 +170,28 @@ configure_git() {
     git config --global delta.navigate true
     git config --global delta.side-by-side true
     git config --global delta.line-numbers true
-    git config --global delta.syntax-theme "darkplus"
+    git config --global delta.syntax-theme "Catppuccin Mocha"
     git config --global delta.mouse true
     git config --global merge.conflictstyle diff3
     git config --global diff.colorMoved default
 
     print_success "Git configured with delta"
+
+    cat << EOF > ~/.config/lazygit/config.yml
+git:
+  paging:
+    colorArg: always
+    pager: delta --dark --paging=never --line-numbers
+EOF
+
+    print_success "lazygit configured with delta"
+
+    mkdir -p "$(bat --config-dir)/themes"
+    cp "../themes/Catppuccin Mocha.tmTheme" "$(bat --config-dir)/themes"
+    bat cache --build
+    export BAT_THEME="Catppuccin Mocha"
+
+    print_success "bat color configured"
 }
 
 main() {
@@ -180,8 +201,8 @@ main() {
     echo "=========================================="
     echo ""
 
-    detect_os
-    install_packages
+    # detect_os
+    # install_packages
     configure_bashrc
     configure_git
 

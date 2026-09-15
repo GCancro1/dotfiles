@@ -73,7 +73,8 @@ alias glog='git log --oneline --graph --decorate'
 # ==================================================
 # Navigation & System Aliases
 # ==================================================
-
+alias v='nvim'
+alias nb='nvim ~/.bashrc'
 alias b='cd ..'
 alias ..='cd ../..'
 # alias ....='cd ../../..'
@@ -140,7 +141,29 @@ if command -v zoxide >/dev/null 2>&1; then
     eval "$(zoxide init bash)"
     alias cd='z'
     alias cdi='zi'
+
+    bind -x '"\C-z": zi'
 fi
+
+if command -v yazi >/dev/null 2>&1; then
+    alias y='yazi'
+    bind -x '"\C-y": yazi'
+fi
+
+if command -v lazygit >/dev/null 2>&1; then
+    alias lg='lazygit'
+    bind -x '"\C-g": lazygit'
+fi
+
+
+if command -v starship >/dev/null 2>&1; then
+    eval "$(starship init bash)"
+fi
+
+if command -v atuin >/dev/null 2>&1; then
+    eval "$(atuin init bash)"
+fi
+
 
 # ==================================================
 # FZF Configuration
