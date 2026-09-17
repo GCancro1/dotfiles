@@ -41,7 +41,7 @@ export VISUAL=nvim
 # Modern CLI Tool Aliases (conditional on availability)
 # ==================================================
 command -v eza >/dev/null && {
-    # alias ls='eza --icons --group-directories-first'
+    alias ls='eza --icons --group-directories-first'
     alias ll='eza --icons --group-directories-first -l'
     alias la='eza --icons --group-directories-first -la'
     alias lt='eza --icons --tree'
@@ -125,7 +125,7 @@ parse_git_branch() {
     git rev-parse --abbrev-ref HEAD 2>/dev/null
 }
 
-PS1='\[\e[32m\]\u@\h\[\e[0m\]:\[\e[34m\]\w\[\e[33m\]$(b=$(parse_git_branch); [ -n "$b" ] && echo " [$b]")\[\e[0m\]-\$ '
+# PS1='\[\e[32m\]\u@\h\[\e[0m\]:\[\e[34m\]\w\[\e[33m\]$(b=$(parse_git_branch); [ -n "$b" ] && echo " [$b]")\[\e[0m\]-\$ '
 
 # ==================================================
 # Bash Completion
@@ -142,7 +142,7 @@ if command -v zoxide >/dev/null 2>&1; then
     alias cd='z'
     alias cdi='zi'
 
-    bind -x '"\C-z": zi'
+    bind -x '"\C-n": zi'
 fi
 
 if command -v yazi >/dev/null 2>&1; then
@@ -160,11 +160,11 @@ if command -v starship >/dev/null 2>&1; then
     eval "$(starship init bash)"
 fi
 
-if command -v atuin >/dev/null 2>&1; then
-    eval "$(atuin init bash)"
-fi
-
-
+# if command -v atuin >/dev/null 2>&1; then
+#     eval "$(atuin init bash)"
+# fi
+#
+#
 # ==================================================
 # FZF Configuration
 # ==================================================
@@ -229,10 +229,11 @@ if [[ "$OSTYPE" != "msys" && "$OSTYPE" != "cygwin" && -z "$WINDIR" ]]; then
     #     exec Hyprland
     # fi
 
-    # LuaRocks paths for image.nvim (magick module)
-    export LUA_PATH='/usr/share/lua/5.1/?.lua;/usr/local/share/lua/5.1/?.lua;/usr/local/share/lua/5.1/?/init.lua;/usr/share/lua/5.1/?/init.lua;/usr/local/lib/lua/5.1/?.lua;/usr/local/lib/lua/5.1/?/init.lua;/usr/lib/lua/5.1/?.lua;/usr/lib/lua/5.1/?/init.lua;./?.lua;./?/init.lua;/home/g/.luarocks/share/lua/5.1/?.lua;/home/g/.luarocks/share/lua/5.1/?/init.lua'
-    export LUA_CPATH='/usr/local/lib/lua/5.1/?.so;/usr/lib/lua/5.1/?.so;/usr/local/lib/lua/5.1/loadall.so;/usr/lib/lua/5.1/loadall.so;./?.so;/home/g/.luarocks/lib/lua/5.1/?.so'
-    export PATH="/home/g/.luarocks/bin:$PATH"
+    export LUA_PATH="/usr/share/lua/5.5/?.lua;/usr/share/lua/5.5/?/init.lua;;"
+    # # LuaRocks paths for image.nvim (magick module)
+    # export LUA_PATH='/usr/share/lua/5.1/?.lua;/usr/local/share/lua/5.1/?.lua;/usr/local/share/lua/5.1/?/init.lua;/usr/share/lua/5.1/?/init.lua;/usr/local/lib/lua/5.1/?.lua;/usr/local/lib/lua/5.1/?/init.lua;/usr/lib/lua/5.1/?.lua;/usr/lib/lua/5.1/?/init.lua;./?.lua;./?/init.lua;/home/g/.luarocks/share/lua/5.1/?.lua;/home/g/.luarocks/share/lua/5.1/?/init.lua'
+    # export LUA_CPATH='/usr/local/lib/lua/5.1/?.so;/usr/lib/lua/5.1/?.so;/usr/local/lib/lua/5.1/loadall.so;/usr/lib/lua/5.1/loadall.so;./?.so;/home/g/.luarocks/lib/lua/5.1/?.so'
+    # export PATH="/home/g/.luarocks/bin:$PATH"
 fi
 
 # ==================================================
