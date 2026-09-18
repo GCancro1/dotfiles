@@ -103,7 +103,7 @@ return {
 {
 			"<leader>sk",
 			function()
-				Snacks.picker.keymaps()
+				Snacks.picker.keymaps({plugs = true})
 			end,
 			desc = "keymap picker",
 			mode = { "n" },

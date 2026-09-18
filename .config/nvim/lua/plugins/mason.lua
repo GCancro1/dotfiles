@@ -6,6 +6,9 @@ return {
             "ruff",
             "stylua",
             "luacheck",
+            "lua_ls", 
+            "json_ls"
         },
+        automatic_enable = true,
     },
 }
