@@ -1,7 +1,22 @@
 return {
 	"saghen/blink.cmp",
-	dependencies = { "rafamadriz/friendly-snippets" },
-	version = "1.*",
+    version = "1.*",
+	dependencies = {
+		{
+			"L3MON4D3/LuaSnip",
+			version = "v2.*",
+			dependencies = {
+				"rafamadriz/friendly-snippets",
+			},
+			config = function()
+				local ls = require("luasnip")
+
+				ls.config.setup({})
+
+				require("luasnip.loaders.from_vscode").lazy_load()
+			end,
+		},
+	},
 	---@module 'blink.cmp'
 	---@type blink.cmp.Config
 	opts = {
@@ -29,6 +44,7 @@ return {
 				},
 			},
 		},
+		snippets = { preset = "luasnip" },
 		signature = { enabled = false, window = { border = "rounded" } },
 		fuzzy = { implementation = "prefer_rust_with_warning" },
 		sources = {
