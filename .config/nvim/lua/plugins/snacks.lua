@@ -22,93 +22,32 @@ return {
 		words = { enabled = true },
 	},
 	keys = {
-		{
-			"<leader>a",
-			function()
-				Snacks.picker.smart()
-			end,
-			desc = "Find Files",
-		},
-		{
-			"<leader>sg",
-			function()
-				Snacks.picker.grep({ hidden = true, ignored = true })
-			end,
-			desc = "Grep",
-		},
-		{
-			"<leader>sh",
-			function()
-				Snacks.picker.recent()
-			end,
-			desc = "Recent Files",
-		},
-		{
-			"<leader><leader>",
-			function()
-				Snacks.picker.buffers()
-			end,
-			desc = "Buffers",
-		},
-		{
-			"<leader>sf",
-			function()
-				Snacks.picker.files({ hidden = true, ignored = true })
-			end,
-			desc = "All Files",
-		},
-		{
-			"<leader>n",
-			function()
-				Snacks.scratch()
-			end,
-			desc = "Toggle Scratch Buffer",
-		},
-		{
-			"<leader>Sr",
-			function()
-				Snacks.scratch.select()
-			end,
-			desc = "Select Scratch Buffer",
-		},
-		{
-			"<leader>mh",
-			function()
-				Snacks.notifier.show_history()
-			end,
-			desc = "Notification History",
-		},
-		{
-			"<leader>q",
-			function()
-				Snacks.bufdelete()
-			end,
-			desc = "Delete Buffer",
-		},
-		{
-			"<leader>cr",
-			function()
-				Snacks.rename.rename_file()
-			end,
-			desc = "Rename File",
-		},
-		{
-			"<leader>gw",
-			function()
-				Snacks.gitbrowse()
-			end,
-			desc = "Git Browse",
-			mode = { "n", "v" },
-		},
-{
-			"<leader>sk",
-			function()
-				Snacks.picker.keymaps({plugs = true})
-			end,
-			desc = "keymap picker",
-			mode = { "n" },
-		},
-		{
+		{ "<leader>a", function() Snacks.picker.smart() end, desc = "Find Files", },
+		{ "<leader>sg", function() Snacks.picker.grep({ hidden = true, ignored = true }) end, desc = "Grep", },
+            { "<leader>sn", function() Snacks.picker.files({ cwd = vim.fn.stdpath("config") }) end, desc = "Find Config File" },
+        { "<leader>sw", function() Snacks.picker.grep_word() end, desc = "Visual selection or word", mode = { "n", "x" } },
+		{ "<leader>sh", function() Snacks.picker.recent() end, desc = "Recent Files", },
+		{ "<leader><leader>", function() Snacks.picker.buffers() end, desc = "Buffers", },
+		{ "<leader>sf", function() Snacks.picker.files({ hidden = true, ignored = true }) end, desc = "All Files", },
+        { "<leader>/", function() Snacks.picker.lines() end, desc = "Buffer Lines" },
+        { "<leader>sl", function() Snacks.picker.lines() end, desc = "Buffer Lines" },
+        { "<leader>se", function() Snacks.explorer() end, desc = "File Explorer" },
+        { "<leader>sr", function() Snacks.picker.recent() end, desc = "Recent" },
+        { "<leader>s:", function() Snacks.picker.command_history() end, desc = "Command History" },
+        { "<leader>sc", function() Snacks.picker.command_history() end, desc = "Command History" },
+        { '<leader>s"', function() Snacks.picker.registers() end, desc = "Registers" },
+        { "<leader>sj", function() Snacks.picker.jumps() end, desc = "Jumps" },
+        { "<leader>s.", function() Snacks.picker.resume() end, desc = "Resume" },
+
+
+		{ "<leader>mh", function() Snacks.notifier.show_history() end, desc = "Notification History", },
+		{ "<leader>q", function() Snacks.bufdelete() end, desc = "Delete Buffer", },
+		{ "<leader>cr", function() Snacks.rename.rename_file() end, desc = "Rename File", },
+		{ "<leader>gw", function() Snacks.gitbrowse() end, desc = "Git Browse", mode = { "n", "v" }, },
+        { "<leader>sk", function() Snacks.picker.keymaps({plugs = true}) end, desc = "keymap picker", mode = { "n" }, }, 
+        { "<leader>sd", function() Snacks.picker.diagnostics() end, desc = "Diagnostics", },
+
+        {
 			"<leader>sH",
 			function()
 				Snacks.picker.help({
@@ -127,13 +66,6 @@ return {
 				})
 			end,
 			desc = "Help Tags",
-		},
-		{
-			"<leader>sd",
-			function()
-				Snacks.picker.diagnostics()
-			end,
-			desc = "Diagnostics",
 		},
 	},
 }

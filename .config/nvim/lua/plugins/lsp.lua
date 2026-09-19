@@ -46,7 +46,10 @@ return {
 			},
 		})
 
+		local lsp_group = vim.api.nvim_create_augroup("LspKeymaps", { clear = true })
+
 		vim.api.nvim_create_autocmd("LspAttach", {
+			group = lsp_group,
 			callback = function(args)
 				local client = vim.lsp.get_client_by_id(args.data.client_id)
 				local map = function(keys, func, desc)
@@ -59,11 +62,20 @@ return {
 				map("<leader>cA", vim.lsp.buf.code_action, "Code action")
 				map("<leader>rn", vim.lsp.buf.rename, "Rename")
 				map("<leader>D", vim.lsp.buf.type_definition, "Type definition")
-                map("<leader>ih", function() vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled()) end, "Toggle inlay hints")
+				map("<leader>ih", function()
+					vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
+				end, "Toggle inlay hints")
 
 				if client and client:supports_method("textDocument/inlayHint") then
 					vim.lsp.inlay_hint.enable(true, { bufnr = args.buf })
 				end
+
+				map("grd", Snacks.picker.lsp_definitions, "Go to definition")
+				map("grr", Snacks.picker.lsp_references, "Go to references")
+				map("gri", Snacks.picker.lsp_implementations, "Go to implementation")
+				map("go", Snacks.picker.lsp_symbols, "Type definition")
+				map("gW", Snacks.picker.lsp_workspace_symbols, "Type workspace definition")
+				map("grt", Snacks.picker.lsp_type_definitions() , "Type definition")
 			end,
 		})
 

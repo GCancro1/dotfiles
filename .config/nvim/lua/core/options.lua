@@ -4,18 +4,20 @@ vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 vim.g.have_nerd_font = true
 
+require("vim._core.ui2").enable()
+vim.loader.enable()
 -- Editor
 vim.opt.mouse = "a"
 vim.opt.number = true
 vim.opt.relativenumber = true
-vim.opt.clipboard = "unnamedplus"
+vim.schedule(function() vim.o.clipboard = 'unnamedplus' end)
 vim.opt.textwidth = 0
 vim.opt.tabstop = 4
 vim.opt.shiftwidth = 4
 vim.opt.smartindent = true
 vim.opt.expandtab = true
 vim.opt.wrap = true
-vim.opt.wrapmargin = 0 -- init.lua wins over oldbinds' 160
+-- vim.opt.wrapmargin = 0 -- init.lua wins over oldbinds' 160
 vim.opt.termguicolors = true
 vim.opt.scrolloff = 8
 vim.opt.signcolumn = "yes"
@@ -48,8 +50,6 @@ vim.opt.swapfile = false
 vim.opt.backup = false
 vim.opt.undofile = true
 vim.opt.undodir = vim.fn.stdpath("state") .. "/undo"
-vim.opt.backspace = { "indent", "eol", "start" }
-vim.opt.fileencoding = "utf-8"
 
 -- Formatting
 vim.opt.formatoptions:remove("t")
@@ -72,7 +72,7 @@ vim.opt.shortmess:append("I")
 -- Diff / spell / folding
 vim.opt.diffopt:append("vertical")
 vim.opt.spelllang = "en_us"
-vim.opt.foldnestmax = 2
+-- vim.opt.foldnestmax = 2
 vim.opt.foldlevelstart = 99
 vim.opt.foldmethod = "expr"
 vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
