@@ -10,9 +10,25 @@ return {
 		vim.o.winborder = "rounded"
 
 		vim.diagnostic.config({
+			update_in_insert = false,
 			severity_sort = true,
-			float = { source = true },
-			virtual_text = { spacing = 2, source = "if_many" },
+			float = { border = "rounded", source = "if_many" },
+			underline = { severity = { min = vim.diagnostic.severity.WARN } },
+
+			-- Can switch between these as you prefer
+			virtual_text = true, -- Text shows up at the end of the line
+			virtual_lines = false, -- Text shows up underneath the line, with virtual lines
+
+			-- Auto open the float, so you can easily read the errors when jumping with `[d` and `]d`
+			jump = {
+				on_jump = function(_, bufnr)
+					vim.diagnostic.open_float({
+						bufnr = bufnr,
+						scope = "cursor",
+						focus = false,
+					})
+				end,
+			},
 		})
 
 		vim.lsp.config("*", {
@@ -28,7 +44,7 @@ return {
 			settings = {
 				Lua = {
 					diagnostics = { globals = { "vim", "Snacks" } },
-                    format = {enable = false},
+					format = { enable = false },
 					telemetry = { enable = false },
 					workspace = {
 						checkThirdParty = false,
@@ -68,7 +84,7 @@ return {
 				end, "Toggle inlay hints")
 
 				if client and client:supports_method("textDocument/inlayHint") then
-					vim.lsp.inlay_hint.enable(true, { bufnr = args.buf })
+					vim.lsp.inlay_hint.enable(false, { bufnr = args.buf })
 				end
 
 				map("grd", Snacks.picker.lsp_definitions, "Go to definition")

@@ -1,9 +1,7 @@
 -- Keymaps
 
 -- TODO move me
-vim.keymap.set("n", "<leader>ce", vim.diagnostic.setloclist, { desc = "Open diagnostic [Q]uickfix list" })
 
-vim.keymap.set("n", "<leader>fi", "mz<cmd>normal! gg=G<CR>`z", { desc = "Indent entire file" })
 
 -- ================= Normal — core =================
 vim.keymap.set("n", "<leader>w", ":w<CR>")
@@ -78,6 +76,8 @@ vim.keymap.set("n", "<leader>cd", 'gg"_dG', { desc = "Del all of file" })
 vim.keymap.set("n", "<leader>ca", "<cmd>%+y<CR>", { desc = "Copy all of file" })
 vim.keymap.set("n", "<leader>d", '"_d', { desc = "Delete to black-hole register" })
 
+-- file operations 
+vim.keymap.set("n", "<leader>fi", "mz<cmd>normal! gg=G<CR>`z", { desc = "Indent entire file" })
 vim.keymap.set("n", "<leader>fp", function()
 	vim.fn.setreg("+", vim.fn.expand("%:p"))
 end, { desc = "Copy file path" })
@@ -117,6 +117,7 @@ vim.keymap.set("n", "<leader>cf", function() vim.cmd.cfirst() vim.cmd.normal({ "
 
 vim.keymap.set("n", "<leader>cl", function() vim.cmd.clast() vim.cmd.normal({ "zz", bang = true }) end, { desc = "Quickfix: last item", })
 
+vim.keymap.set("n", "<leader>ce", vim.diagnostic.setloclist, { desc = "Open diagnostic [Q]uickfix list" })
 -- Quickfix list history
 vim.keymap.set("n", "<leader>cO", vim.cmd.colder, { desc = "Quickfix: older list", })
 vim.keymap.set("n", "<leader>cN", vim.cmd.cnewer, { desc = "Quickfix: newer list", })

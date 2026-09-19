@@ -39,6 +39,22 @@ return {
                     vim.keymap.set(mode, l, r, opts)
                 end
 
+                map('n', ']h', function()
+                    if vim.wo.diff then
+                        vim.cmd.normal({']c', bang = true})
+                    else
+                        gitsigns.nav_hunk('next')
+                    end
+                end, { desc = "Next hunk" })
+
+                map('n', '[h', function()
+                    if vim.wo.diff then
+                        vim.cmd.normal({'[c', bang = true})
+                    else
+                        gitsigns.nav_hunk('prev')
+                    end
+                end, { desc = "Prev hunk" })
+
                 map('n', ']c', function()
                     if vim.wo.diff then
                         vim.cmd.normal({']c', bang = true})

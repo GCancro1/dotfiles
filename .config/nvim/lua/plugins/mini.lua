@@ -10,7 +10,7 @@ return {
 				mappings = {
 					add = "gs", -- Add surrounding in normal and visual
 					delete = "gx", -- Delete surrounding
-					replace = "gZ", -- Replace surrounding
+					replace = "gz", -- Replace surrounding
 					find = "g/", -- Find surrounding to the right
 					find_left = "g?", -- Find surrounding to the left
 					highlight = "gH", -- Highlight surrounding
