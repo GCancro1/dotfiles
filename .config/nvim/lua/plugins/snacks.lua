@@ -62,7 +62,15 @@ return {
 		{
 			"<leader><leader>",
 			function()
-				Snacks.picker.buffers()
+				Snacks.picker.buffers({
+					win = {
+						input = {
+							keys = {
+								["<c-z>"] = { "bufdelete", mode = { "n", "i" } },
+							},
+						},
+					},
+				})
 			end,
 			desc = "Buffers",
 		},
