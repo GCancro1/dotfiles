@@ -29,13 +29,7 @@ return {
 		words = { enabled = true },
 	},
 	keys = {
-		{
-			"<leader>a",
-			function()
-				Snacks.picker.smart()
-			end,
-			desc = "Find Files",
-		},
+		{ "<leader>a", function() Snacks.picker.smart() end, desc = "Find Files", },
 		{
 			"<leader>sg",
 			function()
