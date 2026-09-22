@@ -7,3 +7,12 @@ vim.api.nvim_create_autocmd("TextYankPost", {
         vim.hl.on_yank()
     end,
 })
+
+
+vim.api.nvim_create_autocmd("BufEnter", {
+  callback = function()
+    if vim.bo.buftype ~= "" then
+      vim.bo.buflisted = false
+    end
+  end,
+})
