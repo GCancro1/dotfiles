@@ -7,7 +7,7 @@
 vim.keymap.set("n", "<leader>w", ":w<CR>")
 vim.keymap.set("n", "<leader>q", ":bd<CR>")
 vim.keymap.set("n", "<leader>qw", ":close!<CR>")
-vim.keymap.set("n", "<leader>qa", ":q!<CR>")
+vim.keymap.set("n", "<leader>qe", ":q!<CR>")
 vim.keymap.set("n", "<leader>o", "<C-^>", {desc = "alternate buf"}) -- alternate buffer
 
 vim.keymap.set("n", "<leader>ll", ":.lua<CR>")
