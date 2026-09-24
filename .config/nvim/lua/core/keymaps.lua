@@ -22,10 +22,10 @@ vim.keymap.set("i", "<C-Del>", "<C-O>dw")
 vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
 
 -- ================= Window & layout =================
-vim.keymap.set("n", "<S-Left>", "<C-w><C-h>", { desc = "Move focus to the left window" })
-vim.keymap.set("n", "<S-Right>", "<C-w><C-l>", { desc = "Move focus to the right window" })
-vim.keymap.set("n", "<S-Down>", "<C-w><C-j>", { desc = "Move focus to the lower window" })
-vim.keymap.set("n", "<S-Up>", "<C-w><C-k>", { desc = "Move focus to the upper window" })
+vim.keymap.set("n", "<A-Left>", "<C-w><C-h>", { desc = "Move focus to the left window" })
+vim.keymap.set("n", "<A-Right>", "<C-w><C-l>", { desc = "Move focus to the right window" })
+vim.keymap.set("n", "<A-Down>", "<C-w><C-j>", { desc = "Move focus to the lower window" })
+vim.keymap.set("n", "<A-Up>", "<C-w><C-k>", { desc = "Move focus to the upper window" })
 vim.keymap.set("n", "<leader>=", "<C-w>=", { desc = "Equalize windows" })
 -- TODO this feels weird
 vim.keymap.set("n", "<A-S-Left>", "5<C-w><", { desc = "Narrower x5" })
@@ -34,17 +34,17 @@ vim.keymap.set("n", "<A-S-Up>", "5<C-w>+", { desc = "Taller x5" })
 vim.keymap.set("n", "<A-S-Right>", "5<C-w>>", { desc = "Wider x5" })
 
 vim.keymap.set("t", "<Esc><Esc>", "<C-\\><C-n>", { desc = "Exit terminal mode" })
-vim.keymap.set("t", "<A-Left>", "<C-\\><C-n><C-w>h", { desc = "Move left from terminal" })
 vim.keymap.set("t", "<A-Down>", "<C-\\><C-n><C-w>j", { desc = "Move bottom from terminal" })
+vim.keymap.set("t", "<A-Left>", "<C-\\><C-n><C-w>h", { desc = "Move left from terminal" })
 vim.keymap.set("t", "<A-Up>", "<C-\\><C-n><C-w>k", { desc = "Move top from terminal" })
 vim.keymap.set("t", "<A-Right>", "<C-\\><C-n><C-w>l", { desc = "Move right from terminal" })
 
 -- ================= Editing helpers =================
 vim.keymap.set("v", ".", ":norm .<CR>", { noremap = true }) -- ⚠️ intentional: repeat last change over selection
-vim.keymap.set("n", "<A-Up>", ":m.-2<CR>==", { noremap = true })
-vim.keymap.set("i", "<A-Down>", "<Esc>:m.+1<CR>==gi", { noremap = true })
-vim.keymap.set("n", "<A-Down>", ":m.+1<CR>==", { noremap = true })
-vim.keymap.set("i", "<A-Up>", "<Esc>:m.-2<CR>==gi", { noremap = true })
+vim.keymap.set("n", "<S-Up>", ":m.-2<CR>==", { noremap = true })
+vim.keymap.set("i", "<S-Down>", "<Esc>:m.+1<CR>==gi", { noremap = true })
+vim.keymap.set("n", "<S-Down>", ":m.+1<CR>==", { noremap = true })
+vim.keymap.set("i", "<S-Up>", "<Esc>:m.-2<CR>==gi", { noremap = true })
 
 -- ⚠️ intentional: operator-pending l/h = $/^ (overrides default; ch/cl/dh/dl semantics change)
 -- vim.keymap.set("o", "l", "$", { desc = "Operator pending: l → $" })
@@ -119,9 +119,9 @@ vim.keymap.set("n", "<leader>cc", vim.cmd.cclose, { desc = "Quickfix: close", })
 
 -- Quickfix items
 vim.keymap.set("n", "<leader>cn", function() vim.cmd.cnext() vim.cmd.normal({ "zz", bang = true }) end, { desc = "Quickfix: next item", })
-vim.keymap.set("n", "<A-Right>", function() vim.cmd.cnext() vim.cmd.normal({ "zz", bang = true }) end, { desc = "Quickfix: next item", })
+vim.keymap.set("n", "<S-Right>", function() vim.cmd.cnext() vim.cmd.normal({ "zz", bang = true }) end, { desc = "Quickfix: next item", })
 vim.keymap.set("n", "<leader>cp", function() vim.cmd.cprev() vim.cmd.normal({ "zz", bang = true }) end, { desc = "Quickfix: previous item", })
-vim.keymap.set("n", "<A-Left>", function() vim.cmd.cprev() vim.cmd.normal({ "zz", bang = true }) end, { desc = "Quickfix: previous item", })
+vim.keymap.set("n", "<S-Left>", function() vim.cmd.cprev() vim.cmd.normal({ "zz", bang = true }) end, { desc = "Quickfix: previous item", })
 vim.keymap.set("n", "<leader>cf", function() vim.cmd.cfirst() vim.cmd.normal({ "zz", bang = true }) end, { desc = "Quickfix: first item", })
 
 vim.keymap.set("n", "<leader>cl", function() vim.cmd.clast() vim.cmd.normal({ "zz", bang = true }) end, { desc = "Quickfix: last item", })

@@ -270,6 +270,12 @@ return {
 				Snacks.git.blame_line()
 			end,
 			desc = "Git Blame Line",
-		},
+		},{
+        "<leader>tt",
+        function()
+            Snacks.terminal()
+        end,
+        desc = "snacks terminal",
+    },
 	},
 }
