@@ -6,6 +6,7 @@
 -- ================= Normal — core =================
 vim.keymap.set("n", "<leader>w", ":w<CR>")
 vim.keymap.set("n", "<leader>q", ":bd<CR>")
+vim.keymap.set("n", "<leader>rr", ":restart<CR>")
 vim.keymap.set("n", "<leader>qw", ":close!<CR>")
 vim.keymap.set("n", "<leader>qe", ":q!<CR>")
 vim.keymap.set("n", "<leader>o", "<C-^>", {desc = "alternate buf"}) -- alternate buffer
@@ -66,8 +67,11 @@ vim.keymap.set("n", "<C-u>", "<C-u>zz", { noremap = true })
 vim.keymap.set("n", "n", "nzzzv", { noremap = true })
 vim.keymap.set("n", "N", "Nzzzv", { noremap = true })
 
-vim.keymap.set("n", "<leader>l", "mzo<Esc>`z", { desc = "newline below" })
-vim.keymap.set("n", "<leader>L", "mzO<Esc>`z", { desc = "newline above" })
+-- vim.keymap.set("n", "<CR>", "mzo<Esc>`z", { desc = "newline below" })
+-- TODO make sure TMUX doesnt eat shift enter or ctrl entr
+-- vim.keymap.set("n", "<S-CR>", "mzO<Esc>`z", { desc = "newline above" })
+-- vim.keymap.set("n", "<S-CR>", function() print("enter") end, { desc = "newline above" })
+
 
 vim.keymap.set("n", "<C-k>", "<C-v>", { desc = "Visual block mode" })
 vim.keymap.set({ "i", "c" }, "<C-k>", "<C-V>", { noremap = true, silent = true })
@@ -109,7 +113,7 @@ vim.keymap.set("n", "[Q", vim.cmd.cpfile, { desc = "Quickfix: previous file", })
 -- Quickfix list
 vim.keymap.set("n", "<leader>co", vim.cmd.copen, { desc = "Quickfix: open", })
 vim.keymap.set("n", "<leader>cc", vim.cmd.cclose, { desc = "Quickfix: close", })
-vim.keymap.set("n", "<leader>cw", vim.cmd.cwindow, { desc = "Quickfix: toggle window", })
+-- vim.keymap.set("n", "<leader>cw", vim.cmd.cwindow, { desc = "Quickfix: toggle window", })
 
 -- Quickfix items
 vim.keymap.set("n", "<leader>cn", function() vim.cmd.cnext() vim.cmd.normal({ "zz", bang = true }) end, { desc = "Quickfix: next item", })

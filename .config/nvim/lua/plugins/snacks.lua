@@ -22,6 +22,13 @@ return {
 			enabled = true,
 			timeout = 3000,
 		},
+		styles = {
+			-- You can target the style key directly as a string index
+			["notification_history"] = {
+				width = 0, -- 0 instructs snacks to use full screen/editor width
+				height = 0,
+			},
+		},
 		notify = { enabled = true },
 		quickfile = { enabled = true },
 		scope = { enabled = true },
@@ -29,7 +36,13 @@ return {
 		words = { enabled = true },
 	},
 	keys = {
-		{ "<leader>a", function() Snacks.picker.smart() end, desc = "Find Files", },
+		{
+			"<leader>a",
+			function()
+				Snacks.picker.smart()
+			end,
+			desc = "Find Files",
+		},
 		{
 			"<leader>sg",
 			function()
@@ -159,13 +172,7 @@ return {
 			end,
 			desc = "Notification History",
 		},
-		{
-			"<leader>q",
-			function()
-				Snacks.bufdelete()
-			end,
-			desc = "Delete Buffer",
-		},
+		{ "<leader>q", function() Snacks.bufdelete() end, desc = "Delete Buffer", },
 		{
 			"<leader>cr",
 			function()

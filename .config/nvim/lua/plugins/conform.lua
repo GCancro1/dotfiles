@@ -46,5 +46,8 @@ return {
 		formatters = {
 			jq = { command = "jq", args = { "." } }, -- jq pretty-prints via stdin
 		},
+        -- stylua = {
+        --     prepend_args = { "--column-width", "100" },
+        -- },
 	},
 }
