@@ -11,6 +11,7 @@ return {
 
 			vim.keymap.set("n", "H", function()
 				harpoon:list():add()
+				vim.cmd("redrawtabline")
 			end, { desc = "Harpoon add" })
 			vim.keymap.set("n", "<C-h>", function()
 				harpoon.ui:toggle_quick_menu(harpoon:list())
@@ -55,11 +56,13 @@ return {
 			vim.keymap.set("n", "<leader>8", function()
 				harpoon:list():select(8)
 			end, { desc = "Harpoon f8" })
+			harpoon:setup({
+				settings = {
+					save_on_toggle = true,
+					sync_on_ui_close = true,
+				},
+			})
 		end,
-		settings = {
-			save_on_toggle = true,
-			sync_on_ui_close = true,
-		},
 	},
 
 	{

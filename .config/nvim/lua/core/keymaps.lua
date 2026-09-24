@@ -8,11 +8,12 @@ vim.keymap.set("n", "<leader>w", ":w<CR>")
 vim.keymap.set("n", "<leader>q", ":bd<CR>")
 vim.keymap.set("n", "<leader>rr", ":restart<CR>")
 vim.keymap.set("n", "<leader>qw", ":close!<CR>")
-vim.keymap.set("n", "<leader>qe", ":q!<CR>")
+vim.keymap.set("n", "<leader>z", ":q!<CR>")
 vim.keymap.set("n", "<leader>o", "<C-^>", {desc = "alternate buf"}) -- alternate buffer
 
 vim.keymap.set("n", "<leader>ll", ":.lua<CR>")
 vim.keymap.set("n", "<leader>lf", ":! lua %<CR>")
+vim.keymap.set("n", "<leader>ls", ":source %<CR>")
 vim.keymap.set("v", "<leader>l", ":lua<CR>")
 
 vim.keymap.set("i", "<C-BS>", "<C-W>")
@@ -67,10 +68,11 @@ vim.keymap.set("n", "<C-u>", "<C-u>zz", { noremap = true })
 vim.keymap.set("n", "n", "nzzzv", { noremap = true })
 vim.keymap.set("n", "N", "Nzzzv", { noremap = true })
 
--- vim.keymap.set("n", "<CR>", "mzo<Esc>`z", { desc = "newline below" })
 -- TODO make sure TMUX doesnt eat shift enter or ctrl entr
+vim.keymap.set("n", "<leader>l", "mzo<Esc>`z", { desc = "newline below" })
+vim.keymap.set("n", "<leader>L", "mzO<Esc>`z", { desc = "newline above" })
+-- vim.keymap.set("n", "<CR>", "mzo<Esc>`z", { desc = "newline below" })
 -- vim.keymap.set("n", "<S-CR>", "mzO<Esc>`z", { desc = "newline above" })
--- vim.keymap.set("n", "<S-CR>", function() print("enter") end, { desc = "newline above" })
 
 
 vim.keymap.set("n", "<C-k>", "<C-v>", { desc = "Visual block mode" })
@@ -96,7 +98,8 @@ vim.keymap.set("n", "<leader>,a", "mz%a,<Esc>`z", { desc = "add comma to end of 
 -- ================= Buffers / files =================
 vim.keymap.set("n", "<Tab>", "<cmd>bnext<CR>", { desc = "Next buffer" })
 vim.keymap.set("n", "<S-Tab>", "<cmd>bprev<CR>", { desc = "Prev buffer" })
-vim.keymap.set("n", "<leader>n", "<cmd>enew<CR>", { desc = "New buffer" })
+-- NOTE replaced by scratch
+-- vim.keymap.set("n", "<leader>n", "<cmd>enew<CR>", { desc = "New buffer" })
 vim.keymap.set("n", "<leader>vn", "<cmd>new<CR>", { desc = "New horizontal split" })
 vim.keymap.set("n", "<leader>vs", "<cmd>vsplit<CR>", { desc = "Vertical split" })
 vim.keymap.set("n", "<leader>tw", "<cmd>set wrap!<CR>", { desc = "Toggle wrap" })
@@ -104,8 +107,7 @@ vim.keymap.set("n", "<leader>tw", "<cmd>set wrap!<CR>", { desc = "Toggle wrap" }
 -- ================= Quickfix =================
 -- Quickfix navigation
 vim.keymap.set("n", "]q", vim.cmd.cnext, { desc = "Quickfix: next item", })
-vim.keymap.set("n", "[q", vim.cmd.cprev, { desc = "Quickfix: previous item",
-})
+vim.keymap.set("n", "[q", vim.cmd.cprev, { desc = "Quickfix: previous item", })
 
 vim.keymap.set("n", "]Q", vim.cmd.cnfile, { desc = "Quickfix: next file", })
 vim.keymap.set("n", "[Q", vim.cmd.cpfile, { desc = "Quickfix: previous file", })
@@ -117,7 +119,9 @@ vim.keymap.set("n", "<leader>cc", vim.cmd.cclose, { desc = "Quickfix: close", })
 
 -- Quickfix items
 vim.keymap.set("n", "<leader>cn", function() vim.cmd.cnext() vim.cmd.normal({ "zz", bang = true }) end, { desc = "Quickfix: next item", })
+vim.keymap.set("n", "<A-Right>", function() vim.cmd.cnext() vim.cmd.normal({ "zz", bang = true }) end, { desc = "Quickfix: next item", })
 vim.keymap.set("n", "<leader>cp", function() vim.cmd.cprev() vim.cmd.normal({ "zz", bang = true }) end, { desc = "Quickfix: previous item", })
+vim.keymap.set("n", "<A-Left>", function() vim.cmd.cprev() vim.cmd.normal({ "zz", bang = true }) end, { desc = "Quickfix: previous item", })
 vim.keymap.set("n", "<leader>cf", function() vim.cmd.cfirst() vim.cmd.normal({ "zz", bang = true }) end, { desc = "Quickfix: first item", })
 
 vim.keymap.set("n", "<leader>cl", function() vim.cmd.clast() vim.cmd.normal({ "zz", bang = true }) end, { desc = "Quickfix: last item", })

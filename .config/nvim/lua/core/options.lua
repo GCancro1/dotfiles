@@ -53,6 +53,8 @@ vim.opt.undodir = vim.fn.stdpath("state") .. "/undo"
 
 -- Formatting
 vim.opt.formatoptions:remove("t")
+-- fix the commenting below a newline
+vim.opt.formatoptions:remove({ "o", "r" })
 vim.opt.formatoptions:append("j")
 
 vim.opt.wildignorecase = true

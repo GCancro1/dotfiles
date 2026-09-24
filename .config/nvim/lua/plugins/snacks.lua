@@ -15,7 +15,8 @@ return {
 			},
 		},
 
-		bigfile = { enabled = true, line_length = 50000 },
+		git = { enabled = true },
+		gitbrowse = { enabled = true },
 		indent = { enabled = true },
 		input = { enabled = true },
 		notifier = {
@@ -34,6 +35,19 @@ return {
 		scope = { enabled = true },
 		statuscolumn = { enabled = false },
 		words = { enabled = true },
+
+		scratch = {
+			win = {
+				width = 0,
+				height = 0,
+			},
+		},
+		lazygit = {
+			win = {
+				width = 0,
+				height = 0,
+			},
+		},
 	},
 	keys = {
 		{
@@ -172,7 +186,13 @@ return {
 			end,
 			desc = "Notification History",
 		},
-		{ "<leader>q", function() Snacks.bufdelete() end, desc = "Delete Buffer", },
+		{
+			"<leader>q",
+			function()
+				Snacks.bufdelete()
+			end,
+			desc = "Delete Buffer",
+		},
 		{
 			"<leader>cr",
 			function()
@@ -203,7 +223,13 @@ return {
 			end,
 			desc = "Diagnostics",
 		},
-
+		{
+			"<leader>sm",
+			function()
+				Snacks.picker.marks()
+			end,
+			{ desc = "Marks" },
+		},
 		{
 			"<leader>sH",
 			function()
@@ -223,6 +249,27 @@ return {
 				})
 			end,
 			desc = "Help Tags",
+		},
+		{
+			"<C-g>",
+			function()
+				Snacks.lazygit()
+			end,
+			desc = "lazygit",
+		},
+		{
+			"<leader>n",
+			function()
+				Snacks.scratch()
+			end,
+			desc = "scratch pad",
+		},
+		{
+			"<leader>gb",
+			function()
+				Snacks.git.blame_line()
+			end,
+			desc = "Git Blame Line",
 		},
 	},
 }

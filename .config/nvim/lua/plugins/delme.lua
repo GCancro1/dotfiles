@@ -11,6 +11,12 @@ return {
 	-- https://github.com/tomasky/bookmarks.nvim
 	-- https://github.com/2KAbhishek/seeker.nvim
 
+	{
+		"chentoast/marks.nvim",
+		event = "VeryLazy",
+		opts = {},
+	},
+
 	-- {
 	-- 	"2kabhishek/seeker.nvim",
 	-- 	dependencies = { "folke/snacks.nvim" },
