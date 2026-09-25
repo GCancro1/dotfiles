@@ -1,7 +1,7 @@
 -- Consolidated from init.lua + oldbinds.lua + vimport.lua (legacy files no longer loaded)
 
 vim.g.mapleader = " "
-vim.g.maplocalleader = " "
+vim.g.maplocalleader = ","
 vim.g.have_nerd_font = true
 
 require("vim._core.ui2").enable()

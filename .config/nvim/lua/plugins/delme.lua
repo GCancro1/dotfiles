@@ -1,5 +1,53 @@
 return {
 
+	{
+		"MagicDuck/grug-far.nvim",
+		cmd = "GrugFar",
+		opts = {},
+		keys = {
+			{
+				"<leader>ra",
+				function()
+					require("grug-far").open()
+				end,
+				desc = "Search and Replace",
+			},
+
+			{
+				"<leader>rv",
+				function()
+					require("grug-far").open({
+						visualSelectionUsage = "operate-within-range",
+					})
+				end,
+				mode = { "n", "x" },
+				desc = "Search/Replace Selection",
+			},
+
+			{
+				"<leader>rf",
+				function()
+					require("grug-far").open({
+						prefills = {
+							paths = vim.fn.expand("%"),
+						},
+					})
+				end,
+				desc = "Search/Replace Current File",
+			},
+		},
+	},
+	{
+		"Wansmer/treesj",
+		dependencies = { "nvim-treesitter/nvim-treesitter" }, -- if you install parsers with `nvim-treesitter`
+		config = function()
+			require("treesj").setup({--[[ your config ]]
+				vim.keymap.set("n", "<leader>x", function()
+					require("treesj").toggle({ split = { recursive = true } })
+				end),
+			})
+		end,
+	},
 	-- "kevinhwang91/nvim-ufo",
 	-- "Wansmer/treesj",
 	-- "MagicDuck/grug-far.nvim",

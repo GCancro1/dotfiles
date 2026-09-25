@@ -58,6 +58,12 @@ return {
 			desc = "Find Files",
 		},
 		{
+			"<leader>j",
+			function()
+				Snacks.picker.grep({ hidden = true, ignored = true })
+			end,
+			desc = "Grep",
+		},{
 			"<leader>sg",
 			function()
 				Snacks.picker.grep({ hidden = true, ignored = true })
@@ -267,15 +273,19 @@ return {
 		{
 			"<leader>gb",
 			function()
-				Snacks.git.blame_line()
+				Snacks.git.blame_line({ win = {
+					width = 0.9,
+					height = 0.9,
+				} })
 			end,
 			desc = "Git Blame Line",
-		},{
-        "<leader>tt",
-        function()
-            Snacks.terminal()
-        end,
-        desc = "snacks terminal",
-    },
+		},
+		{
+			"<leader>tt",
+			function()
+				Snacks.terminal()
+			end,
+			desc = "snacks terminal",
+		},
 	},
 }

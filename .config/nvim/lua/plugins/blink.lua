@@ -1,6 +1,6 @@
 return {
 	"saghen/blink.cmp",
-    version = "1.*",
+	version = "1.*",
 	dependencies = {
 		{
 			"L3MON4D3/LuaSnip",
@@ -24,7 +24,23 @@ return {
 			preset = "default",
 			["<C-t>"] = { "snippet_backward", "fallback" },
 			["<C-g>"] = { "snippet_forward", "fallback" },
+			["<Up>"] = false,
+			["<Down>"] = false,
 		},
+		cmdline = {
+			completion = {
+				menu = {
+					auto_show = true,
+				},
+			},
+		},
+		-- cmdline = {
+		-- 	keymap = {
+		-- 		preset = "default",
+		--
+		-- 		-- ["<C-y>"] = { "accept", "fallback" },
+		-- 	},
+		-- },
 		completion = {
 			documentation = {
 				auto_show = true,

@@ -72,7 +72,7 @@ vim.keymap.set("n", "N", "Nzzzv", { noremap = true })
 vim.keymap.set("n", "<leader>l", "mzo<Esc>`z", { desc = "newline below" })
 vim.keymap.set("n", "<leader>L", "mzO<Esc>`z", { desc = "newline above" })
 -- vim.keymap.set("n", "<CR>", "mzo<Esc>`z", { desc = "newline below" })
--- vim.keymap.set("n", "<S-CR>", "mzO<Esc>`z", { desc = "newline above" })
+vim.keymap.set("n", "<S-CR>", "mzo<Esc>`z", { desc = "newline below" })
 
 
 vim.keymap.set("n", "<C-k>", "<C-v>", { desc = "Visual block mode" })
