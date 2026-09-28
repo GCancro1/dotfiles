@@ -9,6 +9,10 @@ return {
 
 			local harpoon_idx = 0
 
+			vim.keymap.set("n", "M", function()
+				harpoon:list():remove()
+				vim.cmd("redrawtabline")
+			end, { desc = "Harpoon remove" })
 			vim.keymap.set("n", "H", function()
 				harpoon:list():add()
 				vim.cmd("redrawtabline")

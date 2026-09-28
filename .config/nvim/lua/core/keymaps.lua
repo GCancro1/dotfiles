@@ -5,7 +5,6 @@ vim.keymap.set("i", "<C-l>", "<C-x><C-l>", { desc = "line completion" })
 vim.keymap.set("i", "<C-f>", "<C-x><C-f>", { desc = "line completion" })
 vim.keymap.set("i", "<S-CR>", "<Esc>mzo<Esc>`zli", { desc = "newline below" })
 
-
 -- TODO something to be done here
 -- vim.keymap.set("n", "<leader>y", [["_dy]])
 -- ================= Normal — core =================
@@ -27,6 +26,7 @@ vim.keymap.set("i", "<C-Del>", "<C-O>dw")
 vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
 
 -- ================= Window & layout =================
+vim.keymap.set("n", "<S-l>", "<C-w><C-p>", { desc = "Move focus to Prev split" })
 vim.keymap.set("n", "<A-Left>", "<C-w><C-h>", { desc = "Move focus to the left window" })
 vim.keymap.set("n", "<A-Right>", "<C-w><C-l>", { desc = "Move focus to the right window" })
 vim.keymap.set("n", "<A-Down>", "<C-w><C-j>", { desc = "Move focus to the lower window" })
