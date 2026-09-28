@@ -5,6 +5,8 @@ vim.keymap.set("i", "<C-l>", "<C-x><C-l>", { desc = "line completion" })
 vim.keymap.set("i", "<C-f>", "<C-x><C-f>", { desc = "line completion" })
 vim.keymap.set("i", "<S-CR>", "<Esc>mzo<Esc>`zli", { desc = "newline below" })
 
+
+
 -- TODO something to be done here
 -- vim.keymap.set("n", "<leader>y", [["_dy]])
 -- ================= Normal — core =================
@@ -72,7 +74,10 @@ vim.keymap.set("n", "<C-u>", "<C-u>zz", { noremap = true })
 
 vim.keymap.set("n", "n", "nzzzv", { noremap = true })
 vim.keymap.set("n", "N", "Nzzzv", { noremap = true })
-
+vim.keymap.set("n", "*", "*zz", { noremap = true })
+vim.keymap.set("n", "#", "#zz", { noremap = true })
+vim.keymap.set("n", "g*", "g*zz", { noremap = true })
+vim.keymap.set("n", "g#", "g#zz", { noremap = true })
 -- TODO make sure TMUX doesnt eat shift enter or ctrl entr
 vim.keymap.set("n", "<leader>l", "mzo<Esc>`z", { desc = "newline below" })
 vim.keymap.set("n", "<leader>L", "mzO<Esc>`z", { desc = "newline above" })
@@ -152,3 +157,34 @@ vim.keymap.set("n", "<leader>ce", vim.diagnostic.setloclist, { desc = "Open diag
 -- Quickfix list history
 vim.keymap.set("n", "<leader>cO", vim.cmd.colder, { desc = "Quickfix: older list" })
 vim.keymap.set("n", "<leader>cN", vim.cmd.cnewer, { desc = "Quickfix: newer list" })
+
+
+-- yank and comment 
+vim.keymap.set("n", "yc", "yy<cmd>normal gcc<CR>p", { noremap = true, desc = "Duplicate line and comment original" })
+local function duplicate_and_comment()
+  -- Exit visual mode
+  local esc = vim.api.nvim_replace_termcodes("<Esc>", true, false, true)
+  vim.api.nvim_feedkeys(esc, "x", false)
+
+  -- Get selection range
+  local start_line = vim.fn.line("'<")
+  local end_line = vim.fn.line("'>")
+
+  -- Yank and paste below
+  vim.cmd(start_line .. "," .. end_line .. "yank")
+  vim.cmd((end_line + 1) .. "put")
+
+  -- Reselect pasted block
+  vim.api.nvim_feedkeys("gv", "n", false)
+
+  -- Comment the original selection
+  vim.api.nvim_feedkeys("gc", "v", false)
+end
+
+vim.keymap.set("v", "yc", duplicate_and_comment, { noremap = true, desc = "Duplicate selection and comment original" })
+
+
+-- replace all words under cursor 
+vim.keymap.set("n", "<leader>rw", [[:%s/\<<C-r><C-w>\>//g<Left><Left>]], { desc = "Search and replace word under cursor" })
+-- send results to qfix list
+vim.keymap.set("n", "g/", ":vimgrep /<C-R>//j %<CR>|:cw<CR>", { noremap = true, silent = true, desc = "Populate quickfix with search results" })
