@@ -19,4 +19,6 @@ nvim/lazy-lock.json
 # Fish variables (contains history)
 fish/fish_variables
 
+.config/hypr/*
+
 monitors.lua
