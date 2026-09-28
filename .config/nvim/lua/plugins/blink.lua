@@ -7,6 +7,7 @@ return {
 			version = "v2.*",
 			dependencies = {
 				"rafamadriz/friendly-snippets",
+				"mikavilpas/blink-ripgrep.nvim",
 			},
 			config = function()
 				local ls = require("luasnip")
@@ -64,12 +65,27 @@ return {
 		signature = { enabled = false, window = { border = "rounded" } },
 		fuzzy = { implementation = "prefer_rust_with_warning" },
 		sources = {
-			default = { "lsp", "path", "snippets", "buffer" },
+			default = { "lsp", "path", "snippets", "buffer", "ripgrep" },
 			providers = {
 				lazydev = {
 					name = "LazyDev",
 					module = "lazydev.integrations.blink",
 					score_offset = 100,
+				},
+				path = {
+					opts = {
+						getcwd = function()
+							return vim.fn.getcwd()
+						end,
+					},
+				},
+				ripgrep = {
+					module = "blink-ripgrep",
+					name = "Ripgrep",
+					-- see the full configuration below for all available options
+					---@module "blink-ripgrep"
+					---@type blink-ripgrep.Options
+					opts = {},
 				},
 			},
 		},

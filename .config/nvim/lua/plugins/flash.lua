@@ -1,3 +1,4 @@
+-- TODO need to fix the f and t operator mode staying in flash mode
 return {
 	"folke/flash.nvim",
 	event = "VeryLazy",

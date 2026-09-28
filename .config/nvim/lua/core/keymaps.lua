@@ -1,15 +1,20 @@
 -- Keymaps
 
 -- TODO move me
+vim.keymap.set("i", "<C-l>", "<C-x><C-l>", { desc = "line completion" })
+vim.keymap.set("i", "<C-f>", "<C-x><C-f>", { desc = "line completion" })
+vim.keymap.set("i", "<S-CR>", "<Esc>mzo<Esc>`zli", { desc = "newline below" })
 
 
+-- TODO something to be done here
+-- vim.keymap.set("n", "<leader>y", [["_dy]])
 -- ================= Normal — core =================
 vim.keymap.set("n", "<leader>w", ":w<CR>")
 vim.keymap.set("n", "<leader>q", ":bd<CR>")
 vim.keymap.set("n", "<leader>rr", ":restart<CR>")
 vim.keymap.set("n", "<leader>qw", ":close!<CR>")
 vim.keymap.set("n", "<leader>z", ":q!<CR>")
-vim.keymap.set("n", "<leader>o", "<C-^>", {desc = "alternate buf"}) -- alternate buffer
+vim.keymap.set("n", "<leader>o", "<C-^>", { desc = "alternate buf" }) -- alternate buffer
 
 vim.keymap.set("n", "<leader>ll", ":.lua<CR>")
 vim.keymap.set("n", "<leader>lf", ":! lua %<CR>")
@@ -74,7 +79,6 @@ vim.keymap.set("n", "<leader>L", "mzO<Esc>`z", { desc = "newline above" })
 -- vim.keymap.set("n", "<CR>", "mzo<Esc>`z", { desc = "newline below" })
 vim.keymap.set("n", "<S-CR>", "mzo<Esc>`z", { desc = "newline below" })
 
-
 vim.keymap.set("n", "<C-k>", "<C-v>", { desc = "Visual block mode" })
 vim.keymap.set({ "i", "c" }, "<C-k>", "<C-V>", { noremap = true, silent = true })
 
@@ -83,7 +87,7 @@ vim.keymap.set("n", "<leader>cd", 'gg"_dG', { desc = "Del all of file" })
 vim.keymap.set("n", "<leader>ca", "<cmd>%+y<CR>", { desc = "Copy all of file" })
 vim.keymap.set("n", "<leader>d", '"_d', { desc = "Delete to black-hole register" })
 
--- file operations 
+-- file operations
 vim.keymap.set("n", "<leader>fi", "mz<cmd>normal! gg=G<CR>`z", { desc = "Indent entire file" })
 vim.keymap.set("n", "<leader>fp", function()
 	vim.fn.setreg("+", vim.fn.expand("%:p"))
@@ -106,27 +110,45 @@ vim.keymap.set("n", "<leader>tw", "<cmd>set wrap!<CR>", { desc = "Toggle wrap" }
 
 -- ================= Quickfix =================
 -- Quickfix navigation
-vim.keymap.set("n", "]q", vim.cmd.cnext, { desc = "Quickfix: next item", })
-vim.keymap.set("n", "[q", vim.cmd.cprev, { desc = "Quickfix: previous item", })
+vim.keymap.set("n", "]q", vim.cmd.cnext, { desc = "Quickfix: next item" })
+vim.keymap.set("n", "[q", vim.cmd.cprev, { desc = "Quickfix: previous item" })
 
-vim.keymap.set("n", "]Q", vim.cmd.cnfile, { desc = "Quickfix: next file", })
-vim.keymap.set("n", "[Q", vim.cmd.cpfile, { desc = "Quickfix: previous file", })
+vim.keymap.set("n", "]Q", vim.cmd.cnfile, { desc = "Quickfix: next file" })
+vim.keymap.set("n", "[Q", vim.cmd.cpfile, { desc = "Quickfix: previous file" })
 
 -- Quickfix list
-vim.keymap.set("n", "<leader>co", vim.cmd.copen, { desc = "Quickfix: open", })
-vim.keymap.set("n", "<leader>cc", vim.cmd.cclose, { desc = "Quickfix: close", })
+vim.keymap.set("n", "<leader>co", vim.cmd.copen, { desc = "Quickfix: open" })
+vim.keymap.set("n", "<leader>cc", vim.cmd.cclose, { desc = "Quickfix: close" })
 -- vim.keymap.set("n", "<leader>cw", vim.cmd.cwindow, { desc = "Quickfix: toggle window", })
 
 -- Quickfix items
-vim.keymap.set("n", "<leader>cn", function() vim.cmd.cnext() vim.cmd.normal({ "zz", bang = true }) end, { desc = "Quickfix: next item", })
-vim.keymap.set("n", "<S-Right>", function() vim.cmd.cnext() vim.cmd.normal({ "zz", bang = true }) end, { desc = "Quickfix: next item", })
-vim.keymap.set("n", "<leader>cp", function() vim.cmd.cprev() vim.cmd.normal({ "zz", bang = true }) end, { desc = "Quickfix: previous item", })
-vim.keymap.set("n", "<S-Left>", function() vim.cmd.cprev() vim.cmd.normal({ "zz", bang = true }) end, { desc = "Quickfix: previous item", })
-vim.keymap.set("n", "<leader>cf", function() vim.cmd.cfirst() vim.cmd.normal({ "zz", bang = true }) end, { desc = "Quickfix: first item", })
+vim.keymap.set("n", "<leader>cn", function()
+	vim.cmd.cnext()
+	vim.cmd.normal({ "zz", bang = true })
+end, { desc = "Quickfix: next item" })
+vim.keymap.set("n", "<S-Right>", function()
+	vim.cmd.cnext()
+	vim.cmd.normal({ "zz", bang = true })
+end, { desc = "Quickfix: next item" })
+vim.keymap.set("n", "<leader>cp", function()
+	vim.cmd.cprev()
+	vim.cmd.normal({ "zz", bang = true })
+end, { desc = "Quickfix: previous item" })
+vim.keymap.set("n", "<S-Left>", function()
+	vim.cmd.cprev()
+	vim.cmd.normal({ "zz", bang = true })
+end, { desc = "Quickfix: previous item" })
+vim.keymap.set("n", "<leader>cf", function()
+	vim.cmd.cfirst()
+	vim.cmd.normal({ "zz", bang = true })
+end, { desc = "Quickfix: first item" })
 
-vim.keymap.set("n", "<leader>cl", function() vim.cmd.clast() vim.cmd.normal({ "zz", bang = true }) end, { desc = "Quickfix: last item", })
+vim.keymap.set("n", "<leader>cl", function()
+	vim.cmd.clast()
+	vim.cmd.normal({ "zz", bang = true })
+end, { desc = "Quickfix: last item" })
 
 vim.keymap.set("n", "<leader>ce", vim.diagnostic.setloclist, { desc = "Open diagnostic [Q]uickfix list" })
 -- Quickfix list history
-vim.keymap.set("n", "<leader>cO", vim.cmd.colder, { desc = "Quickfix: older list", })
-vim.keymap.set("n", "<leader>cN", vim.cmd.cnewer, { desc = "Quickfix: newer list", })
+vim.keymap.set("n", "<leader>cO", vim.cmd.colder, { desc = "Quickfix: older list" })
+vim.keymap.set("n", "<leader>cN", vim.cmd.cnewer, { desc = "Quickfix: newer list" })
