@@ -1,0 +1,22 @@
+git:
+  diffRenderers:
+    - colorArg: always
+      command: delta --dark --paging=never --line-numbers
+
+gui:
+  sidePanelWidth: 0.25
+  diffContextSize: 3
+  mainPanelSplitMode: flexibile
+  border: rounded
+  animateExplosion: false
+
+keybinding:
+  universal:
+    scrollUpMain: [<pgup>, u]
+    scrollDownMain: [<pgdown>, t]
+    nextItem: [<down>, n]
+    prevItem: [<up>, N]
+
+
+
+
