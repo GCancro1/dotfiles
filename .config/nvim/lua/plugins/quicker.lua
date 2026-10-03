@@ -94,13 +94,13 @@ return {
 	config = function(_, opts)
 		require("quicker").setup(opts)
 
-		-- Optional: setup keymaps or smooth integration hooks if needed
-		vim.keymap.set("n", "<leader>q", function()
-			require("quicker").toggle()
-		end, { desc = "Toggle quickfix" })
-
-		vim.keymap.set("n", "<leader>l", function()
-			require("quicker").toggle({ loclist = true })
-		end, { desc = "Toggle loclist" })
+		-- -- Optional: setup keymaps or smooth integration hooks if needed
+		-- vim.keymap.set("n", "<leader>q", function()
+		-- 	require("quicker").toggle()
+		-- end, { desc = "Toggle quickfix" })
+		--
+		-- vim.keymap.set("n", "<leader>l", function()
+		-- 	require("quicker").toggle({ loclist = true })
+		-- end, { desc = "Toggle loclist" })
 	end,
 }

@@ -20,17 +20,17 @@ return {
 
 		-- Placeholders used during annotation expansion
 		placeholders_text = {
-			["description"] = "[TODO:description]",
-			["tparam"] = "[TODO:tparam]",
-			["parameter"] = "[TODO:parameter]",
-			["return"] = "[TODO:return]",
-			["class"] = "[TODO:class]",
-			["throw"] = "[TODO:throw]",
-			["varargs"] = "[TODO:varargs]",
-			["type"] = "[TODO:type]",
-			["attribute"] = "[TODO:attribute]",
-			["args"] = "[TODO:args]",
-			["kwargs"] = "[TODO:kwargs]",
+			["description"] = "[TOD:description]",
+			["tparam"] = "[TOD:tparam]",
+			["parameter"] = "[TOD:parameter]",
+			["return"] = "[TOD:return]",
+			["class"] = "[TOD:class]",
+			["throw"] = "[TOD:throw]",
+			["varargs"] = "[TOD:varargs]",
+			["type"] = "[TOD:type]",
+			["attribute"] = "[TOD:attribute]",
+			["args"] = "[TOD:args]",
+			["kwargs"] = "[TOD:kwargs]",
 		},
 
 		-- Placeholders highlights to use. If you don't want custom highlight, pass "None"

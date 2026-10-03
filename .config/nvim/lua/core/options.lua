@@ -4,6 +4,8 @@ vim.g.mapleader = " "
 vim.g.maplocalleader = ","
 vim.g.have_nerd_font = true
 
+
+vim.opt.cmdheight = 0
 require("vim._core.ui2").enable()
 vim.loader.enable()
 -- Editor
