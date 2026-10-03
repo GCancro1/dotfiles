@@ -86,13 +86,6 @@ return {
 			mode = { "n", "x" },
 		},
 		{
-			"<leader>sh",
-			function()
-				Snacks.picker.recent()
-			end,
-			desc = "Recent Files",
-		},
-		{
 			"<leader><leader>",
 			function()
 				Snacks.picker.buffers({
@@ -237,7 +230,7 @@ return {
 			{ desc = "Marks" },
 		},
 		{
-			"<leader>sH",
+			"<leader>sh",
 			function()
 				Snacks.picker.help({
 					previewers = {

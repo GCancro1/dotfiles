@@ -48,7 +48,7 @@ return {
 				auto_show_delay_ms = 50,
 				window = { border = "rounded" },
 			},
-			list = { selection = { preselect = false, auto_insert = false } },
+			list = { selection = { preselect = true, auto_insert = false } },
 			ghost_text = { enabled = true },
 			menu = {
 				border = "rounded",

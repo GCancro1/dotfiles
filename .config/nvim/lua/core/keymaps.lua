@@ -151,7 +151,9 @@ vim.keymap.set("n", "<leader>cl", function()
 	vim.cmd.normal({ "zz", bang = true })
 end, { desc = "Quickfix: last item" })
 
-vim.keymap.set("n", "<leader>ce", vim.diagnostic.setloclist, { desc = "Open diagnostic [Q]uickfix list" })
+vim.keymap.set("n", "<leader>ce", function()
+	vim.diagnostic.setqflist({ severity = { min = vim.diagnostic.severity.WARN } })
+end, { desc = "Open diagnostic [Q]uickfix list" })
 -- Quickfix list history
 vim.keymap.set("n", "<leader>cO", vim.cmd.colder, { desc = "Quickfix: older list" })
 vim.keymap.set("n", "<leader>cN", vim.cmd.cnewer, { desc = "Quickfix: newer list" })

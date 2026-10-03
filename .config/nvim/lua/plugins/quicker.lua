@@ -75,12 +75,10 @@
 -- 	end,
 -- }
 --
--- TODO clean this up so the toggle expand works
 return {
 	"stevearc/quicker.nvim",
 	ft = "qf",
-	---@module "quicker"
-	---@type quicker.SetupOptions
+
 	opts = {
 		buflisted = false,
 		number = false,
@@ -88,19 +86,32 @@ return {
 		signcolumn = "auto",
 		winfixheight = true,
 		wrap = false,
+
+		highlight = {
+			treesitter = true,
+			lsp = true,
+			load_buffers = false,
+		},
+
+		keys = {
+			{
+				">",
+				function()
+					require("quicker").toggle_expand()
+				end,
+				desc = "Toggle quickfix context",
+			},
+			{
+				"<",
+				function()
+					require("quicker").toggle_expand()
+				end,
+				desc = "Toggle quickfix context",
+			},
+		},
 	},
-	-- Add any custom options here, or leave empty for defaults
-	-- e.g., max_height = 20, min_height = 4
+
 	config = function(_, opts)
 		require("quicker").setup(opts)
-
-		-- -- Optional: setup keymaps or smooth integration hooks if needed
-		-- vim.keymap.set("n", "<leader>q", function()
-		-- 	require("quicker").toggle()
-		-- end, { desc = "Toggle quickfix" })
-		--
-		-- vim.keymap.set("n", "<leader>l", function()
-		-- 	require("quicker").toggle({ loclist = true })
-		-- end, { desc = "Toggle loclist" })
 	end,
 }
