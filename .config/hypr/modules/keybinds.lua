@@ -12,6 +12,7 @@ local wsaction = os.getenv("HOME") .. "/.config/hypr-lua/scripts/wsaction.fish"
 -- ── Shell keybinds ──────────────────────────────────────────
 -- Launcher
 hl.bind("SUPER + Space", hl.dsp.global("caelestia:launcher"))
+hl.bind("SUPER + period", hl.dsp.global("caelestia:launcher"))
 hl.bind("SUPER + mouse:272", hl.dsp.global("caelestia:launcherInterrupt"), { mouse = true })
 hl.bind("SUPER + mouse:273", hl.dsp.global("caelestia:launcherInterrupt"), { mouse = true })
 hl.bind("SUPER + mouse:274", hl.dsp.global("caelestia:launcherInterrupt"), { mouse = true })
