@@ -1,7 +1,7 @@
 return {
 	"folke/which-key.nvim",
 	event = "VeryLazy",
-
+    preset = "helix",
 	delay = 0,
 	opts = {
 		spec = {
