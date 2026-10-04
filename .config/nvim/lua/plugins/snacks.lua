@@ -216,13 +216,19 @@ return {
 			mode = { "n" },
 		},
 		{
-			"<leader>sd",
+			"<leader>sD",
 			function()
 				Snacks.picker.diagnostics()
 			end,
 			desc = "Diagnostics",
+		},{
+			"<leader>sd",
+			function()
+				Snacks.picker.diagnostics_buffer()
+			end,
+			desc = "Diagnostics buffer",
 		},
-		{
+        {
 			"<leader>sm",
 			function()
 				Snacks.picker.marks()
