@@ -14,8 +14,6 @@ keybinding:
   universal:
     scrollUpMain: [<pgup>, u]
     scrollDownMain: [<pgdown>, t]
-    nextItem: [<down>, n]
-    prevItem: [<up>, N]
 
 
 
