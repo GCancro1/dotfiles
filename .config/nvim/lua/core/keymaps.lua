@@ -2,7 +2,7 @@
 
 -- TODO move me
 vim.keymap.set("i", "<C-l>", "<C-x><C-l>", { desc = "line completion" })
-vim.keymap.set("i", "<C-f>", "<C-x><C-f>", { desc = "line completion" })
+vim.keymap.set("i", "<C-f>", "<C-x><C-f>", { desc = "filepath  completion" })
 vim.keymap.set("i", "<S-CR>", "<Esc>mzo<Esc>`zli", { desc = "newline below" })
 
 -- TODO something to be done here
@@ -11,6 +11,7 @@ vim.keymap.set("i", "<S-CR>", "<Esc>mzo<Esc>`zli", { desc = "newline below" })
 vim.keymap.set("n", "<leader>w", ":w<CR>")
 vim.keymap.set("n", "<leader>q", ":bd<CR>")
 vim.keymap.set("n", "<leader>rr", ":restart<CR>")
+vim.keymap.set("n", "<leader>re", ":e!<CR>")
 vim.keymap.set("n", "<leader>qw", ":close!<CR>")
 vim.keymap.set("n", "<leader>z", ":q!<CR>")
 vim.keymap.set("n", "<leader>o", "<C-^>", { desc = "alternate buf" }) -- alternate buffer

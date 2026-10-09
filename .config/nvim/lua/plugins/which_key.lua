@@ -1,9 +1,9 @@
 return {
 	"folke/which-key.nvim",
 	event = "VeryLazy",
-    preset = "helix",
 	delay = 0,
 	opts = {
+        preset = "helix",
 		spec = {
 			{ "<leader>s", group = "[S]earch", mode = { "n", "v" } },
 			{ "<leader>S", group = "[S]ession", mode = { "n", "v" } },
