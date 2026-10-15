@@ -22,3 +22,5 @@ fish/fish_variables
 .config/hypr/*
 
 monitors.lua
+/.config/hypr/monitors.conf
+/.config/hypr/workspaces.conf
