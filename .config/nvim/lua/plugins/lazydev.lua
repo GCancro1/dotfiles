@@ -4,6 +4,7 @@ return {
 	cond = function()
 		return vim.fn.getcwd() == vim.fn.expand("~/.config/nvim")
 			or vim.fn.getcwd() == vim.fn.expand("~/dotfiles/.config/nvim")
+			or vim.fn.getcwd() == vim.fn.expand("~/dotfiles")
 	end,
 	opts = {
 		library = {

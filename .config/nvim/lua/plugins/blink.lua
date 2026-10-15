@@ -66,7 +66,7 @@ return {
 		signature = { enabled = false, window = { border = "rounded" } },
 		fuzzy = { implementation = "prefer_rust_with_warning" },
 		sources = {
-			default = { "lsp", "path", "snippets", "buffer", "ripgrep" },
+			default = { "lsp", "path", "snippets", "lazydev", "buffer", "ripgrep" },
 			providers = {
 				lazydev = {
 					name = "LazyDev",
