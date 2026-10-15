@@ -27,6 +27,7 @@ return {
 			["<C-g>"] = { "snippet_forward", "fallback" },
 			["<Up>"] = false,
 			["<Down>"] = false,
+            ['<C-space>'] = { function(cmp) cmp.show() end },
 		},
 		cmdline = {
 			completion = {
@@ -74,7 +75,7 @@ return {
 				},
 				path = {
 					opts = {
-						getcwd = function()
+						get_cwd = function()
 							return vim.fn.getcwd()
 						end,
 					},

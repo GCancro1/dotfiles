@@ -114,11 +114,23 @@ vim.keymap.set("n", "<leader>tw", "<cmd>set wrap!<CR>", { desc = "Toggle wrap" }
 
 -- ================= Quickfix =================
 -- Quickfix navigation
-vim.keymap.set("n", "]q", vim.cmd.cnext, { desc = "Quickfix: next item" })
-vim.keymap.set("n", "[q", vim.cmd.cprev, { desc = "Quickfix: previous item" })
+vim.keymap.set("n", "]q", function()
+	vim.cmd.cnext()
+	vim.cmd.normal({ "zz", bang = true })
+end, { desc = "Quickfix: next item" })
+vim.keymap.set("n", "[q", function()
+	vim.cmd.cprev()
+	vim.cmd.normal({ "zz", bang = true })
+end, { desc = "Quickfix: previous item" })
 
-vim.keymap.set("n", "]Q", vim.cmd.cnfile, { desc = "Quickfix: next file" })
-vim.keymap.set("n", "[Q", vim.cmd.cpfile, { desc = "Quickfix: previous file" })
+vim.keymap.set("n", "]Q", function()
+	vim.cmd.cnfile()
+	vim.cmd.normal({ "zz", bang = true })
+end, { desc = "Quickfix: next file" })
+vim.keymap.set("n", "[Q", function()
+	vim.cmd.cpfile()
+	vim.cmd.normal({ "zz", bang = true })
+end, { desc = "Quickfix: previous file" })
 
 -- Quickfix list
 vim.keymap.set("n", "<leader>co", vim.cmd.copen, { desc = "Quickfix: open" })

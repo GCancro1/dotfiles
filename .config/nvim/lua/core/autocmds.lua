@@ -36,15 +36,15 @@ vim.api.nvim_create_autocmd("VimResized", {
   desc = "Equalize splits on resize",
 })
 
--- Close helper windows with 'q'
-vim.api.nvim_create_autocmd("FileType", {
-  pattern = { "help", "man", "qf", "lspinfo", "checkhealth", "lazy", "mason" },
-  callback = function(event)
-    vim.keymap.set("n", "q", "<cmd>close<CR>", { buffer = event.buf, silent = true })
-  end,
-  desc = "Close with q",
-})
-
+-- -- Close helper windows with 'q'
+-- vim.api.nvim_create_autocmd("FileType", {
+--   pattern = { "help", "man", "qf", "lspinfo", "checkhealth", "lazy", "mason" },
+--   callback = function(event)
+--     vim.keymap.set("n", "q", "<cmd>close<CR>", { buffer = event.buf, silent = true })
+--   end,
+--   desc = "Close with q",
+-- })
+--
 -- Auto-create missing directories when writing
 vim.api.nvim_create_autocmd("BufWritePre", {
   callback = function(event)

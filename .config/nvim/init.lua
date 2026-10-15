@@ -3,6 +3,7 @@ require("core.options")
 require("core.keymaps")
 require("core.autocmds")
 require("core.help")
+require("core.fancy")
 
 vim.filetype.add({ extension = { vil = "json" }})
 

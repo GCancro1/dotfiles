@@ -63,7 +63,8 @@ return {
 				Snacks.picker.grep({ hidden = true, ignored = true })
 			end,
 			desc = "Grep",
-		},{
+		},
+		{
 			"<leader>sg",
 			function()
 				Snacks.picker.grep({ hidden = true, ignored = true })
@@ -208,6 +209,14 @@ return {
 			mode = { "n", "v" },
 		},
 		{
+			"<leader>sa",
+			function()
+				Snacks.picker.autocmds()
+			end,
+			desc = "autocmds picker",
+			mode = { "n" },
+		},
+		{
 			"<leader>sk",
 			function()
 				Snacks.picker.keymaps({ plugs = true })
@@ -221,14 +230,15 @@ return {
 				Snacks.picker.diagnostics()
 			end,
 			desc = "Diagnostics",
-		},{
+		},
+		{
 			"<leader>sd",
 			function()
 				Snacks.picker.diagnostics_buffer()
 			end,
 			desc = "Diagnostics buffer",
 		},
-        {
+		{
 			"<leader>sm",
 			function()
 				Snacks.picker.marks()
