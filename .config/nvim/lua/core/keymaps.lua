@@ -17,6 +17,7 @@ vim.keymap.set("n", "<leader>z", ":q!<CR>")
 vim.keymap.set("n", "<leader>o", "<C-^>", { desc = "alternate buf" }) -- alternate buffer
 
 vim.keymap.set("n", "<leader>ll", ":.lua<CR>")
+vim.keymap.set("n", "<leader>lz", ":Lazy<CR>")
 vim.keymap.set("n", "<leader>lf", ":! lua %<CR>")
 vim.keymap.set("n", "<leader>ls", ":source %<CR>")
 vim.keymap.set("v", "<leader>l", ":lua<CR>")

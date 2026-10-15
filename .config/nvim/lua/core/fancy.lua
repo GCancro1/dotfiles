@@ -8,3 +8,4 @@ vim.keymap.set("n", "gt", "g<", { desc = "open output term window" })
 -- TODO  this would be cool to expand selection doesnt work
 -- vim.keymap.set({"v"}, "m", "an", { desc = "select parent easier"})
 
+-- vim.keymap.set("n", "<leader>td", "<cmd>diffoff<CR><cmd>only<CR>", { desc = "Toggle diff off" })
