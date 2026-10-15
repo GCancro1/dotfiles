@@ -1,7 +1,23 @@
 return {
 	"saghen/blink.cmp",
-	dependencies = { "rafamadriz/friendly-snippets" },
 	version = "1.*",
+	dependencies = {
+		{
+			"L3MON4D3/LuaSnip",
+			version = "v2.*",
+			dependencies = {
+				"rafamadriz/friendly-snippets",
+				"mikavilpas/blink-ripgrep.nvim",
+			},
+			config = function()
+				local ls = require("luasnip")
+
+				ls.config.setup({})
+
+				require("luasnip.loaders.from_vscode").lazy_load()
+			end,
+		},
+	},
 	---@module 'blink.cmp'
 	---@type blink.cmp.Config
 	opts = {
@@ -9,14 +25,31 @@ return {
 			preset = "default",
 			["<C-t>"] = { "snippet_backward", "fallback" },
 			["<C-g>"] = { "snippet_forward", "fallback" },
+			["<Up>"] = false,
+			["<Down>"] = false,
+            ['<C-space>'] = { function(cmp) cmp.show() end },
 		},
+		cmdline = {
+			completion = {
+				menu = {
+					auto_show = true,
+				},
+			},
+		},
+		-- cmdline = {
+		-- 	keymap = {
+		-- 		preset = "default",
+		--
+		-- 		-- ["<C-y>"] = { "accept", "fallback" },
+		-- 	},
+		-- },
 		completion = {
 			documentation = {
 				auto_show = true,
 				auto_show_delay_ms = 50,
 				window = { border = "rounded" },
 			},
-			list = { selection = { preselect = false, auto_insert = false } },
+			list = { selection = { preselect = true, auto_insert = false } },
 			ghost_text = { enabled = true },
 			menu = {
 				border = "rounded",
@@ -29,15 +62,32 @@ return {
 				},
 			},
 		},
+		snippets = { preset = "luasnip" },
 		signature = { enabled = false, window = { border = "rounded" } },
 		fuzzy = { implementation = "prefer_rust_with_warning" },
 		sources = {
-			default = { "lsp", "path", "snippets", "buffer" },
+			default = { "lsp", "path", "snippets", "lazydev", "buffer", "ripgrep" },
 			providers = {
 				lazydev = {
 					name = "LazyDev",
 					module = "lazydev.integrations.blink",
 					score_offset = 100,
+				},
+				path = {
+					opts = {
+						get_cwd = function()
+							return vim.fn.getcwd()
+						end,
+					},
+				},
+				ripgrep = {
+					module = "blink-ripgrep",
+					name = "Ripgrep",
+                    score_offset = -100,
+					-- see the full configuration below for all available options
+					---@module "blink-ripgrep"
+					---@type blink-ripgrep.Options
+					opts = {},
 				},
 			},
 		},

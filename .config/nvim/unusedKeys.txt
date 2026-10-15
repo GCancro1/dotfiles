@@ -1,0 +1,7 @@
+<Space>
+
+Completed unused:
+y p x b k
+
+Used with second key not first:
+e i c v n m 

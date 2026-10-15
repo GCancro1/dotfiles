@@ -10,9 +10,25 @@ return {
 		vim.o.winborder = "rounded"
 
 		vim.diagnostic.config({
+			update_in_insert = false,
 			severity_sort = true,
-			float = { source = true },
-			virtual_text = { spacing = 2, source = "if_many" },
+			float = { border = "rounded", source = "if_many" },
+			underline = { severity = { min = vim.diagnostic.severity.WARN } },
+
+			-- Can switch between these as you prefer
+			virtual_text = true, -- Text shows up at the end of the line
+			virtual_lines = false, -- Text shows up underneath the line, with virtual lines
+
+			-- Auto open the float, so you can easily read the errors when jumping with `[d` and `]d`
+			jump = {
+				on_jump = function(_, bufnr)
+					vim.diagnostic.open_float({
+						bufnr = bufnr,
+						scope = "cursor",
+						focus = false,
+					})
+				end,
+			},
 		})
 
 		vim.lsp.config("*", {
@@ -28,6 +44,7 @@ return {
 			settings = {
 				Lua = {
 					diagnostics = { globals = { "vim", "Snacks" } },
+					format = { enable = false },
 					telemetry = { enable = false },
 					workspace = {
 						checkThirdParty = false,
@@ -46,7 +63,10 @@ return {
 			},
 		})
 
+		local lsp_group = vim.api.nvim_create_augroup("LspKeymaps", { clear = true })
+
 		vim.api.nvim_create_autocmd("LspAttach", {
+			group = lsp_group,
 			callback = function(args)
 				local client = vim.lsp.get_client_by_id(args.data.client_id)
 				local map = function(keys, func, desc)
@@ -59,10 +79,48 @@ return {
 				map("<leader>cA", vim.lsp.buf.code_action, "Code action")
 				map("<leader>rn", vim.lsp.buf.rename, "Rename")
 				map("<leader>D", vim.lsp.buf.type_definition, "Type definition")
-                map("<leader>ih", function() vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled()) end, "Toggle inlay hints")
+				map("<leader>ih", function()
+					vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
+				end, "Toggle inlay hints")
 
 				if client and client:supports_method("textDocument/inlayHint") then
-					vim.lsp.inlay_hint.enable(true, { bufnr = args.buf })
+					vim.lsp.inlay_hint.enable(false, { bufnr = args.buf })
+				end
+
+				map("grd", Snacks.picker.lsp_definitions, "Go to definition")
+				map("grr", Snacks.picker.lsp_references, "Go to references")
+				map("gri", Snacks.picker.lsp_implementations, "Go to implementation")
+				map("go", Snacks.picker.lsp_symbols, "Type definition")
+				map("gW", Snacks.picker.lsp_workspace_symbols, "Type workspace definition")
+				map("grt", Snacks.picker.lsp_type_definitions, "Type definition")
+
+				-- The following two autocommands are used to highlight references of the
+				-- word under your cursor when your cursor rests there for a little while.
+				--    See `:help CursorHold` for information about when this is executed
+				--
+				-- When you move your cursor, the highlights will be cleared (the second autocommand).
+				local client = vim.lsp.get_client_by_id(args.data.client_id)
+				if client and client:supports_method("textDocument/documentHighlight", args.buf) then
+					local highlight_augroup = vim.api.nvim_create_augroup("kickstart-lsp-highlight", { clear = false })
+					vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
+						buffer = args.buf,
+						group = highlight_augroup,
+						callback = vim.lsp.buf.document_highlight,
+					})
+
+					vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI" }, {
+						buffer = args.buf,
+						group = highlight_augroup,
+						callback = vim.lsp.buf.clear_references,
+					})
+
+					vim.api.nvim_create_autocmd("LspDetach", {
+						group = vim.api.nvim_create_augroup("kickstart-lsp-detach", { clear = true }),
+						callback = function(event2)
+							vim.lsp.buf.clear_references()
+							vim.api.nvim_clear_autocmds({ group = "kickstart-lsp-highlight", buffer = event2.buf })
+						end,
+					})
 				end
 			end,
 		})

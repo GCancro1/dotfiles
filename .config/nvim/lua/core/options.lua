@@ -1,23 +1,28 @@
 -- Consolidated from init.lua + oldbinds.lua + vimport.lua (legacy files no longer loaded)
 
 vim.g.mapleader = " "
-vim.g.maplocalleader = " "
+vim.g.maplocalleader = ","
 vim.g.have_nerd_font = true
 
+
+vim.opt.cmdheight = 0
+require("vim._core.ui2").enable()
+vim.loader.enable()
 -- Editor
 vim.opt.mouse = "a"
 vim.opt.number = true
 vim.opt.relativenumber = true
-vim.opt.clipboard = "unnamedplus"
+vim.schedule(function() vim.o.clipboard = 'unnamedplus' end)
 vim.opt.textwidth = 0
 vim.opt.tabstop = 4
 vim.opt.shiftwidth = 4
 vim.opt.smartindent = true
 vim.opt.expandtab = true
 vim.opt.wrap = true
-vim.opt.wrapmargin = 0 -- init.lua wins over oldbinds' 160
+-- vim.opt.wrapmargin = 0 -- init.lua wins over oldbinds' 160
 vim.opt.termguicolors = true
-vim.opt.scrolloff = 8
+vim.opt.scrolloff = 6
+vim.opt.autoread = true
 vim.opt.signcolumn = "yes"
 vim.opt.cursorline = true
 vim.opt.confirm = true
@@ -48,11 +53,11 @@ vim.opt.swapfile = false
 vim.opt.backup = false
 vim.opt.undofile = true
 vim.opt.undodir = vim.fn.stdpath("state") .. "/undo"
-vim.opt.backspace = { "indent", "eol", "start" }
-vim.opt.fileencoding = "utf-8"
 
 -- Formatting
 vim.opt.formatoptions:remove("t")
+-- fix the commenting below a newline
+vim.opt.formatoptions:remove({ "o", "r" })
 vim.opt.formatoptions:append("j")
 
 vim.opt.wildignorecase = true
@@ -72,7 +77,7 @@ vim.opt.shortmess:append("I")
 -- Diff / spell / folding
 vim.opt.diffopt:append("vertical")
 vim.opt.spelllang = "en_us"
-vim.opt.foldnestmax = 2
+-- vim.opt.foldnestmax = 2
 vim.opt.foldlevelstart = 99
 vim.opt.foldmethod = "expr"
 vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
