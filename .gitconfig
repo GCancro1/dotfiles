@@ -1,19 +1,22 @@
 [user]
-	email = george.cancro@yahoo.com
-	name = GCancro1
+    email = george.cancro@yahoo.com
+    name = GCancro1
 [push]
-	autoSetupRemote = true
+    autoSetupRemote = true
 [core]
-	pager = delta
+    pager = delta
 [interactive]
-	diffFilter = delta --color-only
+    diffFilter = delta --color-only
 [delta]
-	navigate = true
-	side-by-side = false
-	line-numbers = true
-	syntax-theme = Catppuccin Mocha
-	mouse = true
+    navigate = true
+    side-by-side = false
+    line-numbers = true
+    syntax-theme = Catppuccin Mocha
+    mouse = true
 [merge]
-	conflictstyle = diff3
+    conflictstyle = diff3
+[difftool "nvim_difftool"]
+    cmd = nvim -c \"packadd nvim.difftool\" -d \"$LOCAL\" \"$REMOTE\"
 [diff]
-	colorMoved = default
+    tool = nvim_difftool
+    colorMoved = default
