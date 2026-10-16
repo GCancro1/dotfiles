@@ -2,6 +2,8 @@
 
 -- TODO move me
 vim.keymap.set("i", "<C-l>", "<C-x><C-l>", { desc = "line completion" })
+vim.keymap.set("i", "<C-b>", "<c-j>", { desc = "Insert new line" })
+vim.keymap.set("i", "<C-j>", "<cmd>join<CR>", { desc = "join lines" })
 vim.keymap.set("i", "<C-f>", "<C-x><C-f>", { desc = "filepath  completion" })
 vim.keymap.set("i", "<S-CR>", "<Esc>mzo<Esc>`zli", { desc = "newline below" })
 

@@ -2,6 +2,7 @@ vim.keymap.set("n", "<leader>pr", "oprint(<C-r>+)", { desc = "Print register ne
 vim.keymap.set("n", "<leader>pf", 'oprint("<C-r>+: " .. <C-r>+)', { desc = "Print register next line"})
 vim.keymap.set("n", "<leader>pe", "oprint(", { desc = "Print register next line"})
 vim.keymap.set("n", "<leader>pw", 'yiwoprint("<C-r>+:" .. <C-r>+)', { desc = "Print current word next line"})
+vim.keymap.set("v", "<leader>pw", 'yoprint("<C-r>+:" .. <C-r>+)', { desc = "Print current word next line"})
 
 vim.keymap.set("n", "gt", "g<", { desc = "open output term window" })
 
