@@ -24,3 +24,8 @@ fish/fish_variables
 monitors.lua
 /.config/hypr/monitors.conf
 /.config/hypr/workspaces.conf
+
+# Externally managed clones (tpm plugins, hand-cloned) — never gitlink them
+/.tmux/plugins/
+/caelestia-shell/
+/.config/opencode/.opencode/plugins/shell-strategy/

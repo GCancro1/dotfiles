@@ -19,6 +19,7 @@ bind '"\e[A": history-search-backward'
 bind '"\e[B": history-search-forward'
 
 alias yt='mov-cli -s youtube'
+alias oc='opencode'
 alias st='cd ~/dotfiles && stow --restow . && echo "stowed dotfiles" && cd -'
 # ==================================================
 # PATH Management
@@ -43,7 +44,7 @@ export VISUAL=nvim
 # Modern CLI Tool Aliases (conditional on availability)
 # ==================================================
 command -v eza >/dev/null && {
-    alias ls='eza --icons --group-directories-first'
+    # alias ls='eza --icons --group-directories-first'
     alias ll='eza --icons --group-directories-first -l'
     alias la='eza --icons --group-directories-first -la'
     alias lt='eza --icons --tree'
