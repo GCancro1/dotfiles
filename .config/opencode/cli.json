@@ -10,7 +10,7 @@
     "sidebar": "hide",
     "scrollbar": false,
     "thinking": "show",
-    "permissions": "prompt"
+    "permissions": "autoaccept"
   },
   "animations": true
 }

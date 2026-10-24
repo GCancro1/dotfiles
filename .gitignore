@@ -24,3 +24,5 @@ fish/fish_variables
 monitors.lua
 /.config/hypr/monitors.conf
 /.config/hypr/workspaces.conf
+/.config/opencode/plugins/opencode-proxy
+/.config/opencode/proxy-plugin.json
