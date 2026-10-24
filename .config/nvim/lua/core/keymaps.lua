@@ -6,6 +6,14 @@ vim.keymap.set("i", "<C-b>", "<c-j>", { desc = "Insert new line" })
 vim.keymap.set("i", "<C-j>", "<cmd>join<CR>", { desc = "join lines" })
 vim.keymap.set("i", "<C-f>", "<C-x><C-f>", { desc = "filepath  completion" })
 vim.keymap.set("i", "<S-CR>", "<Esc>mzo<Esc>`zli", { desc = "newline below" })
+vim.keymap.set("i", "<C-s>", function()
+	vim.cmd("silent write")
+end, { desc = "Save file silently" })
+-- Toggle linewise comment from insert mode using Ctrl+_ (or another key of your choice)
+vim.keymap.set("i", "<C-/>", function()
+	vim.cmd("normal gcc")
+    vim.cmd("normal o")
+end, { desc = "Toggle comment in insert mode", remap = true })
 
 -- TODO something to be done here
 -- vim.keymap.set("n", "<leader>y", [["_dy]])
@@ -51,9 +59,11 @@ vim.keymap.set("t", "<A-Right>", "<C-\\><C-n><C-w>l", { desc = "Move right from 
 -- ================= Editing helpers =================
 vim.keymap.set("v", ".", ":norm .<CR>", { noremap = true }) -- ⚠️ intentional: repeat last change over selection
 vim.keymap.set("n", "<S-Up>", ":m.-2<CR>==", { noremap = true })
-vim.keymap.set("i", "<S-Down>", "<Esc>:m.+1<CR>==gi", { noremap = true })
 vim.keymap.set("n", "<S-Down>", ":m.+1<CR>==", { noremap = true })
+vim.keymap.set("i", "<S-Down>", "<Esc>:m.+1<CR>==gi", { noremap = true })
 vim.keymap.set("i", "<S-Up>", "<Esc>:m.-2<CR>==gi", { noremap = true })
+vim.keymap.set("v", "<S-Up>", ":m '<-2<CR>gv=gv", { noremap = true })
+vim.keymap.set("v", "<S-Down>", ":m '>+1<CR>gv=gv", { noremap = true })
 
 -- ⚠️ intentional: operator-pending l/h = $/^ (overrides default; ch/cl/dh/dl semantics change)
 -- vim.keymap.set("o", "l", "$", { desc = "Operator pending: l → $" })
@@ -86,8 +96,13 @@ vim.keymap.set("n", "<leader>L", "mzO<Esc>`z", { desc = "newline above" })
 -- vim.keymap.set("n", "<CR>", "mzo<Esc>`z", { desc = "newline below" })
 vim.keymap.set("n", "<S-CR>", "mzo<Esc>`z", { desc = "newline below" })
 
-vim.keymap.set("n", "<C-k>", "<C-v>", { desc = "Visual block mode" })
-vim.keymap.set({ "i", "c" }, "<C-k>", "<C-V>", { noremap = true, silent = true })
+-- Remap LSP signature help to Ctrl+h in Insert mode
+vim.keymap.set("i", "<C-h>", function()
+	vim.lsp.buf.signature_help()
+end, { desc = "LSP signature help", silent = true })
+
+-- vim.keymap.set("n", "<C-k>", "<C-v>", { desc = "Visual block mode" })
+-- vim.keymap.set({ "i", "c" }, "<C-k>", "<C-V>", { noremap = true, silent = true })
 
 -- ================= Yank / clipboard =================
 vim.keymap.set("n", "<leader>cd", 'gg"_dG', { desc = "Del all of file" })

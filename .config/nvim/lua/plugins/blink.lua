@@ -28,6 +28,7 @@ return {
 			["<Up>"] = false,
 			["<Down>"] = false,
             ['<C-space>'] = { function(cmp) cmp.show() end },
+            ['<C-k>'] = { 'show_signature', 'hide_signature', 'fallback' },
 		},
 		cmdline = {
 			completion = {
@@ -63,7 +64,7 @@ return {
 			},
 		},
 		snippets = { preset = "luasnip" },
-		signature = { enabled = false, window = { border = "rounded" } },
+		signature = { enabled = true, window = { border = "rounded" } },
 		fuzzy = { implementation = "prefer_rust_with_warning" },
 		sources = {
 			default = { "lazydev", "lsp", "path", "snippets", "buffer", "ripgrep" },
