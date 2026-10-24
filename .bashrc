@@ -182,6 +182,7 @@ if command -v fzf >/dev/null 2>&1; then
     --preview-window=right:60%
     "
 
+    export FZF_CTRL_R_OPTS="--sort --preview-window=hidden "
     # Use fd for file/directory discovery
     if command -v fd >/dev/null 2>&1; then
         export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'

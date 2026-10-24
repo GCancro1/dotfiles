@@ -2,6 +2,8 @@
 # Add patterns here to exclude from stow sync
 # These are Perl regular expressions, one per line
 
+.git
+.git/
 # yt-dlp - contains machine-specific config
 # Note: regex matches the basename when no / is present
 ^yt-dlp$
