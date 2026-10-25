@@ -18,6 +18,7 @@ PROMPT_COMMAND='history -a'
 bind '"\e[A": history-search-backward'
 bind '"\e[B": history-search-forward'
 
+alias oc='opencode'
 alias yt='mov-cli -s youtube'
 alias st='cd ~/dotfiles && stow --restow . && echo "stowed dotfiles" && cd -'
 # ==================================================
