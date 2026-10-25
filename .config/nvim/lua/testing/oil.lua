@@ -5,17 +5,21 @@ return {
 	keys = {
 		{ "-", "<CMD>Oil<CR>", desc = "Open current directory" },
 		{
+			-- TODO this is not using the :h of the local file dir
 			"<leader>n",
 			function()
-				vim.ui.input({ prompt = "New file path: ", completion = "file" }, function(path)
-					if path and path ~= "" then
-						local dir = vim.fn.fnamemodify(path, ":h")
-						if dir ~= "" and vim.fn.isdirectory(dir) == 0 then
-							vim.fn.mkdir(dir, "p")
+				vim.ui.input(
+					{ prompt = "New file path: ", default = vim.fn.expand("%:p:h") .. "/", completion = "file" },
+					function(path)
+						if path and path ~= "" then
+							local dir = vim.fn.fnamemodify(path, ":h")
+							if dir ~= "" and vim.fn.isdirectory(dir) == 0 then
+								vim.fn.mkdir(dir, "p")
+							end
+							vim.cmd("edit " .. path)
 						end
-						vim.cmd("edit " .. path)
 					end
-				end)
+				)
 			end,
 			desc = "New file",
 		},
@@ -38,13 +42,18 @@ return {
 				preview_method = "load",
 			},
 			delete_to_trash = true,
-			view_options = { show_hidden = true, is_always_hidden = function(name, bufnr)
-                local m = name:match("^..$")
-                return m ~= nil
-            end},
+			view_options = {
+				show_hidden = true,
+				is_always_hidden = function(name, bufnr)
+					local m = name:match("^..$")
+					return m ~= nil
+				end,
+			},
 		})
 
-		vim.keymap.set("n", "<leader>-", function() require("oil").open(vim.fn.getcwd()) end, { desc = "Open root cwd dir" })
+		vim.keymap.set("n", "<leader>-", function()
+			require("oil").open(vim.fn.getcwd())
+		end, { desc = "Open root cwd dir" })
 
 		vim.api.nvim_create_autocmd("User", {
 			pattern = "OilEnter",
