@@ -5,11 +5,25 @@ return {
 	opts = {
 		picker = {
 			enabled = true,
-			layout = { preset = "telescope", fullscreen = true },
-			win = {
-				input = {
-					keys = {
-						["<Space>"] = "type",
+			layout = {
+				preset = "telescope",
+			},
+
+			-- Size the Telescope preset, not every layout.
+			layouts = {
+				telescope = {
+					layout = {
+						height = 0,
+						width = 0,
+					},
+				},
+			},
+
+			-- Keep vim.ui.select prompts on their own layout.
+			sources = {
+				select = {
+					layout = {
+						preset = "select",
 					},
 				},
 			},
@@ -272,13 +286,13 @@ return {
 			end,
 			desc = "lazygit",
 		},
-		-- {
-		-- 	"<leader>n",
-		-- 	function()
-		-- 		Snacks.scratch()
-		-- 	end,
-		-- 	desc = "scratch pad",
-		-- },
+		{
+			"<leader>n",
+			function()
+				Snacks.scratch()
+			end,
+			desc = "scratch pad",
+		},
 		{
 			"<leader>gb",
 			function()
