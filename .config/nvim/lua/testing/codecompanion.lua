@@ -3,8 +3,14 @@ return {
 	dependencies = {
 		"nvim-lua/plenary.nvim",
 		"nvim-treesitter/nvim-treesitter",
+		"j-hui/fidget.nvim",
 	},
+	init = function()
+		require("custom.fidget-spinner"):init()
+	end,
+
 	opts = {
+		strategies = {},
 		-- NOTE: The log_level is in `opts.opts`
 		opts = {
 			log_level = "DEBUG", -- or "TRACE"
@@ -29,5 +35,9 @@ return {
 			},
 		},
 	},
-	keys = { { "<leader>ct", "<cmd>CodeCompanionChat toggle<CR>", {desc = "toggle codecompanion"}} },
+	keys = {
+		{ "<leader>ct", "<cmd>CodeCompanionChat toggle<CR>", desc = "toggle codecompanion" },
+		{ "<leader>i", "<cmd>CodeCompanion<CR>", desc = "codecompanion" },
+		{"<leader>i", "<cmd>CodeCompanion<CR>", mode = "v", desc = "codecompanion"  },
+	},
 }
