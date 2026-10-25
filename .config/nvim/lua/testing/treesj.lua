@@ -2,7 +2,13 @@ return {
 	"Wansmer/treesj",
 	keys = {
 		{
-			"<leader>in",
+			"<leader>tj",
+			function()
+				require("treesj").toggle({ split = { recursive = true } })
+			end,
+			desc = "Treesj toggle",
+		},{
+			"<leader>tn",
 			function()
 				require("treesj").toggle({ split = { recursive = true } })
 			end,
