@@ -1,0 +1,300 @@
+return {
+	"folke/snacks.nvim",
+	priority = 1000,
+	lazy = false,
+	opts = {
+		picker = {
+			enabled = true,
+			layout = { preset = "telescope", fullscreen = true },
+			win = {
+				input = {
+					keys = {
+						["<Space>"] = "type",
+					},
+				},
+			},
+		},
+
+		git = { enabled = true },
+		gitbrowse = { enabled = true },
+		indent = { enabled = true },
+		input = { enabled = true },
+		notifier = {
+			enabled = true,
+			timeout = 3000,
+		},
+		styles = {
+			-- You can target the style key directly as a string index
+			["notification_history"] = {
+				width = 0, -- 0 instructs snacks to use full screen/editor width
+				height = 0,
+			},
+		},
+		notify = { enabled = true },
+		quickfile = { enabled = true },
+		scope = { enabled = true },
+		statuscolumn = { enabled = false },
+		words = { enabled = true },
+
+		scratch = {
+			win = {
+				width = 0,
+				height = 0,
+			},
+		},
+		lazygit = {
+			win = {
+				width = 0,
+				height = 0,
+			},
+		},
+	},
+	keys = {
+		{
+			"<leader>a",
+			function()
+				Snacks.picker.smart()
+			end,
+			desc = "Find Files",
+		},
+		{
+			"<leader>j",
+			function()
+				Snacks.picker.grep({ hidden = true, ignored = true })
+			end,
+			desc = "Grep",
+		},
+		{
+			"<leader>sg",
+			function()
+				Snacks.picker.grep({ hidden = true, ignored = true })
+			end,
+			desc = "Grep",
+		},
+		{
+			"<leader>sn",
+			function()
+				Snacks.picker.files({ cwd = vim.fn.stdpath("config") })
+			end,
+			desc = "Find Config File",
+		},
+		{
+			"<leader>sw",
+			function()
+				Snacks.picker.grep_word()
+			end,
+			desc = "Visual selection or word",
+			mode = { "n", "x" },
+		},
+		{
+			"<leader><leader>",
+			function()
+				Snacks.picker.buffers({
+					win = {
+						input = {
+							keys = {
+								["<c-z>"] = { "bufdelete", mode = { "n", "i" } },
+							},
+						},
+					},
+				})
+			end,
+			desc = "Buffers",
+		},
+		{
+			"<leader>sf",
+			function()
+				Snacks.picker.files({ hidden = true, ignored = true })
+			end,
+			desc = "All Files",
+		},
+		{
+			"<leader>/",
+			function()
+				Snacks.picker.lines()
+			end,
+			desc = "Buffer Lines",
+		},
+		{
+			"<leader>sl",
+			function()
+				Snacks.picker.lines()
+			end,
+			desc = "Buffer Lines",
+		},
+		{
+			"<leader>se",
+			function()
+				Snacks.explorer()
+			end,
+			desc = "File Explorer",
+		},
+		{
+			"<leader>sr",
+			function()
+				Snacks.picker.recent()
+			end,
+			desc = "Recent",
+		},
+		{
+			"<leader>s:",
+			function()
+				Snacks.picker.command_history()
+			end,
+			desc = "Command History",
+		},
+		{
+			"<leader>sc",
+			function()
+				Snacks.picker.command_history()
+			end,
+			desc = "Command History",
+		},
+		{
+			'<leader>s"',
+			function()
+				Snacks.picker.registers()
+			end,
+			desc = "Registers",
+		},
+		{
+			"<leader>sj",
+			function()
+				Snacks.picker.jumps()
+			end,
+			desc = "Jumps",
+		},
+		{
+			"<leader>s.",
+			function()
+				Snacks.picker.resume()
+			end,
+			desc = "Resume",
+		},
+		{
+			"<leader>.",
+			function()
+				Snacks.picker.resume()
+			end,
+			desc = "Resume",
+		},
+
+		{
+			"<leader>mh",
+			function()
+				Snacks.notifier.show_history()
+			end,
+			desc = "Notification History",
+		},
+		{
+			"<leader>q",
+			function()
+				Snacks.bufdelete()
+			end,
+			desc = "Delete Buffer",
+		},
+		{
+			"<leader>cr",
+			function()
+				Snacks.rename.rename_file()
+			end,
+			desc = "Rename File",
+		},
+		{
+			"<leader>gw",
+			function()
+				Snacks.gitbrowse()
+			end,
+			desc = "Git Browse",
+			mode = { "n", "v" },
+		},
+		{
+			"<leader>sa",
+			function()
+				Snacks.picker.autocmds()
+			end,
+			desc = "autocmds picker",
+			mode = { "n" },
+		},
+		{
+			"<leader>sk",
+			function()
+				Snacks.picker.keymaps({ plugs = true })
+			end,
+			desc = "keymap picker",
+			mode = { "n" },
+		},
+		{
+			"<leader>sD",
+			function()
+				Snacks.picker.diagnostics()
+			end,
+			desc = "Diagnostics",
+		},
+		{
+			"<leader>sd",
+			function()
+				Snacks.picker.diagnostics_buffer()
+			end,
+			desc = "Diagnostics buffer",
+		},
+		{
+			"<leader>sm",
+			function()
+				Snacks.picker.marks()
+			end,
+			{ desc = "Marks" },
+		},
+		{
+			"<leader>sh",
+			function()
+				Snacks.picker.help({
+					previewers = {
+						-- love.txt (1.1MB) and mini.nvim's docs (1.1MB) exceed the
+						-- 1MB default max_size, so the file previewer showed
+						-- "large file > 1MB" instead of the doc.
+						file = { max_size = 10 * 1024 * 1024 },
+					},
+					confirm = function(picker, item)
+						picker:close()
+						if item and item.text then
+							_G.help_no_split(item.text)
+						end
+					end,
+				})
+			end,
+			desc = "Help Tags",
+		},
+		{
+			"<C-g>",
+			function()
+				Snacks.lazygit()
+			end,
+			desc = "lazygit",
+		},
+		-- {
+		-- 	"<leader>n",
+		-- 	function()
+		-- 		Snacks.scratch()
+		-- 	end,
+		-- 	desc = "scratch pad",
+		-- },
+		{
+			"<leader>gb",
+			function()
+				Snacks.git.blame_line({ win = {
+					width = 0.9,
+					height = 0.9,
+				} })
+			end,
+			desc = "Git Blame Line",
+		},
+		{
+			"<leader>tt",
+			function()
+				Snacks.terminal()
+			end,
+			desc = "snacks terminal",
+		},
+	},
+}
