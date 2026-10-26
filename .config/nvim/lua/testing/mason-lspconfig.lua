@@ -8,6 +8,7 @@ return {
 			"lua_ls",
 			"pyright",
 			"jsonls",
+            -- rust-analyzer in rustup
 		},
 		automatic_enable = true,
 	},
