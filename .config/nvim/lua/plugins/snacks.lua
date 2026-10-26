@@ -5,11 +5,25 @@ return {
 	opts = {
 		picker = {
 			enabled = true,
-			layout = { preset = "telescope", fullscreen = true },
-			win = {
-				input = {
-					keys = {
-						["<Space>"] = "type",
+			layout = {
+				preset = "telescope",
+			},
+
+			-- Size the Telescope preset, not every layout.
+			layouts = {
+				telescope = {
+					layout = {
+						height = 0,
+						width = 0,
+					},
+				},
+			},
+
+			-- Keep vim.ui.select prompts on their own layout.
+			sources = {
+				select = {
+					layout = {
+						preset = "select",
 					},
 				},
 			},
@@ -18,7 +32,7 @@ return {
 		git = { enabled = true },
 		gitbrowse = { enabled = true },
 		indent = { enabled = true },
-		input = { enabled = true },
+		-- input = { enabled = true },
 		notifier = {
 			enabled = true,
 			timeout = 3000,
@@ -70,6 +84,28 @@ return {
 				Snacks.picker.grep({ hidden = true, ignored = true })
 			end,
 			desc = "Grep",
+		},
+		{
+			"<leader>so",
+			function()
+				vim.ui.input({
+					prompt = "Directory: ",
+					default = vim.fn.getcwd(),
+					completion = "dir",
+				}, function(dir)
+					if not dir or dir == "" then
+						return
+					end
+
+					dir = vim.fn.expand(dir)
+
+					Snacks.picker.files({
+						cwd = dir,
+						title = "Files: " .. dir,
+					})
+				end)
+			end,
+			desc = "Find files in custom directory",
 		},
 		{
 			"<leader>sn",
@@ -243,7 +279,7 @@ return {
 			function()
 				Snacks.picker.marks()
 			end,
-			{ desc = "Marks" },
+			desc = "Marks",
 		},
 		{
 			"<leader>sh",

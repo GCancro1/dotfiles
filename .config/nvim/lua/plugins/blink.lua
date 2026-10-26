@@ -27,14 +27,18 @@ return {
 			["<C-g>"] = { "snippet_forward", "fallback" },
 			["<Up>"] = false,
 			["<Down>"] = false,
-            ['<C-space>'] = { function(cmp) cmp.show() end },
-            ['<C-k>'] = { 'show_signature', 'hide_signature', 'fallback' },
+			["<C-space>"] = { function(cmp) cmp.show() end, },
+			["<C-k>"] = { "show_signature", "hide_signature", "fallback" },
 		},
 		cmdline = {
 			completion = {
 				menu = {
 					auto_show = true,
 				},
+			},
+			keymap = {
+				preset = "inherit",
+                ["<Tab>"] = { function(cmp) cmp.show() end, },
 			},
 		},
 		-- cmdline = {
@@ -85,7 +89,7 @@ return {
 				ripgrep = {
 					module = "blink-ripgrep",
 					name = "Ripgrep",
-                    score_offset = -100,
+					score_offset = -100,
 					-- see the full configuration below for all available options
 					---@module "blink-ripgrep"
 					---@type blink-ripgrep.Options
@@ -208,4 +212,3 @@ return {
 -- 		})
 -- 	end,
 -- }}
-

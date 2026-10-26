@@ -38,7 +38,7 @@ return {
 			end, { desc = "Harpoon prev" })
 
             for i = 1, 8, 1 do
-                vim.keymap.set("n", "<leader>" .. i, function()
+                vim.keymap.set("n", "<C-" .. i .. ">", function()
                     harpoon:list():select(i)
                 end, { desc = "Harpoon f" .. i })
             end
@@ -78,11 +78,11 @@ return {
 		end,
 	},
 
-	{
-		"JamieLittle16/harpbar.nvim",
-		dependencies = { "ThePrimeagen/harpoon" },
-		config = function()
-			require("harpbar").setup()
-		end,
-	},
+	-- {
+	-- 	"JamieLittle16/harpbar.nvim",
+	-- 	dependencies = { "ThePrimeagen/harpoon" },
+	-- 	config = function()
+	-- 		require("harpbar").setup()
+	-- 	end,
+	-- },
 }

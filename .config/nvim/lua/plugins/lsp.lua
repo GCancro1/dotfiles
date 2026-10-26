@@ -79,7 +79,7 @@ return {
 				map("<leader>cA", vim.lsp.buf.code_action, "Code action")
 				map("<leader>rn", vim.lsp.buf.rename, "Rename")
 				map("<leader>D", vim.lsp.buf.type_definition, "Type definition")
-				map("<leader>ih", function()
+				map("<leader>th", function()
 					vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
 				end, "Toggle inlay hints")
 
