@@ -64,20 +64,20 @@ return {
 		})
 
 		-- Add this alongside your other LSP server configurations
-		vim.lsp.config("rust_analyzer", {
-			settings = {
-				["rust-analyzer"] = {
-					cargo = {
-						allFeatures = true,
-					},
-					check = {
-						command = "clippy",
-					},
-				},
-			},
-		})
-
-		vim.lsp.enable("rust_analyzer")
+		-- vim.lsp.config("rust_analyzer", {
+		-- 	settings = {
+		-- 		["rust-analyzer"] = {
+		-- 			cargo = {
+		-- 				allFeatures = true,
+		-- 			},
+		-- 			check = {
+		-- 				command = "clippy",
+		-- 			},
+		-- 		},
+		-- 	},
+		-- })
+		--
+		-- vim.lsp.enable("rust_analyzer")
 		local lsp_group = vim.api.nvim_create_augroup("LspKeymaps", { clear = true })
 
 		vim.api.nvim_create_autocmd("LspAttach", {
