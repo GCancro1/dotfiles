@@ -50,63 +50,63 @@ return {
 			},
 
 			{
-				"<leader>bb",
+				"<leader>db",
 				function()
 					require("dap").toggle_breakpoint()
 				end,
 				desc = "Debug: Toggle breakpoint",
 			},
 			{
-				"<leader>bB",
+				"<leader>dB",
 				function()
 					require("dap").set_breakpoint(vim.fn.input("Breakpoint condition: "))
 				end,
 				desc = "Debug: Conditional breakpoint",
 			},
 			{
-				"<leader>bc",
+				"<leader>dc",
 				function()
 					require("dap").continue()
 				end,
 				desc = "Debug: Continue",
 			},
 			{
-				"<leader>br",
+				"<leader>dr",
 				function()
 					require("dap").repl.open()
 				end,
 				desc = "Debug: Open REPL",
 			},
 			{
-				"<leader>bu",
+				"<leader>du",
 				function()
 					require("dap-view").toggle()
 				end,
 				desc = "Debug: Toggle UI",
 			},
 			{
-				"<leader>bx",
+				"<leader>dx",
 				function()
 					require("dap").terminate()
 				end,
 				desc = "Debug: Terminate",
 			},
 			{
-				"<leader>be",
+				"<leader>de",
 				function()
 					require("dap").set_exception_breakpoints()
 				end,
 				desc = "Debug: Exception breakpoints",
 			},
 			{
-				"<leader>bh",
+				"<leader>dh",
 				function()
 					require("dap.ui.widgets").hover()
 				end,
 				desc = "Debug: Inspect variable",
 			},
 			{
-				"<leader>bp",
+				"<leader>dp",
 				function()
 					require("dap.ui.widgets").preview()
 				end,
