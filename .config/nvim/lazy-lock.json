@@ -25,6 +25,7 @@
   "neogen": { "branch": "main", "commit": "23e7e9f883d01289ebd90e98025acc860ea26366" },
   "nvim-dap": { "branch": "master", "commit": "cfa2d58f4537aca6ca83e2de1a0d9f1491121264" },
   "nvim-dap-view": { "branch": "main", "commit": "b4486a6e83c45db4712849c09a76ef95b41a2133" },
+  "nvim-dap-virtual-text": { "branch": "master", "commit": "fbdb48c2ed45f4a8293d0d483f7730d24467ccb6" },
   "nvim-lint": { "branch": "master", "commit": "a219b2c9e5b4765e5c845aba119dad55806fcaf1" },
   "nvim-lspconfig": { "branch": "master", "commit": "4267d26e60323a45e18f8e7a63a964cc8f53ca4e" },
   "nvim-speedster": { "branch": "main", "commit": "0b3a50e92fcccf4953bfa7b1e1dbe33fc62db5be" },
