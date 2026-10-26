@@ -42,6 +42,7 @@ return {
 			lua = { "stylua" },
 			python = { "ruff_format" },
 			json = { "jq" },
+            rust = { "rustfmt" },
 		},
 		formatters = {
 			jq = { command = "jq", args = { "." } }, -- jq pretty-prints via stdin
