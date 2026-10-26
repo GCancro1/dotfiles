@@ -1,7 +1,10 @@
 return {
 	"stevearc/oil.nvim",
 	lazy = false,
-	dependencies = { "echasnovski/mini.icons", "3rd/image.nvim" },
+	dependencies = {
+        -- "echasnovski/mini.icons",
+        "3rd/image.nvim",
+    },
 	keys = {
 		{ "-", "<CMD>Oil<CR>", desc = "Open current directory" },
 		{
@@ -27,6 +30,7 @@ return {
 
 	config = function()
 		require("oil").setup({
+            columns = {},
 			default_file_explorer = true,
 			keymaps = {
 				["q"] = "actions.close",

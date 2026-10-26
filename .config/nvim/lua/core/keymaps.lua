@@ -15,7 +15,7 @@ vim.keymap.set("i", "<C-/>", function()
     vim.cmd("normal o")
 end, { desc = "Toggle comment in insert mode", remap = true })
 
-vim.keymap.set("v", "ae", "<Esc>mvggvG", { desc="select whole file"})
+vim.keymap.set("v", "ae", "<Esc>mvgg0vG", { desc="select whole file"})
 -- TODO something to be done here
 -- vim.keymap.set("n", "<leader>y", [["_dy]])
 -- ================= Normal — core =================
