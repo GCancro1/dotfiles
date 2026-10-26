@@ -170,17 +170,13 @@ return {
 
 			-- Breakpoint and debugging signs
 			vim.fn.sign_define("DapBreakpoint", {
-				text = "🔴",
+				text = "●",
 				texthl = "DapBreakpoint",
-				linehl = "",
-				numhl = "",
 			})
 
-			vim.fn.sign_define("DapBreakpointCondition", {
-				text = "🔶",
-				texthl = "DapBreakpointCondition",
-				linehl = "",
-				numhl = "",
+			vim.fn.sign_define("DapStopped", {
+				text = "▶",
+				texthl = "DapStopped",
 			})
 
 			vim.fn.sign_define("DapBreakpointRejected", {
