@@ -19,6 +19,7 @@ bind '"\e[A": history-search-backward'
 bind '"\e[B": history-search-forward'
 
 alias oc='opencode'
+alias sb='source ~/.bashrc'
 alias yt='mov-cli -s youtube'
 alias st='cd ~/dotfiles && stow --restow . && echo "stowed dotfiles" && cd -'
 # ==================================================
@@ -32,6 +33,7 @@ pathadd() {
 }
 pathadd "$HOME/bin"
 pathadd "$HOME/.local/bin"
+pathadd "$HOME/.cargo/bin"
 export PATH
 
 # ==================================================
