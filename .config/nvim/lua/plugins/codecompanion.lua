@@ -10,18 +10,23 @@ return {
 	end,
 
 	opts = {
-		strategies = {},
+		strategies = {
+			chat = {
+				adapter = {
+					name = "openrouter",
+					model = "openrouter/free",
+				},
+			},
+			inline = {
+				adapter = {
+					name = "openrouter",
+					model = "openrouter/free",
+				},
+			},
+		},
 		-- NOTE: The log_level is in `opts.opts`
 		opts = {
 			log_level = "DEBUG", -- or "TRACE"
-		},
-		interactions = {
-			chat = {
-				adapter = { name = "openrouter", model = "openrouter/free" },
-			},
-			inline = {
-				adapter = { name = "openrouter", model = "openrouter/free" },
-			},
 		},
 		adapters = {
 			http = {
@@ -38,6 +43,6 @@ return {
 	keys = {
 		{ "<leader>ct", "<cmd>CodeCompanionChat toggle<CR>", desc = "toggle codecompanion" },
 		{ "<leader>i", "<cmd>CodeCompanion<CR>", desc = "codecompanion" },
-		{"<leader>i", "<cmd>CodeCompanion<CR>", mode = "v", desc = "codecompanion"  },
+		{ "<leader>i", "<cmd>CodeCompanion<CR>", mode = "v", desc = "codecompanion" },
 	},
 }
