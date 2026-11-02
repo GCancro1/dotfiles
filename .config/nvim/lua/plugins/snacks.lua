@@ -74,14 +74,14 @@ return {
 		{
 			"<leader>j",
 			function()
-				Snacks.picker.grep({ hidden = true, ignored = true })
+                Snacks.picker.grep({ search = ".", live = false, hidden = true, ignored = false })
 			end,
 			desc = "Grep",
 		},
 		{
 			"<leader>sg",
 			function()
-				Snacks.picker.grep({ hidden = true, ignored = true })
+                Snacks.picker.grep({ hidden = true, ignored = true })
 			end,
 			desc = "Grep",
 		},

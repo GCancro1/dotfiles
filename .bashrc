@@ -19,7 +19,7 @@ bind '"\e[A": history-search-backward'
 bind '"\e[B": history-search-forward'
 
 alias oc='opencode'
-alias sb='source ~/.bashrc'
+alias bs='source ~/.bashrc'
 alias yt='mov-cli -s youtube'
 alias st='cd ~/dotfiles && stow --restow . && echo "stowed dotfiles" && cd -'
 # ==================================================
@@ -229,18 +229,21 @@ fi
 # ==================================================
 # Linux-Only Configuration
 # ==================================================
-if [[ "$OSTYPE" != "msys" && "$OSTYPE" != "cygwin" && -z "$WINDIR" ]]; then
-    # Hyprland auto-start on tty1
-    # if [[ -z $WAYLAND_DISPLAY ]] && [[ $(tty) = /dev/tty1 ]]; then
-    #     exec Hyprland
-    # fi
+# if [[ "$OSTYPE" != "msys" && "$OSTYPE" != "cygwin" && -z "$WINDIR" ]]; then
+#     # Hyprland auto-start on tty1
+#     # if [[ -z $WAYLAND_DISPLAY ]] && [[ $(tty) = /dev/tty1 ]]; then
+#     #     exec Hyprland
+#     # fi
+#
+#     export LUA_PATH="/usr/share/lua/5.5/?.lua;/usr/share/lua/5.5/?/init.lua;;"
+#     # # LuaRocks paths for image.nvim (magick module)
+#     # export LUA_PATH='/usr/share/lua/5.1/?.lua;/usr/local/share/lua/5.1/?.lua;/usr/local/share/lua/5.1/?/init.lua;/usr/share/lua/5.1/?/init.lua;/usr/local/lib/lua/5.1/?.lua;/usr/local/lib/lua/5.1/?/init.lua;/usr/lib/lua/5.1/?.lua;/usr/lib/lua/5.1/?/init.lua;./?.lua;./?/init.lua;/home/g/.luarocks/share/lua/5.1/?.lua;/home/g/.luarocks/share/lua/5.1/?/init.lua'
+#     # export LUA_CPATH='/usr/local/lib/lua/5.1/?.so;/usr/lib/lua/5.1/?.so;/usr/local/lib/lua/5.1/loadall.so;/usr/lib/lua/5.1/loadall.so;./?.so;/home/g/.luarocks/lib/lua/5.1/?.so'
+#     # export PATH="/home/g/.luarocks/bin:$PATH"
+# fi
 
-    export LUA_PATH="/usr/share/lua/5.5/?.lua;/usr/share/lua/5.5/?/init.lua;;"
-    # # LuaRocks paths for image.nvim (magick module)
-    # export LUA_PATH='/usr/share/lua/5.1/?.lua;/usr/local/share/lua/5.1/?.lua;/usr/local/share/lua/5.1/?/init.lua;/usr/share/lua/5.1/?/init.lua;/usr/local/lib/lua/5.1/?.lua;/usr/local/lib/lua/5.1/?/init.lua;/usr/lib/lua/5.1/?.lua;/usr/lib/lua/5.1/?/init.lua;./?.lua;./?/init.lua;/home/g/.luarocks/share/lua/5.1/?.lua;/home/g/.luarocks/share/lua/5.1/?/init.lua'
-    # export LUA_CPATH='/usr/local/lib/lua/5.1/?.so;/usr/lib/lua/5.1/?.so;/usr/local/lib/lua/5.1/loadall.so;/usr/lib/lua/5.1/loadall.so;./?.so;/home/g/.luarocks/lib/lua/5.1/?.so'
-    # export PATH="/home/g/.luarocks/bin:$PATH"
-fi
+source ~/dotfiles/bashutils/fzfutils.sh
+
 
 # ==================================================
 # End of ~/.bashrc

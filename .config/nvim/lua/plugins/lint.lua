@@ -9,7 +9,7 @@ return {
     }
 
     local mason_path = vim.fn.stdpath("data") .. "/mason/bin"
-    lint.linters.luacheck.cmd = mason_path .. "/luacheck"
+    lint.linters.luacheck.cmd = "/usr/bin/luacheck"
 
     vim.api.nvim_create_autocmd({ "BufEnter", "BufWritePost", "InsertLeave" }, {
       callback = function()

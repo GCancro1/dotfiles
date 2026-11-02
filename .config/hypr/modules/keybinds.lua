@@ -147,6 +147,7 @@ hl.bind(vars.kbWindowBorderedFullscreen .. " + F", hl.dsp.window.fullscreen({ mo
 hl.bind(vars.kbToggleWindowFloating .. " + Space", hl.dsp.window.float({ action = "toggle" }))
 hl.bind(vars.kbCloseWindow .. " + Q", hl.dsp.window.close())
 hl.bind(vars.kbMinimize .. " + H", hl.dsp.window.move({ workspace = "special:minimized" }))
+hl.bind(vars.kbMinimize .. " + SHIFT + H", hl.dsp.window.move({ workspace = "e+0" }))
 
 -- ── Special workspace toggles ──────────────────────────────
 hl.bind(vars.kbSystemMonitor .. " + Escape", hl.dsp.exec_cmd("caelestia toggle sysmon"))
@@ -187,6 +188,7 @@ hl.bind("CTRL + SHIFT + ALT + V", hl.dsp.exec_cmd("sleep 0.5s && ydotool type -d
 -- Previous workspace
 hl.bind("SUPER + Tab", hl.dsp.focus({ workspace = "previous" }))
 
+hl.bind("SUPER + f12", hl.dsp.exec_cmd("~/dotfiles/scripts/toggle_headphones.sh"), { locked = true })
 -- Testing
 hl.bind("SUPER + ALT + f12", hl.dsp.exec_cmd("notify-send -u low -i dialog-information-symbolic 'Test notification' \"Here's a really long message to test truncation and wrapping\\nYou can middle click or flick this notification to dismiss it!\" -a 'Shell' -A \"Test1=I got it!\" -A \"Test2=Another action\""), { locked = true })
 

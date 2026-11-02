@@ -29,7 +29,7 @@ vim.keymap.set("n", "<leader>o", "<C-^>", { desc = "alternate buf" }) -- alterna
 
 vim.keymap.set("n", "<leader>ll", ":.lua<CR>")
 vim.keymap.set("n", "<leader>lz", ":Lazy<CR>")
-vim.keymap.set("n", "<leader>lf", ":! lua %<CR>")
+vim.keymap.set("n", "<leader>lf", ":! lua5.4 %<CR>")
 vim.keymap.set("n", "<leader>ls", ":source %<CR>")
 vim.keymap.set("v", "<leader>l", ":lua<CR>")
 
