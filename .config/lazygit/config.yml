@@ -15,6 +15,10 @@ keybinding:
     scrollUpMain: [<pgup>, u]
     scrollDownMain: [<pgdown>, t]
 
+os:
+  edit: 'nvim -- {{filename}}'
+  editAtLine: 'nvim +{{line}} -- {{filename}}'
+  editAtLineAndWait: 'nvim +{{line}} -- {{filename}}'
+  editInTerminal: true
 
-
-
+promptToReturnFromSubprocess: false
