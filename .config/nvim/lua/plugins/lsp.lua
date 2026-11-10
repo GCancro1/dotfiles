@@ -76,9 +76,9 @@ return {
 		-- 		},
 		-- 	},
 		-- })
-		--
-		-- vim.lsp.enable("rust_analyzer")
-		local lsp_group = vim.api.nvim_create_augroup("LspKeymaps", { clear = true })
+
+		-- -- vim.lsp.enable("rust_analyzer")
+		-- local lsp_group = vim.api.nvim_create_augroup("LspKeymaps", { clear = true })
 
 		vim.api.nvim_create_autocmd("LspAttach", {
 			group = lsp_group,

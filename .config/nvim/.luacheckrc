@@ -23,4 +23,4 @@ ignore = {
 }
 
 -- Max line length (0 = no limit)
-max_line_length = 0
+max_line_length = 120

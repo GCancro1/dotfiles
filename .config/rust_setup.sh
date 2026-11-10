@@ -1,0 +1,1 @@
+nvim/rust_setup.sh

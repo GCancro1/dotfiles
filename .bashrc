@@ -244,7 +244,8 @@ fi
 
 source ~/dotfiles/bashutils/fzfutils.sh
 
-
 # ==================================================
 # End of ~/.bashrc
 # ==================================================
+eval "$(fzf --bash)"
+# type __fzf_history__

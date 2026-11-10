@@ -21,34 +21,41 @@ return {
 
 		keys = {
 			{
-				"<F5>",
+				"<F2>",
 				function()
 					require("dap").continue()
 				end,
 				desc = "Debug: Continue",
 			},
 			{
-				"<F10>",
+				"<F4>",
 				function()
 					require("dap").step_over()
 				end,
 				desc = "Debug: Step over",
 			},
 			{
-				"<F11>",
+				"<F3>",
 				function()
 					require("dap").step_into()
 				end,
 				desc = "Debug: Step into",
 			},
 			{
-				"<F12>",
+				"<F5>",
 				function()
 					require("dap").step_out()
 				end,
 				desc = "Debug: Step out",
 			},
 
+			{
+				"<F1>",
+				function()
+					require("dap").toggle_breakpoint()
+				end,
+				desc = "Debug: Toggle breakpoint",
+			},
 			{
 				"<leader>db",
 				function()
@@ -122,6 +129,18 @@ return {
 
 			dap_view.setup()
 
+			local lines = vim.fn.systemlist({ "luarocks", "--lua-version=5.4", "path" })
+			vim.print(lines)
+
+			for _, line in ipairs(lines) do
+				local key, value = line:match("^export%s+([%w_]+)='(.*)'$")
+				if key == "LUA_PATH" or key == "LUA_CPATH" then
+					vim.env[key] = value
+				end
+			end
+
+			vim.print(vim.env.LUA_PATH, vim.env.LUA_CPATH)
+
 			require("nvim-dap-virtual-text").setup({
 				enabled = true,
 				highlight_changed_variables = true,
@@ -135,25 +154,33 @@ return {
 				args = {
 					debugger_path .. "/extension/debugAdapter.js",
 				},
+
 				enrich_config = function(config, on_config)
-					local enriched = vim.deepcopy(config)
-					enriched.extensionPath = debugger_path .. "/"
-					on_config(enriched)
+					if config.extensionPath then
+						on_config(config)
+					else
+						local enriched = vim.deepcopy(config)
+						enriched.extensionPath = debugger_path .. "/"
+						on_config(enriched)
+					end
 				end,
 			}
 
 			dap.configurations.lua = {
 				{
-					name = "Launch current Lua file",
+					name = "DAP current Lua file",
 					type = "local-lua",
 					request = "launch",
 					cwd = "${workspaceFolder}",
 					program = {
-						lua = "lua5.4",
+						lua = "/usr/bin/lua5.4",
 						file = "${file}",
 					},
-					args = {},
-					repl_lang = "lua",
+					args = {"-v"},
+					env = {
+						LUA_PATH_5_4 = "/usr/share/lua/5.4/?.lua;/usr/local/share/lua/5.4/?.lua;/usr/local/share/lua/5.4/?/init.lua;/usr/share/lua/5.4/?/init.lua;/usr/local/lib/lua/5.4/?.lua;/usr/local/lib/lua/5.4/?/init.lua;/usr/lib/lua/5.4/?.lua;/usr/lib/lua/5.4/?/init.lua;./?.lua;./?/init.lua;/home/g/.luarocks/share/lua/5.4/?.lua;/home/g/.luarocks/share/lua/5.4/?/init.lua",
+						LUA_CPATH_5_4 = "/usr/local/lib/lua/5.4/?.so;/usr/lib/lua/5.4/?.so;/usr/local/lib/lua/5.4/loadall.so;/usr/lib/lua/5.4/loadall.so;./?.so;/home/g/.luarocks/lib/lua/5.4/?.so",
+					},
 				},
 			}
 
@@ -168,6 +195,20 @@ return {
 			dap.listeners.before.event_terminated["dap-view"] = close_debug_ui
 			dap.listeners.before.event_exited["dap-view"] = close_debug_ui
 
+			dap.listeners.after.event_terminated.lua_terminated_notice = function()
+				vim.schedule(function()
+					vim.notify("DAP session terminated")
+				end)
+			end
+			dap.listeners.after.event_exited["lua-exit-notice"] = function(_, body)
+				local code = body.exitCode
+				vim.schedule(function()
+					vim.notify(
+						"Debugged process exited" .. (code ~= nil and (" with code " .. code) or ""),
+						vim.log.levels.INFO
+					)
+				end)
+			end
 			-- Breakpoint and debugging signs
 			vim.fn.sign_define("DapBreakpoint", {
 				text = "🔴",
