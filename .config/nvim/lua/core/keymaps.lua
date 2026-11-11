@@ -1,5 +1,6 @@
 -- Keymaps
 
+vim.keymap.set("n", "<leader>b", "<C-W>w", { desc = "other window"})
 -- TODO move me
 vim.keymap.set("i", "<C-l>", "<C-x><C-l>", { desc = "line completion" })
 vim.keymap.set("i", "<C-b>", "<c-j>", { desc = "Insert new line" })

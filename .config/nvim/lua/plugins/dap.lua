@@ -2,7 +2,51 @@ return {
 	{
 		"mfussenegger/nvim-dap",
 		dependencies = {
-			"igorlfs/nvim-dap-view",
+			{
+				"igorlfs/nvim-dap-view",
+				opts = {
+					winbar = {
+						default_section = "scopes"
+					},
+					windows = {
+						-- `prev` is the last used position, might be nil
+						position = function(prev)
+							local wins = vim.api.nvim_tabpage_list_wins(0)
+
+							-- Restores previous position if terminal is visible
+							if
+								vim.iter(wins):find(function(win)
+									return vim.w[win].dapview_win_term
+								end)
+							then
+								return prev
+							end
+
+							return vim.tbl_count(vim.iter(wins)
+								:filter(function(win)
+									local buf = vim.api.nvim_win_get_buf(win)
+									local valid_buftype = vim.tbl_contains(
+										{ "", "help", "prompt", "quickfix", "terminal" },
+										vim.bo[buf].buftype
+									)
+									local dapview_win = vim.w[win].dapview_win or vim.w[win].dapview_win_term
+									return valid_buftype and not dapview_win
+								end)
+								:totable()) > 1 and "below" or "right"
+						end,
+						size = function(pos)
+							return pos == "below" and 0.25 or 0.5
+						end,
+						terminal = {
+							-- `pos` is the position for the regular window
+							position = function(pos)
+								return pos == "below" and "right" or "below"
+							end,
+							size = 0.5,
+						},
+					},
+				},
+			},
 			{
 				"theHamsta/nvim-dap-virtual-text",
 				opts = {
@@ -85,6 +129,13 @@ return {
 				desc = "Debug: Open REPL",
 			},
 			{
+				"<F7>",
+				function()
+					require("dap-view").toggle()
+				end,
+				desc = "Debug: Toggle UI",
+			},
+			{
 				"<leader>du",
 				function()
 					require("dap-view").toggle()
@@ -104,6 +155,20 @@ return {
 					require("dap").set_exception_breakpoints()
 				end,
 				desc = "Debug: Exception breakpoints",
+			},
+			{
+				"<F8>",
+				function()
+					require("dap.ui.widgets").hover()
+				end,
+				desc = "Debug: Inspect variable",
+			},
+			{
+				"<F9>",
+				function()
+					require("dap.ui.widgets").preview()
+				end,
+				desc = "Debug: Preview variable",
 			},
 			{
 				"<leader>dh",
@@ -176,7 +241,7 @@ return {
 						lua = "/usr/bin/lua5.4",
 						file = "${file}",
 					},
-					args = {"-v"},
+					args = { "-v" },
 					env = {
 						LUA_PATH_5_4 = "/usr/share/lua/5.4/?.lua;/usr/local/share/lua/5.4/?.lua;/usr/local/share/lua/5.4/?/init.lua;/usr/share/lua/5.4/?/init.lua;/usr/local/lib/lua/5.4/?.lua;/usr/local/lib/lua/5.4/?/init.lua;/usr/lib/lua/5.4/?.lua;/usr/lib/lua/5.4/?/init.lua;./?.lua;./?/init.lua;/home/g/.luarocks/share/lua/5.4/?.lua;/home/g/.luarocks/share/lua/5.4/?/init.lua",
 						LUA_CPATH_5_4 = "/usr/local/lib/lua/5.4/?.so;/usr/lib/lua/5.4/?.so;/usr/local/lib/lua/5.4/loadall.so;/usr/lib/lua/5.4/loadall.so;./?.so;/home/g/.luarocks/lib/lua/5.4/?.so",
@@ -192,8 +257,8 @@ return {
 				dap_view.close()
 			end
 
-			dap.listeners.before.event_terminated["dap-view"] = close_debug_ui
-			dap.listeners.before.event_exited["dap-view"] = close_debug_ui
+			-- dap.listeners.before.event_terminated["dap-view"] = close_debug_ui
+			-- dap.listeners.before.event_exited["dap-view"] = close_debug_ui
 
 			dap.listeners.after.event_terminated.lua_terminated_notice = function()
 				vim.schedule(function()
