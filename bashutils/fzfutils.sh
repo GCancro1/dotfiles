@@ -9,7 +9,7 @@ ff() {
 }
 
 # Fuzzy‑search and cd into directories
-fd() {
+fzd() {
     local dir
     dir=$(find . -type d -not -path '*/\.*' | fzf --preview 'ls -la {}')
     [ -n "$dir" ] && cd "$dir"
