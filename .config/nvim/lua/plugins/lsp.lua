@@ -63,6 +63,7 @@ return {
 			},
 		})
 
+        -- FIXME original rust setup
 		-- Add this alongside your other LSP server configurations
 		-- vim.lsp.config("rust_analyzer", {
 		-- 	settings = {
@@ -79,6 +80,23 @@ return {
 
 		-- -- vim.lsp.enable("rust_analyzer")
 		-- local lsp_group = vim.api.nvim_create_augroup("LspKeymaps", { clear = true })
+
+		--TODO rustlings setup
+		vim.lsp.config("rust_analyzer", {
+			settings = {
+				["rust-analyzer"] = {
+					cargo = {
+						allFeatures = false,
+					},
+					-- check = {
+					-- 	command = "clippy",
+					-- },
+				},
+			},
+		})
+
+		vim.lsp.enable("rust_analyzer")
+		local lsp_group = vim.api.nvim_create_augroup("LspKeymaps", { clear = true })
 
 		vim.api.nvim_create_autocmd("LspAttach", {
 			group = lsp_group,
@@ -305,3 +323,4 @@ return {
 --     end,
 --   },
 -- }
+

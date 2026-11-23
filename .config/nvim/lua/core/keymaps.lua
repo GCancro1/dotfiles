@@ -103,8 +103,8 @@ vim.keymap.set("i", "<C-h>", function()
 	vim.lsp.buf.signature_help()
 end, { desc = "LSP signature help", silent = true })
 
--- vim.keymap.set("n", "<C-k>", "<C-v>", { desc = "Visual block mode" })
--- vim.keymap.set({ "i", "c" }, "<C-k>", "<C-V>", { noremap = true, silent = true })
+vim.keymap.set("n", "<C-k>", "<C-v>", { desc = "Visual block mode" })
+vim.keymap.set({ "i", "c" }, "<C-k>", "<C-V>", { noremap = true, silent = true })
 
 -- ================= Yank / clipboard =================
 vim.keymap.set("n", "<leader>cd", 'gg"_dG', { desc = "Del all of file" })
